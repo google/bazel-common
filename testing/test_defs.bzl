@@ -93,10 +93,10 @@ def _gen_java_tests(library_rule_type, test_rule_type, name, srcs, deps,
   for test_file in test_files:
     test_name = test_file.replace(".java", "")
     prefix_path = "src/test/java/"
-    if PACKAGE_NAME.find("javatests/") != -1:
+    if native.package_name().find("javatests/") != -1:
       prefix_path = "javatests/"
     # TODO(ronshapiro): Consider supporting a configurable prefix_path
-    test_class = (PACKAGE_NAME + "/" + test_name).rpartition(prefix_path)[2].replace("/",".")
+    test_class = (native.package_name() + "/" + test_name).rpartition(prefix_path)[2].replace("/",".")
     test_rule_type(
         name = test_name,
         deps = test_deps,
