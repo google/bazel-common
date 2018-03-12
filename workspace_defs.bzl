@@ -214,3 +214,9 @@ def google_common_workspace_rules():
       artifact = "org.checkerframework:checker-compat-qual:2.3.0",
       sha1 = "69cb4fea55a9d89b8827d107f17c985cc1a76052",
   )
+
+  native.maven_jar(
+      name = "org_ow2_asm_asm",
+      artifact = "org.ow2.asm:asm:6.1",
+      sha1 = "94a0d17ba8eb24833cd54253ace9b053786a9571",
+  )
