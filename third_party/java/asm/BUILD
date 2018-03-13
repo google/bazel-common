@@ -12,21 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# BUILD rules for https://github.com/google/error-prone. Note that Bazel already
-# applies the Error Prone compiler to all java compilations - this package exports
-# dependencies for Error Prone's libraries
+# BUILD rules for http://asm.ow2.org/
 
-licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
+licenses(["notice"])  # BSD
 
 package(default_visibility = ["//visibility:public"])
 
 java_library(
-    name = "annotations",
-    tags = ["maven:compile_only"],
-    exports = ["@com_google_errorprone_error_prone_annotations//jar"],
-)
-
-java_library(
-    name = "error_prone_javac",
-    exports = ["@com_google_errorprone_javac_shaded//jar"],
+    name = "asm",
+    exports = ["@org_ow2_asm_asm//jar"],
 )
