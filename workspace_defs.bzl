@@ -78,13 +78,19 @@ def google_common_workspace_rules():
 
   _maven_import(
       artifact = "com.google.guava:guava:24.0-jre",
-      licenses = ["notice"],
       sha256 = "e0274470b16ba1154e926b5f54ef8ae159197fbc356406bda9b261ba67e3e599",
+      licenses = ["notice"],
   )
 
   _maven_import(
       artifact = "com.google.guava:guava-testlib:24.0-jre",
       sha256 = "6d9c75917b8c4e815c7b23071dd146ff23f310bef05683eef5cbc675d6cfc317",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "com.google.guava:guava-beta-checker:1.0",
+      sha256 = "9a01eeec0f94553db9464a9b13e072ba6049ab9c3afdd140edef838224bf71f5",
       licenses = ["notice"],
   )
 

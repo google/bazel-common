@@ -20,6 +20,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "guava",
+    exported_plugins = [":beta-checker"],
     exports = ["@com_google_guava_guava//jar"],
 )
 
@@ -27,4 +28,10 @@ java_library(
     name = "testlib",
     testonly = 1,
     exports = ["@com_google_guava_guava_testlib//jar"],
+)
+
+java_plugin(
+    name = "beta-checker",
+    visibility = ["//visibility:private"],
+    deps = ["@com_google_guava_guava_beta_checker//jar"],
 )
