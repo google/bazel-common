@@ -125,8 +125,14 @@ def google_common_workspace_rules():
   )
 
   _maven_import(
-      artifact = "com.google.auto.value:auto-value:1.5.3",
-      sha256 = "238d3b7535096d782d08576d1e42f79480713ff0794f511ff2cc147363ec072d",
+      artifact = "com.google.auto.value:auto-value:1.6",
+      sha256 = "fd811b92bb59ae8a4cf7eb9dedd208300f4ea2b6275d726e4df52d8334aaae9d",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "com.google.auto.value:auto-value-annotations:1.6",
+      sha256 = "d095936c432f2afc671beaab67433e7cef50bba4a861b77b9c46561b801fae69",
       licenses = ["notice"],
   )
 
