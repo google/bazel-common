@@ -24,6 +24,6 @@ java_library(
 )
 
 java_library(
-    name = "jsr330_inject_tck",
+    name = "tck",
     exports = ["@javax_inject_javax_inject_tck//jar"],
 )
