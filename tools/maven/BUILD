@@ -14,6 +14,8 @@
 
 # Skylark rules for generating Maven pom files
 
+package(default_visibility = ["//visibility:public"])
+
 licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
 
 py_binary(
