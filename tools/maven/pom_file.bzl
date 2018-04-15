@@ -87,7 +87,7 @@ _replace_bazel_deps = rule(
             executable = True,
             cfg = "host",
             allow_files = True,
-            default = Label("//tools:replace_bazel_deps"),
+            default = Label("//tools/maven:replace_bazel_deps"),
         ),
     },
     implementation = _replace_bazel_deps_impl,

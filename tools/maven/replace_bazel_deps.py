@@ -44,7 +44,7 @@ if match:
         new_deps_lines.append(padding + dep_line)
     deps_replacement = "\n".join(new_deps_lines)
 else:
-  print "Could not find regex '%s' in template file" % PATTERN.pattern
+  print("Could not find regex '%s' in template file" % PATTERN.pattern)
   exit
 
 with open(sys.argv[3], "w") as output:
