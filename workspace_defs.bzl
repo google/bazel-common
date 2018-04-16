@@ -34,7 +34,7 @@ def _maven_import(artifact, sha256, licenses, **kwargs):
       jar_urls = [base + url_suffix for base in _MAVEN_MIRRORS],
       jar_sha256 = sha256,
       licenses = licenses,
-      tags = [artifact],
+      tags = ["maven_coordinates=" + artifact],
       **kwargs
   )
 
