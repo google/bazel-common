@@ -61,38 +61,6 @@ _collect_maven_info = aspect(
     implementation = _collect_maven_info_impl,
 )
 
-def _replace_bazel_deps_impl(ctx):
-  template_file = ctx.file.template_file
-  deps_xml = ctx.file.deps_xml
-  pom_file = ctx.outputs.pom_file
-  ctx.actions.run(
-      inputs = [template_file, deps_xml],
-      executable = ctx.executable._replace_bazel_deps,
-      arguments = [template_file.path, deps_xml.path, pom_file.path],
-      outputs = [pom_file],
-  )
-
-_replace_bazel_deps = rule(
-    attrs = {
-        "pom_file": attr.output(mandatory = True),
-        "template_file": attr.label(
-            single_file = True,
-            allow_files = True,
-        ),
-        "deps_xml": attr.label(
-            single_file = True,
-            allow_files = True,
-        ),
-        "_replace_bazel_deps": attr.label(
-            executable = True,
-            cfg = "host",
-            allow_files = True,
-            default = Label("//tools:replace_bazel_deps"),
-        ),
-    },
-    implementation = _replace_bazel_deps_impl,
-)
-
 def _prefix_index_of(item, prefixes):
   """Returns the index of the first value in `prefixes` that is a prefix of `item`.
 
@@ -167,12 +135,12 @@ CLASSIFIER_DEP_BLOCK = """
 </dependency>
 """.strip()
 
-def _deps_xml_impl(ctx):
+def _pom_file(ctx):
   mvn_deps = depset(
       [], transitive = [target[MavenInfo].coordinates_from_deps for target in ctx.attr.targets])
 
   formatted_deps = []
-  for dep in _sort_artifacts(mvn_deps.to_list(), ctx.attr.preferred_group_ids):
+  for dep in _sort_artifacts(mvn_deps, ctx.attr.preferred_group_ids):
     parts = dep.split(":")
     if len(parts) == 3:
       template = DEP_BLOCK
@@ -183,58 +151,61 @@ def _deps_xml_impl(ctx):
 
     formatted_deps.append(template.format(*parts))
 
-  ctx.actions.write(
-      content = '\n'.join(formatted_deps),
-      output = ctx.outputs.output_file,
+  substitutions = {}
+  substitutions.update(ctx.attr.substitutions)
+  substitutions.update({
+      "{generated_bzl_deps}": "\n".join(formatted_deps),
+      "{pom_version}": ctx.var.get("pom_version", "LOCAL-SNAPSHOT")
+  })
+
+  ctx.actions.expand_template(
+      template = ctx.file.template_file,
+      output = ctx.outputs.pom_file,
+      substitutions = substitutions,
   )
 
-_deps_xml = rule(
+pom_file = rule(
     attrs = {
+        "template_file": attr.label(
+            single_file = True,
+            allow_files = True,
+        ),
+        "substitutions": attr.string_dict(
+            allow_empty = True,
+            mandatory = False,
+        ),
         "targets": attr.label_list(
             mandatory = True,
             aspects = [_collect_maven_info],
         ),
-        "output_file": attr.output(mandatory = False),
         "preferred_group_ids": attr.string_list(),
     },
-    implementation = _deps_xml_impl,
+    doc = """
+    Creates a Maven POM file for `targets`.
+
+    This rule scans the deps of `targets` and their transitive exports, checking each for tags of
+    the form `maven_coordinates=<coords>`. These tags are used to build the list of Maven
+    dependencies for the generated POM.
+
+    Users should call this rule with a `template_file` that contains a `{generated_bzl_deps}`
+    placeholder. The rule will replace this with the appropriate XML for all dependencies.
+    Additional placeholders to replace can be passed via the `substitutions` argument.
+
+    The dependencies included will be sorted alphabetically by groupId, then by artifactId. The
+    `preferred_group_ids` can be used to specify groupIds (or groupId-prefixes) that should be
+    sorted ahead of other artifacts. Artifacts in the same group will be sorted alphabetically.
+
+    Args:
+      name: the name of target. The generated POM file will use this name, with `.xml` appended
+      targets: a list of build target(s) that represent this POM file
+      template_file: a pom.xml file that will be used as a template for the generated POM
+      substitutions: an optional mapping of placeholders to replacement values that will be applied
+        to the `template_file` (e.g. `{'GROUP_ID': 'com.example.group'}`). `{pom_version}` is
+        implicitly included in this mapping and can be configured by passing `bazel build
+        --define=pom_version=<version>`.
+      preferred_group_ids: an optional list of maven groupIds that will be used to sort the
+      generated deps.
+    """,
+    outputs = {"pom_file": "%{name}.xml"},
+    implementation = _pom_file,
 )
-
-def pom_file(name, targets, template_file, preferred_group_ids=None):
-  """Creates a Maven POM file for `targets`.
-
-  This rule scans the deps of `targets` and their transitive exports, checking
-  each for tags of the form `maven_coordinates=<coords>`. These tags are used to
-  build the list of Maven dependencies for the generated POM.
-
-  Users should call this rule with a `template_file` that contains a
-  `<generated_bzl_deps />` xml tag. The rule will replace this tag with the
-  appropriate XML for all dependencies.
-
-  The dependencies included will be sorted alphabetically by groupId, then by
-  artifactId. The `preferred_group_ids` can be used to specify groupIds (or
-  groupId-prefixes) that should be sorted ahead of other artifacts. Artifacts in
-  the same group will be sorted alphabetically.
-
-  Args:
-    name: the name of the generated POM file (typically `"pom.xml"`)
-    targets: a list of build target(s) that represent this POM file
-    template_file: a pom.xml file that will be used as a template for the
-      generated POM
-    preferred_group_ids: an optional list of maven groupIds that will be used
-      to sort the generated deps.
-  """
-  pom_deps_file = name + ".depsxml"
-  _deps_xml(
-      name = name + "_deps_xml",
-      targets = targets,
-      output_file = pom_deps_file,
-      preferred_group_ids = preferred_group_ids,
-  )
-
-  _replace_bazel_deps(
-      name = name + "_replace_bazel_deps",
-      pom_file = name,
-      template_file = template_file,
-      deps_xml = pom_deps_file,
-  )
