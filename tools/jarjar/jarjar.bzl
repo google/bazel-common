@@ -77,7 +77,9 @@ def _jarjar_library(ctx):
 jarjar_library = rule(
     attrs = {
         "rules": attr.string_list(),
-        "jars": attr.label_list(),
+        "jars": attr.label_list(
+            allow_files = True, # TODO(ronshapiro): validate that these are jars?
+        ),
         "_java_binary": attr.label(
             default = Label("@local_jdk//:bin/java"),
             allow_single_file = True,
