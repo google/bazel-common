@@ -22,3 +22,13 @@ java_library(
     name = "asm",
     exports = ["@org_ow2_asm_asm//jar"],
 )
+
+java_library(
+    name = "asm-tree",
+    exports = ["@org_ow2_asm_asm_tree//jar"],
+)
+
+java_library(
+    name = "asm-commons",
+    exports = ["@org_ow2_asm_asm_commons//jar"],
+)
