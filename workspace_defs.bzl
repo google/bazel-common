@@ -252,8 +252,94 @@ def google_common_workspace_rules():
       licenses = ["notice"],
   )
 
+  ASM_VERSION = "6.1"
+
   _maven_import(
-      artifact = "org.ow2.asm:asm:6.1",
+      artifact = "org.ow2.asm:asm:%s" % ASM_VERSION,
       sha256 = "db788a985a2359666aa29a9a638f03bb67254e4bd5f453a32717593de887b6b1",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.ow2.asm:asm-tree:%s" % ASM_VERSION,
+      sha256 = "0f875aebe39dab46ac6588509f3f9e9a55a74ff172cf683a29090a75b7ae5416",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.ow2.asm:asm-commons:%s" % ASM_VERSION,
+      sha256 = "303ab9b4484f99f082f6abbf855a28c813400602ef8b8e97e4e75bd36103f399",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.codehaus.plexus:plexus-utils:3.0.20",
+      sha256 = "8f3a655545fc5b4cbf12b5eb8a154fccb0c1144423a1450511f44005a3d574a2",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.codehaus.plexus:plexus-classworlds:2.5.2",
+      sha256 = "b2931d41740490a8d931cbe0cfe9ac20deb66cca606e679f52522f7f534c9fd7",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.codehaus.plexus:plexus-component-annotations:1.5.5",
+      sha256 = "4df7a6a7be64b35bbccf60b5c115697f9ea3421d22674ae67135dde375fcca1f",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.0",
+      sha256 = "807e9bc9e28d57ec0cb6daf04c317b3e13de5899c0282ee0f76c009198739350",
+      licenses = ["reciprocal"],
+  )
+
+  _maven_import(
+      artifact = "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.0",
+      sha256 = "11eec6fcc7a47c50c8d7fb7ac69920c33c70cb8df6b7a0d8eb751c813fb1928a",
+      licenses = ["reciprocal"],
+  )
+
+  _maven_import(
+      artifact = "org.apache.maven:maven-artifact:3.3.3",
+      sha256 = "c5d2db20550a3de4e796493876114c3b7717fe560c414135e2508c57b80e9a02",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.apache.maven:maven-model:3.3.3",
+      sha256 = "a7e386687b962b6064f44115052207fc23a2a997742a156dffd0b434237896d8",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.apache.maven:maven-plugin-api:3.3.3",
+      sha256 = "98585500928c4808d17f476e2554432af13ead1ce4720d72a943c0dedecb1fc0",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "javax.enterprise:cdi-api:1.0",
+      sha256 = "1f10b2204cc77c919301f20ff90461c3df1b6e6cb148be1c2d22107f4851d423",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.pantsbuild:jarjar:1.6.3",
+      sha256 = "dbcc085f6db9dc8fc71cb18ff0e6f87ecade1dd9ad3a9b85bdc8da3fef76c018",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.apache.ant:ant:1.9.6",
+      sha256 = "d74de0bc55631476ba8443c07f43c9c51654ed5a1e0c1942ca015724d633e9bf",
+      licenses = ["notice"],
+  )
+
+  _maven_import(
+      artifact = "org.apache.ant:ant-launcher:1.9.6",
+      sha256 = "f2c66a60fdacf78d6537734ef1c8edb77cf6c4532e705ee3482be1d1006c277a",
       licenses = ["notice"],
   )
