@@ -30,13 +30,12 @@ def _javadoc_library(ctx):
 
   classpath = depset([], transitive = transitive_deps).to_list()
 
-  include_packages = ":".join(ctx.attr.root_packages)
   javadoc_command = [
       ctx.file._javadoc_binary.path,
       '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
-      include_packages,
+      " ".join(ctx.attr.root_packages),
       "-use",
-      "-subpackages", include_packages,
+      "-subpackages", ":".join(ctx.attr.root_packages),
       "-encoding UTF8",
       "-classpath", ":".join([jar.path for jar in classpath]),
       "-notimestamp",
