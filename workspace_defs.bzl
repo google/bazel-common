@@ -77,14 +77,14 @@ def google_common_workspace_rules():
   )
 
   _maven_import(
-      artifact = "com.google.guava:guava:24.0-jre",
-      sha256 = "e0274470b16ba1154e926b5f54ef8ae159197fbc356406bda9b261ba67e3e599",
+      artifact = "com.google.guava:guava:25.0-jre",
+      sha256 = "3fd4341776428c7e0e5c18a7c10de129475b69ab9d30aeafbb5c277bb6074fa9",
       licenses = ["notice"],
   )
 
   _maven_import(
-      artifact = "com.google.guava:guava-testlib:24.0-jre",
-      sha256 = "6d9c75917b8c4e815c7b23071dd146ff23f310bef05683eef5cbc675d6cfc317",
+      artifact = "com.google.guava:guava-testlib:25.0-jre",
+      sha256 = "777159901c2a859497fc24b392bbfd9ad3c527d435a735d20aa159c6cf487553",
       licenses = ["notice"],
   )
 
@@ -137,8 +137,8 @@ def google_common_workspace_rules():
   )
 
   _maven_import(
-      artifact = "com.google.errorprone:error_prone_annotations:2.2.0",
-      sha256 = "6ebd22ca1b9d8ec06d41de8d64e0596981d9607b42035f9ed374f9de271a481a",
+      artifact = "com.google.errorprone:error_prone_annotations:2.3.1",
+      sha256 = "10a5949aa0f95c8de4fd47edfe20534d2acefd8c224f8afea1f607e112816120",
       licenses = ["notice"],
   )
 
@@ -173,20 +173,20 @@ def google_common_workspace_rules():
   )
 
   _maven_import(
-      artifact = "com.google.truth:truth:0.39",
-      sha256 = "25ce04464511d4a7c05e1034477900a897228cba2f86110d2ed49c956d9a82af",
+      artifact = "com.google.truth:truth:0.40",
+      sha256 = "4868998229b155dcbe68416803975d491704f7cdb6847346cf9a49f65067d6fd",
       licenses = ["notice"],
   )
 
   _maven_import(
-      artifact = "com.google.truth.extensions:truth-java8-extension:0.39",
-      sha256 = "47d3a91a3accbe062fbae59f95cc0e02f0483c60d1340ff82c89bc6ab82fa10a",
+      artifact = "com.google.truth.extensions:truth-java8-extension:0.40",
+      sha256 = "86bf9eddcdfbd39ebfae1f782dc8702f9a6bb8829860c87970adca4ead5f326f",
       licenses = ["notice"],
   )
 
   _maven_import(
-      artifact = "com.squareup:javapoet:1.10.0",
-      sha256 = "20ef4b82e43ff7c652281a21313cf3b941092467add3fa73509c26f6969efdab",
+      artifact = "com.squareup:javapoet:1.11.0",
+      sha256 = "1fae529a9a66042cae707f53a00cd9970064a9db873f2e8d3d0cf3f3a3d05257",
       licenses = ["notice"],
   )
 
