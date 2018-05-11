@@ -142,6 +142,8 @@ def _pom_file(ctx):
   formatted_deps = []
   for dep in _sort_artifacts(mvn_deps, ctx.attr.preferred_group_ids):
     parts = dep.split(":")
+    if ":".join(parts[0:2]) in ctx.attr.excluded_artifacts:
+      continue
     if len(parts) == 3:
       template = DEP_BLOCK
     elif len(parts) == 5:
@@ -179,6 +181,7 @@ pom_file = rule(
             aspects = [_collect_maven_info],
         ),
         "preferred_group_ids": attr.string_list(),
+        "excluded_artifacts": attr.string_list(),
     },
     doc = """
     Creates a Maven POM file for `targets`.
@@ -204,7 +207,9 @@ pom_file = rule(
         implicitly included in this mapping and can be configured by passing `bazel build
         --define=pom_version=<version>`.
       preferred_group_ids: an optional list of maven groupIds that will be used to sort the
-      generated deps.
+        generated deps.
+      excluded_artifacts: an optional list of maven artifacts in the format "groupId:artifactId"
+        that should be excluded from the generated pom file.
     """,
     outputs = {"pom_file": "%{name}.xml"},
     implementation = _pom_file,
