@@ -343,3 +343,9 @@ def google_common_workspace_rules():
       sha256 = "f2c66a60fdacf78d6537734ef1c8edb77cf6c4532e705ee3482be1d1006c277a",
       licenses = ["notice"],
   )
+
+  _maven_import(
+      artifact = "log4j:log4j:1.2.15",
+      sha256 = "9f5f5799707881451a39c1b2dd22b4e43b97a80698db7daf1c9697f545e24387",
+      licenses = ["notice"],
+  )
