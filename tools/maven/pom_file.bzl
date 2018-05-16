@@ -14,40 +14,46 @@
 """Skylark rules to make publishing Maven artifacts simpler.
 """
 
+load("//third_party/bazel_skylib:lib.bzl", "asserts", "unittest")
+
 MavenInfo = provider(
     fields = {
-        "coordinates": "The maven coordinates of the target and all exported targets.",
-        "coordinates_from_deps": "The `coordinates` of the direct deps of the target.",
+        "maven_artifacts": """
+        The Maven coordinates for the artifacts that are exported by this target: i.e. the target
+        itself and its transitively exported targets.
+        """,
+        "maven_dependencies": """
+        The Maven coordinates of the direct dependencies, and the transitively exported targets, of
+        this target.
+        """,
     },
 )
 
 _EMPTY_MAVEN_INFO = MavenInfo(
-    coordinates = depset(),
-    coordinates_from_deps = depset(),
+    maven_artifacts = depset(),
+    maven_dependencies = depset(),
 )
 
 _MAVEN_COORDINATES_PREFIX = "maven_coordinates="
 
-def _exported_maven_coordinates(targets):
-  return [target[MavenInfo].coordinates
-          for target in targets
-          if MavenInfo in target]
+def _maven_artifacts(targets):
+  return [target[MavenInfo].maven_artifacts for target in targets if MavenInfo in target]
 
 def _collect_maven_info_impl(_target, ctx):
   tags = getattr(ctx.rule.attr, 'tags', [])
   deps = getattr(ctx.rule.attr, 'deps', [])
   exports = getattr(ctx.rule.attr, 'exports', [])
 
-  coordinates = []
+  maven_artifacts = []
   for tag in tags:
     if tag in ("maven:compile_only", "maven:shaded"):
       return [_EMPTY_MAVEN_INFO]
     if tag.startswith(_MAVEN_COORDINATES_PREFIX):
-      coordinates.append(tag[len(_MAVEN_COORDINATES_PREFIX):])
+      maven_artifacts.append(tag[len(_MAVEN_COORDINATES_PREFIX):])
 
   return [MavenInfo(
-      coordinates_from_deps = depset([], transitive = _exported_maven_coordinates(deps)),
-      coordinates = depset(coordinates, transitive = _exported_maven_coordinates(exports)),
+      maven_artifacts = depset(maven_artifacts, transitive = _maven_artifacts(exports)),
+      maven_dependencies = depset([], transitive = _maven_artifacts(deps + exports)),
   )]
 
 _collect_maven_info = aspect(
@@ -137,7 +143,7 @@ CLASSIFIER_DEP_BLOCK = """
 
 def _pom_file(ctx):
   mvn_deps = depset(
-      [], transitive = [target[MavenInfo].coordinates_from_deps for target in ctx.attr.targets])
+      [], transitive = [target[MavenInfo].maven_dependencies for target in ctx.attr.targets])
 
   formatted_deps = []
   for dep in _sort_artifacts(mvn_deps, ctx.attr.preferred_group_ids):
@@ -214,3 +220,111 @@ pom_file = rule(
     outputs = {"pom_file": "%{name}.xml"},
     implementation = _pom_file,
 )
+
+def _fake_java_library(name, deps = None, exports = None):
+    src_file = ["%s.java" % name]
+    native.genrule(
+        name = "%s_source_file" % name,
+        outs = src_file,
+        cmd = "echo 'class %s {}' > $@" % name,
+    )
+    native.java_library(
+        name = name,
+        srcs = src_file,
+        tags = ["maven_coordinates=%s:_:_" % name],
+        deps = deps or [],
+        exports = exports or [],
+    )
+
+def _maven_info_test_impl(ctx):
+  env = unittest.begin(ctx)
+  asserts.set_equals(env,
+                     expected = depset(ctx.attr.maven_artifacts),
+                     actual = ctx.attr.target[MavenInfo].maven_artifacts,
+                     msg = "MavenInfo.maven_artifacts")
+  asserts.set_equals(env,
+                     expected = depset(ctx.attr.maven_dependencies),
+                     actual = ctx.attr.target[MavenInfo].maven_dependencies,
+                     msg = "MavenInfo.maven_dependencies")
+  unittest.end(env)
+
+_maven_info_test = unittest.make(
+    _maven_info_test_impl,
+    attrs = {
+        "target": attr.label(aspects = [_collect_maven_info]),
+        "maven_artifacts": attr.string_list(),
+        "maven_dependencies": attr.string_list(),
+    },
+)
+
+def pom_file_tests():
+    """Tests for `pom_file` and `MavenInfo`.
+    """
+    _fake_java_library(name = "A")
+    _fake_java_library(
+        name = "DepOnA",
+        deps = [":A"],
+    )
+
+    _maven_info_test(
+        name = "a_test",
+        target = ":A",
+        maven_artifacts = ["A:_:_"],
+        maven_dependencies = [],
+    )
+
+    _maven_info_test(
+        name = "dependencies_test",
+        target = ":DepOnA",
+        maven_artifacts = ["DepOnA:_:_"],
+        maven_dependencies = ["A:_:_"],
+    )
+
+    _fake_java_library(
+        name = "ExportsA",
+        exports = [":A"],
+    )
+
+    _maven_info_test(
+        name = "exports_test",
+        target = ":ExportsA",
+        maven_artifacts = [
+            "ExportsA:_:_",
+            "A:_:_",
+        ],
+        maven_dependencies = ["A:_:_"],
+    )
+
+    _fake_java_library(
+        name = "TransitiveExports",
+        exports = [":ExportsA"],
+    )
+
+    _maven_info_test(
+        name = "transitive_exports_test",
+        target = ":TransitiveExports",
+        maven_artifacts = [
+            "TransitiveExports:_:_",
+            "ExportsA:_:_",
+            "A:_:_"
+        ],
+        maven_dependencies = [
+            "ExportsA:_:_",
+            "A:_:_",
+        ]
+    )
+
+    _fake_java_library(
+        name = "TransitiveDeps",
+        deps = [":ExportsA"],
+    )
+
+    _maven_info_test(
+        name = "transitive_deps_test",
+        target = ":TransitiveDeps",
+        maven_artifacts = ["TransitiveDeps:_:_"],
+        maven_dependencies = [
+            "ExportsA:_:_",
+            "A:_:_",
+        ],
+    )
