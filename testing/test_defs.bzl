@@ -67,7 +67,7 @@ def _concat(*lists):
 def _gen_java_tests(library_rule_type, test_rule_type, name, srcs, deps,
                     lib_deps=None, test_deps=None, plugins=None,
                     lib_plugins=None, test_plugins=None, javacopts=None,
-                    lib_javacopts=None, test_javacopts=None):
+                    lib_javacopts=None, test_javacopts=None, tags=None):
   test_files = []
   supporting_lib_files = []
 
@@ -105,4 +105,5 @@ def _gen_java_tests(library_rule_type, test_rule_type, name, srcs, deps,
         plugins = _concat(plugins, test_plugins),
         javacopts = _concat(javacopts, test_javacopts),
         test_class = test_class,
+        tags = _concat(["gen_java_tests"], tags),
     )
