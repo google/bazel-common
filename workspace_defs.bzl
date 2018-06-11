@@ -350,6 +350,12 @@ def google_common_workspace_rules():
         sha256 = "9f5f5799707881451a39c1b2dd22b4e43b97a80698db7daf1c9697f545e24387",
     )
 
+    _maven_import(
+        artifact = "org.apache.bcel:bcel:6.1",
+        licenses = ["notice"],
+        sha256 = "c35697e7ad4bab018156cc3b75e8742f31fd8cad5bb9762f25bbf669ce01abce",
+    )
+
     skylib_version = "9430df29e4c648b95bf39a57e4336b44a0a0582a"
     native.http_archive(
         name = "bazel_skylib",
