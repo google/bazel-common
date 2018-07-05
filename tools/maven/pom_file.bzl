@@ -37,24 +37,24 @@ _EMPTY_MAVEN_INFO = MavenInfo(
 _MAVEN_COORDINATES_PREFIX = "maven_coordinates="
 
 def _maven_artifacts(targets):
-  return [target[MavenInfo].maven_artifacts for target in targets if MavenInfo in target]
+    return [target[MavenInfo].maven_artifacts for target in targets if MavenInfo in target]
 
 def _collect_maven_info_impl(_target, ctx):
-  tags = getattr(ctx.rule.attr, 'tags', [])
-  deps = getattr(ctx.rule.attr, 'deps', [])
-  exports = getattr(ctx.rule.attr, 'exports', [])
+    tags = getattr(ctx.rule.attr, "tags", [])
+    deps = getattr(ctx.rule.attr, "deps", [])
+    exports = getattr(ctx.rule.attr, "exports", [])
 
-  maven_artifacts = []
-  for tag in tags:
-    if tag in ("maven:compile_only", "maven:shaded"):
-      return [_EMPTY_MAVEN_INFO]
-    if tag.startswith(_MAVEN_COORDINATES_PREFIX):
-      maven_artifacts.append(tag[len(_MAVEN_COORDINATES_PREFIX):])
+    maven_artifacts = []
+    for tag in tags:
+        if tag in ("maven:compile_only", "maven:shaded"):
+            return [_EMPTY_MAVEN_INFO]
+        if tag.startswith(_MAVEN_COORDINATES_PREFIX):
+            maven_artifacts.append(tag[len(_MAVEN_COORDINATES_PREFIX):])
 
-  return [MavenInfo(
-      maven_artifacts = depset(maven_artifacts, transitive = _maven_artifacts(exports)),
-      maven_dependencies = depset([], transitive = _maven_artifacts(deps + exports)),
-  )]
+    return [MavenInfo(
+        maven_artifacts = depset(maven_artifacts, transitive = _maven_artifacts(exports)),
+        maven_dependencies = depset([], transitive = _maven_artifacts(deps + exports)),
+    )]
 
 _collect_maven_info = aspect(
     attr_aspects = [
@@ -68,60 +68,60 @@ _collect_maven_info = aspect(
 )
 
 def _prefix_index_of(item, prefixes):
-  """Returns the index of the first value in `prefixes` that is a prefix of `item`.
+    """Returns the index of the first value in `prefixes` that is a prefix of `item`.
 
-  If none of the prefixes match, return the size of `prefixes`.
+    If none of the prefixes match, return the size of `prefixes`.
 
-  Args:
-    item: the item to match
-    prefixes: prefixes to match against
+    Args:
+      item: the item to match
+      prefixes: prefixes to match against
 
-  Returns:
-    an integer representing the index of the match described above.
-  """
-  for index, prefix in enumerate(prefixes):
-    if item.startswith(prefix):
-      return index
-  return len(prefixes)
+    Returns:
+      an integer representing the index of the match described above.
+    """
+    for index, prefix in enumerate(prefixes):
+        if item.startswith(prefix):
+            return index
+    return len(prefixes)
 
 def _sort_artifacts(artifacts, prefixes):
-  """Sorts `artifacts`, preferring group ids that appear earlier in `prefixes`.
+    """Sorts `artifacts`, preferring group ids that appear earlier in `prefixes`.
 
-  Values in `prefixes` do not need to be complete group ids. For example, passing `prefixes =
-  ['io.bazel']` will match `io.bazel.rules:rules-artifact:1.0`. If multiple prefixes match an
-  artifact, the first one in `prefixes` will be used.
+    Values in `prefixes` do not need to be complete group ids. For example, passing `prefixes =
+    ['io.bazel']` will match `io.bazel.rules:rules-artifact:1.0`. If multiple prefixes match an
+    artifact, the first one in `prefixes` will be used.
 
-  _Implementation note_: Skylark does not support passing a comparator function to the `sorted()`
-  builtin, so this constructs a list of tuples with elements:
-    - `[0]` = an integer corresponding to the index in `prefixes` that matches the artifact (see
-      `_prefix_index_of`)
-    - `[1]` = parts of the complete artifact, split on `:`. This is used as a tiebreaker when
-      multilple artifacts have the same index referenced in `[0]`. The individual parts are used so
-      that individual artifacts in the same group are sorted correctly - if just the string is used,
-      the colon that separates the artifact name from the version will sort lower than a longer
-      name. For example:
-      -  `com.example.project:base:1
-      -  `com.example.project:extension:1
-      "base" sorts lower than "exension".
-    - `[2]` = the complete artifact. this is a convenience so that after sorting, the artifact can
-    be returned.
+    _Implementation note_: Skylark does not support passing a comparator function to the `sorted()`
+    builtin, so this constructs a list of tuples with elements:
+      - `[0]` = an integer corresponding to the index in `prefixes` that matches the artifact (see
+        `_prefix_index_of`)
+      - `[1]` = parts of the complete artifact, split on `:`. This is used as a tiebreaker when
+        multilple artifacts have the same index referenced in `[0]`. The individual parts are used so
+        that individual artifacts in the same group are sorted correctly - if just the string is used,
+        the colon that separates the artifact name from the version will sort lower than a longer
+        name. For example:
+        -  `com.example.project:base:1
+        -  `com.example.project:extension:1
+        "base" sorts lower than "exension".
+      - `[2]` = the complete artifact. this is a convenience so that after sorting, the artifact can
+      be returned.
 
-  The `sorted` builtin will first compare the index element and if it needs a tiebreaker, will
-  recursively compare the contents of the second element.
+    The `sorted` builtin will first compare the index element and if it needs a tiebreaker, will
+    recursively compare the contents of the second element.
 
-  Args:
-    artifacts: artifacts to be sorted
-    prefixes: the preferred group ids used to sort `artifacts`
+    Args:
+      artifacts: artifacts to be sorted
+      prefixes: the preferred group ids used to sort `artifacts`
 
-  Returns:
-    A new, sorted list containing the contents of `artifacts`.
-  """
-  indexed = []
-  for artifact in artifacts:
-    parts = artifact.split(":")
-    indexed.append((_prefix_index_of(parts[0], prefixes), parts, artifact))
+    Returns:
+      A new, sorted list containing the contents of `artifacts`.
+    """
+    indexed = []
+    for artifact in artifacts:
+        parts = artifact.split(":")
+        indexed.append((_prefix_index_of(parts[0], prefixes), parts, artifact))
 
-  return [x[-1] for x in sorted(indexed)]
+    return [x[-1] for x in sorted(indexed)]
 
 DEP_BLOCK = """
 <dependency>
@@ -142,35 +142,37 @@ CLASSIFIER_DEP_BLOCK = """
 """.strip()
 
 def _pom_file(ctx):
-  mvn_deps = depset(
-      [], transitive = [target[MavenInfo].maven_dependencies for target in ctx.attr.targets])
+    mvn_deps = depset(
+        [],
+        transitive = [target[MavenInfo].maven_dependencies for target in ctx.attr.targets],
+    )
 
-  formatted_deps = []
-  for dep in _sort_artifacts(mvn_deps, ctx.attr.preferred_group_ids):
-    parts = dep.split(":")
-    if ":".join(parts[0:2]) in ctx.attr.excluded_artifacts:
-      continue
-    if len(parts) == 3:
-      template = DEP_BLOCK
-    elif len(parts) == 5:
-      template = CLASSIFIER_DEP_BLOCK
-    else:
-      fail("Unknown dependency format: %s" % dep)
+    formatted_deps = []
+    for dep in _sort_artifacts(mvn_deps, ctx.attr.preferred_group_ids):
+        parts = dep.split(":")
+        if ":".join(parts[0:2]) in ctx.attr.excluded_artifacts:
+            continue
+        if len(parts) == 3:
+            template = DEP_BLOCK
+        elif len(parts) == 5:
+            template = CLASSIFIER_DEP_BLOCK
+        else:
+            fail("Unknown dependency format: %s" % dep)
 
-    formatted_deps.append(template.format(*parts))
+        formatted_deps.append(template.format(*parts))
 
-  substitutions = {}
-  substitutions.update(ctx.attr.substitutions)
-  substitutions.update({
-      "{generated_bzl_deps}": "\n".join(formatted_deps),
-      "{pom_version}": ctx.var.get("pom_version", "LOCAL-SNAPSHOT")
-  })
+    substitutions = {}
+    substitutions.update(ctx.attr.substitutions)
+    substitutions.update({
+        "{generated_bzl_deps}": "\n".join(formatted_deps),
+        "{pom_version}": ctx.var.get("pom_version", "LOCAL-SNAPSHOT"),
+    })
 
-  ctx.actions.expand_template(
-      template = ctx.file.template_file,
-      output = ctx.outputs.pom_file,
-      substitutions = substitutions,
-  )
+    ctx.actions.expand_template(
+        template = ctx.file.template_file,
+        output = ctx.outputs.pom_file,
+        substitutions = substitutions,
+    )
 
 pom_file = rule(
     attrs = {
@@ -237,16 +239,20 @@ def _fake_java_library(name, deps = None, exports = None):
     )
 
 def _maven_info_test_impl(ctx):
-  env = unittest.begin(ctx)
-  asserts.set_equals(env,
-                     expected = depset(ctx.attr.maven_artifacts),
-                     actual = ctx.attr.target[MavenInfo].maven_artifacts,
-                     msg = "MavenInfo.maven_artifacts")
-  asserts.set_equals(env,
-                     expected = depset(ctx.attr.maven_dependencies),
-                     actual = ctx.attr.target[MavenInfo].maven_dependencies,
-                     msg = "MavenInfo.maven_dependencies")
-  unittest.end(env)
+    env = unittest.begin(ctx)
+    asserts.set_equals(
+        env,
+        expected = depset(ctx.attr.maven_artifacts),
+        actual = ctx.attr.target[MavenInfo].maven_artifacts,
+        msg = "MavenInfo.maven_artifacts",
+    )
+    asserts.set_equals(
+        env,
+        expected = depset(ctx.attr.maven_dependencies),
+        actual = ctx.attr.target[MavenInfo].maven_dependencies,
+        msg = "MavenInfo.maven_dependencies",
+    )
+    unittest.end(env)
 
 _maven_info_test = unittest.make(
     _maven_info_test_impl,
@@ -306,12 +312,12 @@ def pom_file_tests():
         maven_artifacts = [
             "TransitiveExports:_:_",
             "ExportsA:_:_",
-            "A:_:_"
+            "A:_:_",
         ],
         maven_dependencies = [
             "ExportsA:_:_",
             "A:_:_",
-        ]
+        ],
     )
 
     _fake_java_library(

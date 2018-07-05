@@ -15,14 +15,14 @@
 """
 
 def _jarjar_library(ctx):
-  ctx.actions.write(
-      output = ctx.outputs._rules_file,
-      content = '\n'.join(ctx.attr.rules)
-  )
+    ctx.actions.write(
+        output = ctx.outputs._rules_file,
+        content = "\n".join(ctx.attr.rules),
+    )
 
-  jar_files = depset(transitive = [jar.files for jar in ctx.attr.jars]).to_list()
+    jar_files = depset(transitive = [jar.files for jar in ctx.attr.jars]).to_list()
 
-  command = """
+    command = """
   JAR_BINARY=$(pwd)/{jar_binary} # this is used outside of the root
 
   TMPDIR=$(mktemp -d)
@@ -55,24 +55,24 @@ def _jarjar_library(ctx):
   {java_binary} -jar {jarjar} process {rules_file} $TMPDIR/combined.jar {outfile}
   rm -rf $TMPDIR
   """.format(
-      jars = " ".join([jar.path for jar in jar_files]),
-      jar_binary = ctx.file._jar_binary.path,
-      java_binary = ctx.file._java_binary.path,
-      jarjar = ctx.file._jarjar.path,
-      rules_file = ctx.outputs._rules_file.path,
-      outfile = ctx.outputs.jar.path
-  )
+        jars = " ".join([jar.path for jar in jar_files]),
+        jar_binary = ctx.file._jar_binary.path,
+        java_binary = ctx.file._java_binary.path,
+        jarjar = ctx.file._jarjar.path,
+        rules_file = ctx.outputs._rules_file.path,
+        outfile = ctx.outputs.jar.path,
+    )
 
-  ctx.actions.run_shell(
-      command = command,
-      inputs = [
-          ctx.file._jar_binary,
-          ctx.file._java_binary,
-          ctx.file._jarjar,
-          ctx.outputs._rules_file,
-      ] + ctx.files._jdk + jar_files,
-      outputs = [ctx.outputs.jar]
-  )
+    ctx.actions.run_shell(
+        command = command,
+        inputs = [
+            ctx.file._jar_binary,
+            ctx.file._java_binary,
+            ctx.file._jarjar,
+            ctx.outputs._rules_file,
+        ] + ctx.files._jdk + jar_files,
+        outputs = [ctx.outputs.jar],
+    )
 
 jarjar_library = rule(
     attrs = {
