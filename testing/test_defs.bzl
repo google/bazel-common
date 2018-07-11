@@ -13,6 +13,7 @@
 # limitations under the License.
 """Skylark macros to simplify declaring tests."""
 
+
 def gen_java_tests(
         name,
         srcs,
