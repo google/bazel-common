@@ -14,7 +14,7 @@
 """Skylark rules to make publishing Maven artifacts simpler.
 """
 
-load("@bazel_skylib//:lib.bzl", "asserts", "unittest")
+load("@bazel_skylib//lib:unittest.bzl", "asserts", "unittest")
 
 MavenInfo = provider(
     fields = {
