@@ -45,18 +45,18 @@ def gen_java_tests(
         name,
         srcs,
         deps,
-        lib_deps = lib_deps,
-        test_deps = test_deps,
-        plugins = plugins,
-        lib_plugins = lib_plugins,
-        test_plugins = test_plugins,
         javacopts = javacopts,
+        lib_deps = lib_deps,
         lib_javacopts = lib_javacopts,
+        lib_plugins = lib_plugins,
+        plugins = plugins,
+        test_deps = test_deps,
         test_javacopts = test_javacopts,
+        test_plugins = test_plugins,
         **kwargs
     )
 
-def gen_robolectric_tests(
+def gen_android_local_tests(
         name,
         srcs,
         deps,
@@ -69,22 +69,36 @@ def gen_robolectric_tests(
         lib_javacopts = None,
         test_javacopts = None,
         **kwargs):
-    """Generates Robolectric tests for each file in `srcs` ending in "Test.java".
+    """Generates `android_local_test` rules for each file in `srcs` ending in "Test.java".
 
     All other files will be compiled in a supporting `android_library` that is
     passed as a dep to each of the generated test rules.
 
     The arguments to this macro match those of the `android_library` and
-    `android_robolectric_test` rules. The arguments prefixed with `lib_` will be
+    `android_local_test` rules. The arguments prefixed with `lib_` will be
     passed to the generated supporting `android_library` and not the tests, and
     vice versa for arguments prefixed with `test_`. For example, passing `deps =
     [:a], lib_deps = [:b], test_deps = [:c]` will result in a `android_library`
-    that has `deps = [:a, :b]` and `android_robolectric_test`s that have `deps =
+    that has `deps = [:a, :b]` and `android_local_test`s that have `deps =
     [:a, :c]`.
     """
 
-    # TODO(ronshapiro): enable these when Bazel supports robolectric tests
-  pass
+    _gen_java_tests(
+        android_library,
+        android_local_test,
+        name,
+        srcs,
+        deps,
+        javacopts = javacopts,
+        lib_deps = lib_deps,
+        lib_javacopts = lib_javacopts,
+        lib_plugins = lib_plugins,
+        plugins = plugins,
+        test_deps = test_deps,
+        test_javacopts = test_javacopts,
+        test_plugins = test_plugins,
+        **kwargs
+    )
 
 def _concat(*lists):
     """Concatenates the items in `lists`, ignoring `None` arguments."""
@@ -124,11 +138,11 @@ def _gen_java_tests(
         test_deps.append(":" + supporting_lib_files_name)
         library_rule_type(
             name = supporting_lib_files_name,
-            deps = _concat(deps, lib_deps),
-            srcs = supporting_lib_files,
-            plugins = _concat(plugins, lib_plugins),
-            javacopts = _concat(javacopts, lib_javacopts),
             testonly = 1,
+            srcs = supporting_lib_files,
+            javacopts = _concat(javacopts, lib_javacopts),
+            plugins = _concat(plugins, lib_plugins),
+            deps = _concat(deps, lib_deps),
         )
 
     for test_file in test_files:
@@ -142,10 +156,10 @@ def _gen_java_tests(
         test_class = (package_name + "/" + test_name).rpartition(prefix_path)[2].replace("/", ".")
         test_rule_type(
             name = test_name,
-            deps = test_deps,
             srcs = [test_file],
-            plugins = _concat(plugins, test_plugins),
             javacopts = _concat(javacopts, test_javacopts),
-            test_class = test_class,
+            plugins = _concat(plugins, test_plugins),
             tags = _concat(["gen_java_tests"], tags),
+            test_class = test_class,
+            deps = test_deps,
         )
