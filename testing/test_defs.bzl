@@ -84,8 +84,8 @@ def gen_android_local_tests(
     """
 
     _gen_java_tests(
-        android_library,
-        android_local_test,
+        native.android_library,
+        native.android_local_test,
         name,
         srcs,
         deps,
