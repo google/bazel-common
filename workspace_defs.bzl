@@ -136,10 +136,23 @@ def google_common_workspace_rules():
         sha256 = "d095936c432f2afc671beaab67433e7cef50bba4a861b77b9c46561b801fae69",
     )
 
+    ERROR_PRONE_VERSION = "2.3.2"
     _maven_import(
-        artifact = "com.google.errorprone:error_prone_annotations:2.3.1",
+        artifact = "com.google.errorprone:error_prone_annotation:" + ERROR_PRONE_VERSION,
         licenses = ["notice"],
-        sha256 = "10a5949aa0f95c8de4fd47edfe20534d2acefd8c224f8afea1f607e112816120",
+        sha256 = "af5d197f1a89be14eba9d2e5e9b777ce65b3a29d90ee78ff56e20a6dc3c64c26",
+    )
+
+    _maven_import(
+        artifact = "com.google.errorprone:error_prone_annotations:" + ERROR_PRONE_VERSION,
+        licenses = ["notice"],
+        sha256 = "357cd6cfb067c969226c442451502aee13800a24e950fdfde77bcdb4565a668d",
+    )
+
+    _maven_import(
+        artifact = "com.google.errorprone:error_prone_check_api:" + ERROR_PRONE_VERSION,
+        licenses = ["notice"],
+        sha256 = "b63b7b79b8dd12f8a171f1b65ede614a36565fc9d954601db2f24d2d33a4db46",
     )
 
     _maven_import(
@@ -246,10 +259,29 @@ def google_common_workspace_rules():
         urls = ["https://github.com/google/protobuf/archive/v3.5.0.zip"],
     )
 
+    CHECKER_FRAMEWORK_VERSION = "2.5.3"
     _maven_import(
-        artifact = "org.checkerframework:checker-compat-qual:2.3.0",
+        artifact = "org.checkerframework:checker-compat-qual:" + CHECKER_FRAMEWORK_VERSION,
         licenses = ["notice"],
-        sha256 = "7b2ebd4c746231525a93912fd66055639fc6a8a9dc28392bc1e0ae239011d5fc",
+        sha256 = "d76b9afea61c7c082908023f0cbc1427fab9abd2df915c8b8a3e7a509bccbc6d",
+    )
+
+    _maven_import(
+        artifact = "org.checkerframework:checker-qual:" + CHECKER_FRAMEWORK_VERSION,
+        licenses = ["notice"],
+        sha256 = "7be622bd25208ccfbb9b634af8bd37aef54368403a1fdce84d908078330a189d",
+    )
+
+    _maven_import(
+        artifact = "org.checkerframework:javacutil:" + CHECKER_FRAMEWORK_VERSION,
+        licenses = ["notice"],
+        sha256 = "8df14d46faaeaa3cca0b148e5a25f7c2e39b502a6b735793999f4f37d52e1617",
+    )
+
+    _maven_import(
+        artifact = "org.checkerframework:dataflow:" + CHECKER_FRAMEWORK_VERSION,
+        licenses = ["notice"],
+        sha256 = "7c2cd62c7e00af8346d476f478fef55122230a5251ffc9c22930f5c27e49325f",
     )
 
     ASM_VERSION = "6.2.1"
@@ -361,4 +393,10 @@ def google_common_workspace_rules():
         name = "bazel_skylib",
         strip_prefix = "bazel-skylib-{}".format(skylib_version),
         urls = ["https://github.com/bazelbuild/bazel-skylib/archive/{}.zip".format(skylib_version)],
+    )
+
+    _maven_import(
+        artifact = "com.googlecode.java-diff-utils:diffutils:1.3.0",
+        licenses = ["notice"],
+        sha256 = "61ba4dc49adca95243beaa0569adc2a23aedb5292ae78aa01186fa782ebdc5c2",
     )

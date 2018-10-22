@@ -22,3 +22,12 @@ java_library(
     name = "annotations",
     exports = ["@org_checkerframework_checker_compat_qual//jar"],
 )
+
+java_library(
+    name = "dataflow",
+    exports = ["@org_checkerframework_dataflow//jar"],
+    runtime_deps = [
+        "@org_checkerframework_checker_qual//jar",
+        "@org_checkerframework_javacutil//jar",
+    ],
+)
