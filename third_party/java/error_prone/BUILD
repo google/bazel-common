@@ -33,13 +33,15 @@ java_library(
 
 java_library(
     name = "check_api",
-    exports = ["@com_google_errorprone_error_prone_check_api//jar"],
+    exports = [
+        "@com_google_errorprone_error_prone_annotation//jar",
+        "@com_google_errorprone_error_prone_check_api//jar",
+    ],
     runtime_deps = [
         ":annotations",
         ":error_prone_javac",
         "//third_party/java/checker_framework:dataflow",
         "//third_party/java/jsr305_annotations",
-        "@com_google_errorprone_error_prone_annotation//jar",
         "@com_googlecode_java_diff_utils_diffutils",
     ],
 )
