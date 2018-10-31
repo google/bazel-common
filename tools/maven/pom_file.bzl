@@ -174,6 +174,12 @@ def _pom_file(ctx):
         substitutions = substitutions,
     )
 
+exports = struct(
+    MavenInfo = MavenInfo,
+    _collect_maven_info = _collect_maven_info,
+    _pom_file = _pom_file
+)
+
 pom_file = rule(
     attrs = {
         "template_file": attr.label(
