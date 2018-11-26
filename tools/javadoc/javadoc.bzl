@@ -30,8 +30,10 @@ def _javadoc_library(ctx):
 
     classpath = depset([], transitive = transitive_deps).to_list()
 
+    java_home = str(ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home)
+
     javadoc_command = [
-        ctx.file._javadoc_binary.path,
+        java_home + "/bin/javadoc",
         '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
         " ".join(ctx.attr.root_packages),
         "-use",
@@ -58,7 +60,9 @@ def _javadoc_library(ctx):
     if ctx.attr.bottom_text:
         javadoc_command.append("-bottom '%s'" % ctx.attr.bottom_text)
 
-    jar_command = "%s cf %s -C tmp ." % (ctx.file._jar_binary.path, ctx.outputs.jar.path)
+    # TODO(ronshapiro): Should we be using a different tool that doesn't include
+    # timestamp info?
+    jar_command = "%s/bin/jar cf %s -C tmp ." % (java_home, ctx.outputs.jar.path)
 
     srcs = depset(transitive = [src.files for src in ctx.attr.srcs]).to_list()
     ctx.action(
@@ -81,22 +85,15 @@ javadoc_library = rule(
             default = _android_jar,
             allow_single_file = True,
         ),
-        "_javadoc_binary": attr.label(
-            default = Label("@local_jdk//:bin/javadoc"),
-            allow_single_file = True,
-        ),
-        "_jar_binary": attr.label(
-            default = Label("@local_jdk//:bin/jar"),
-            allow_single_file = True,
-        ),
         "_jdk": attr.label(
-            default = Label("@local_jdk//:jdk-default"),
-            allow_files = True,
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            providers = [java_common.JavaRuntimeInfo],
         ),
     },
     outputs = {"jar": "%{name}.jar"},
     implementation = _javadoc_library,
 )
+
 """
 Generates a Javadoc jar path/to/target/<name>.jar.
 

@@ -23,7 +23,7 @@ def _jarjar_library(ctx):
     jar_files = depset(transitive = [jar.files for jar in ctx.attr.jars]).to_list()
 
     command = """
-  JAR_BINARY=$(pwd)/{jar_binary} # this is used outside of the root
+  JAVA_HOME=$(pwd)/{java_home} # this is used outside of the root
 
   TMPDIR=$(mktemp -d)
   for jar in {jars}; do
@@ -48,17 +48,16 @@ def _jarjar_library(ctx):
     echo "Error: duplicate files in merged jar: $duplicate_files"
     exit 1
   fi
-  $JAR_BINARY cf combined.jar *
+  $JAVA_HOME/bin/jar cf combined.jar *
 
   popd &>/dev/null
 
-  {java_binary} -jar {jarjar} process {rules_file} $TMPDIR/combined.jar {outfile}
+  {jarjar} process {rules_file} $TMPDIR/combined.jar {outfile}
   rm -rf $TMPDIR
   """.format(
         jars = " ".join([jar.path for jar in jar_files]),
-        jar_binary = ctx.file._jar_binary.path,
-        java_binary = ctx.file._java_binary.path,
-        jarjar = ctx.file._jarjar.path,
+        java_home = str(ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home),
+        jarjar = ctx.executable._jarjar.path,
         rules_file = ctx.outputs._rules_file.path,
         outfile = ctx.outputs.jar.path,
     )
@@ -66,11 +65,9 @@ def _jarjar_library(ctx):
     ctx.actions.run_shell(
         command = command,
         inputs = [
-            ctx.file._jar_binary,
-            ctx.file._java_binary,
-            ctx.file._jarjar,
+            ctx.executable._jarjar,
             ctx.outputs._rules_file,
-        ] + ctx.files._jdk + jar_files,
+        ] + jar_files + ctx.files._jdk,
         outputs = [ctx.outputs.jar],
     )
 
@@ -80,23 +77,14 @@ jarjar_library = rule(
         "jars": attr.label_list(
             allow_files = [".jar"],
         ),
-        "_java_binary": attr.label(
-            default = Label("@local_jdk//:bin/java"),
-            allow_single_file = True,
-        ),
-        "_jar_binary": attr.label(
-            default = Label("@local_jdk//:bin/jar"),
-            allow_single_file = True,
-        ),
         "_jarjar": attr.label(
-            default = Label("//tools/jarjar:jarjar_deploy.jar"),
-            allow_single_file = True,
+            default = Label("//tools/jarjar"),
             executable = True,
             cfg = "host",
         ),
         "_jdk": attr.label(
-            default = Label("@local_jdk//:jdk-default"),
-            allow_files = True,
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            providers = [java_common.JavaRuntimeInfo],
         ),
     },
     outputs = {
