@@ -14,15 +14,11 @@
 
 # BUILD rules for https://checkerframework.org/
 
-licenses(["restricted"])  # GPLv2 with "Classpath" exception
+licenses(["notice"])  # MIT
 
 package(default_visibility = ["//visibility:public"])
 
 java_library(
-    name = "dataflow",
-    exports = ["@org_checkerframework_dataflow//jar"],
-    runtime_deps = [
-        "@org_checkerframework_checker_qual//jar",
-        "@org_checkerframework_javacutil//jar",
-    ],
+    name = "annotations",
+    exports = ["@org_checkerframework_checker_compat_qual//jar"],
 )
