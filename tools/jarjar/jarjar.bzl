@@ -65,10 +65,10 @@ def _jarjar_library(ctx):
     ctx.actions.run_shell(
         command = command,
         inputs = [
-            ctx.executable._jarjar,
             ctx.outputs._rules_file,
         ] + jar_files + ctx.files._jdk,
         outputs = [ctx.outputs.jar],
+        tools = [ctx.executable._jarjar]
     )
 
 jarjar_library = rule(
