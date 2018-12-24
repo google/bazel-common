@@ -23,7 +23,7 @@ def _jarjar_library(ctx):
     jar_files = depset(transitive = [jar.files for jar in ctx.attr.jars]).to_list()
 
     command = """
-  JAVA_HOME=$(cd "{java_home}" && pwd -P)
+  JAVA_HOME=$(cd "{java_home}" && pwd -P) # this is used outside of the root
 
   TMPDIR=$(mktemp -d)
   for jar in {jars}; do
