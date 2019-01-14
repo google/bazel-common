@@ -241,23 +241,23 @@ def google_common_workspace_rules():
     )
 
     _maven_import(
-        artifact = "com.google.protobuf:protobuf-java:3.5.0",
+        artifact = "com.google.protobuf:protobuf-java:3.6.1",
         licenses = ["notice"],
-        sha256 = "49a3c7b3781d4b7b2d15063e125824260c9b46bdb62494b63b367b661fdb2b26",
+        sha256 = "fb66d913ff0578553b2e28a3338cbbbe2657e6cfe0e98d939f23aea219daf508",
     )
 
     http_archive(
         name = "com_google_protobuf",
-        sha256 = "cef7f1b5a7c5fba672bec2a319246e8feba471f04dcebfe362d55930ee7c1c30",
-        strip_prefix = "protobuf-3.5.0",
-        urls = ["https://github.com/google/protobuf/archive/v3.5.0.zip"],
+        sha256 = "d7a221b3d4fb4f05b7473795ccea9e05dab3b8721f6286a95fffbffc2d926f8b",
+        strip_prefix = "protobuf-3.6.1",
+        urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.6.1.zip"],
     )
 
     http_archive(
         name = "com_google_protobuf_java",
-        sha256 = "cef7f1b5a7c5fba672bec2a319246e8feba471f04dcebfe362d55930ee7c1c30",
-        strip_prefix = "protobuf-3.5.0",
-        urls = ["https://github.com/google/protobuf/archive/v3.5.0.zip"],
+        sha256 = "d7a221b3d4fb4f05b7473795ccea9e05dab3b8721f6286a95fffbffc2d926f8b",
+        strip_prefix = "protobuf-3.6.1",
+        urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.6.1.zip"],
     )
 
     CHECKER_FRAMEWORK_VERSION = "2.5.3"
