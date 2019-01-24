@@ -251,7 +251,7 @@ def _maven_info_test_impl(ctx):
         actual = ctx.attr.target[MavenInfo].maven_dependencies,
         msg = "MavenInfo.maven_dependencies",
     )
-    unittest.end(env)
+    return unittest.end(env)
 
 _maven_info_test = unittest.make(
     _maven_info_test_impl,
