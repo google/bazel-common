@@ -401,3 +401,9 @@ def google_common_workspace_rules():
         licenses = ["notice"],
         sha256 = "61ba4dc49adca95243beaa0569adc2a23aedb5292ae78aa01186fa782ebdc5c2",
     )
+
+    _maven_import(
+        artifact = "org.slf4j:slf4j-api:1.7.14",
+        licenses = ["notice"],
+        sha256 = "b030a29e088dea60b07c7299d25f43cbd120502e10dcae3f382435ecd5de5ddd",
+    )
