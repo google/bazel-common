@@ -65,7 +65,7 @@ def _javadoc_library(ctx):
     jar_command = "%s/bin/jar cf %s -C tmp ." % (java_home, ctx.outputs.jar.path)
 
     srcs = depset(transitive = [src.files for src in ctx.attr.srcs]).to_list()
-    ctx.action(
+    ctx.actions.run_shell(
         inputs = srcs + classpath + ctx.files._jdk,
         command = "%s && %s" % (" ".join(javadoc_command), jar_command),
         outputs = [ctx.outputs.jar],
