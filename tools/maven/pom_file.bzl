@@ -131,6 +131,15 @@ DEP_BLOCK = """
 </dependency>
 """.strip()
 
+SCOPE_BLOCK = """
+<dependency>
+  <groupId>{0}</groupId>
+  <artifactId>{1}</artifactId>
+  <version>{2}</version>
+  <scope>{3}</scope>
+</dependency>
+""".strip()
+
 CLASSIFIER_DEP_BLOCK = """
 <dependency>
   <groupId>{0}</groupId>
@@ -154,6 +163,8 @@ def _pom_file(ctx):
             continue
         if len(parts) == 3:
             template = DEP_BLOCK
+        elif len(parts) == 4:
+            template = SCOPE_BLOCK
         elif len(parts) == 5:
             template = CLASSIFIER_DEP_BLOCK
         else:
