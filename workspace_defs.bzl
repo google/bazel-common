@@ -241,17 +241,20 @@ def google_common_workspace_rules():
     )
 
     _maven_import(
-        artifact = "com.google.protobuf:protobuf-java:3.6.1",
+        artifact = "com.google.protobuf:protobuf-java:3.7.0",
         licenses = ["notice"],
-        sha256 = "fb66d913ff0578553b2e28a3338cbbbe2657e6cfe0e98d939f23aea219daf508",
+        sha256 = "dc7f93e3a3dc2c11be5ba9672af3e26410f0a3289312dbf2260d4d8a0c711a51",
     )
 
-    http_archive(
-        name = "com_google_protobuf",
-        sha256 = "d7a221b3d4fb4f05b7473795ccea9e05dab3b8721f6286a95fffbffc2d926f8b",
-        strip_prefix = "protobuf-3.6.1",
-        urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.6.1.zip"],
-    )
+    for protobuf_repo in ("com_google_protobuf", "com_google_protobuf_java"):
+        # Based on 3.7.x branch. 3.7.0's tag was missing a fix to build with bazel
+        # TODO(user,ronshapiro): update to the next available tagged released when possible
+        http_archive(
+            name = protobuf_repo,
+            sha256 = "64bde341a59bd4abca6bee85cbc5372ee0eff7a20bf07815931096efc2b58a40",
+            strip_prefix = "protobuf-57b6597f467c2b614a458051f60ba467c5d697ae",
+            urls = ["https://github.com/protocolbuffers/protobuf/archive/57b6597f467c2b614a458051f60ba467c5d697ae.zip"],
+        )
 
     http_archive(
         name = "com_google_protobuf_java",
