@@ -29,7 +29,7 @@ java_plugin(
     processor_class = "net.ltgt.gradle.incap.processor.IncrementalAnnotationProcessorProcessor",
     visibility = ["//visibility:private"],
     deps = [
-        "@net_ltgt_gradle_incap_incap//jar" +
+        "@net_ltgt_gradle_incap_incap//jar",
         "@net_ltgt_gradle_incap_incap_processor//jar",
     ],
 )
