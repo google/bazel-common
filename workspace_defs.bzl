@@ -423,3 +423,16 @@ def google_common_workspace_rules():
         licenses = ["notice"],
         sha256 = "b030a29e088dea60b07c7299d25f43cbd120502e10dcae3f382435ecd5de5ddd",
     )
+
+    INCAP_VERSION = "0.2"
+    _maven_import(
+        artifact = "net.ltgt.gradle.incap:incap:" + INCAP_VERSION,
+        licenses = ["notice"],
+        sha256 = "b625b9806b0f1e4bc7a2e3457119488de3cd57ea20feedd513db070a573a4ffd",
+    )
+
+    _maven_import(
+        artifact = "net.ltgt.gradle.incap:incap-processor:" + INCAP_VERSION,
+        licenses = ["notice"],
+        sha256 = "bf596f198825684262ecfead59b17a107f1654051178bd7cf775e2e49b32987d",
+    )
