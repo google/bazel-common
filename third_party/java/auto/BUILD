@@ -81,6 +81,7 @@ java_plugin(
     deps = [
         ":common",
         ":service",
+        "//third_party/java/google_java_format",
         "//third_party/java/guava",
         "//third_party/java/javapoet",
         "@com_google_auto_factory_auto_factory//jar",
