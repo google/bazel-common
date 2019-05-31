@@ -148,7 +148,7 @@ def _pom_file(ctx):
     )
 
     formatted_deps = []
-    for dep in _sort_artifacts(mvn_deps, ctx.attr.preferred_group_ids):
+    for dep in _sort_artifacts(mvn_deps.to_list(), ctx.attr.preferred_group_ids):
         parts = dep.split(":")
         if ":".join(parts[0:2]) in ctx.attr.excluded_artifacts:
             continue
