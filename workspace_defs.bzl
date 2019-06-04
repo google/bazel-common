@@ -169,9 +169,9 @@ def google_common_workspace_rules():
     )
 
     _maven_import(
-        artifact = "com.google.testing.compile:compile-testing:0.15",
+        artifact = "com.google.testing.compile:compile-testing:0.18",
         licenses = ["notice"],
-        sha256 = "f741c21d44ddf4580e99cfc537e76d1760d864637aec1e21d5341f672a165d4c",
+        sha256 = "92cfbee5ad356a403d36688ab7bae74be65db9a117478ace34ac3ab4d1f9feb9",
     )
 
     _maven_import(
