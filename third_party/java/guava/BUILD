@@ -31,6 +31,7 @@ java_library(
     name = "testlib",
     testonly = 1,
     exports = ["@com_google_guava_guava_testlib//jar"],
+    runtime_deps = [":guava"],
 )
 
 java_plugin(
