@@ -73,7 +73,10 @@ def _javadoc_library(ctx):
 
 javadoc_library = rule(
     attrs = {
-        "srcs": attr.label_list(allow_files = True),
+        "srcs": attr.label_list(
+            allow_empty = False,
+            allow_files = True,
+        ),
         "deps": attr.label_list(),
         "doctitle": attr.string(default = ""),
         "root_packages": attr.string_list(),
