@@ -122,6 +122,7 @@ def _gen_java_tests(
         javacopts = None,
         lib_javacopts = None,
         test_javacopts = None,
+        runtime_deps = None,
         tags = None):
     test_files = []
     supporting_lib_files = []
@@ -162,4 +163,5 @@ def _gen_java_tests(
             tags = _concat(["gen_java_tests"], tags),
             test_class = test_class,
             deps = test_deps,
+            runtime_deps = runtime_deps,
         )
