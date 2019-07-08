@@ -436,3 +436,9 @@ def google_common_workspace_rules():
         licenses = ["notice"],
         sha256 = "bf596f198825684262ecfead59b17a107f1654051178bd7cf775e2e49b32987d",
     )
+
+    _maven_import(
+        artifact = "com.google.common.inject:inject-common:1.0",
+        licenses = ["notice"],
+        sha256 = "73fd5e69280220b70dd2bf31af567de8d9e5763db56a0207ba1fd8ed006f7383",
+    )
