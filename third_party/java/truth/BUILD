@@ -21,14 +21,17 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "truth",
     testonly = 1,
-    exports = ["@com_google_truth_truth//jar"],
+    exports = [
+        "@com_google_truth_extensions_truth_java8_extension//jar",
+        "@com_google_truth_truth//jar",
+    ],
 )
 
 java_library(
     name = "truth8",
     testonly = 1,
     exports = [
-        ":truth",
         "@com_google_truth_extensions_truth_java8_extension//jar",
+        "@com_google_truth_truth//jar",
     ],
 )
