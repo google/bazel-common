@@ -117,7 +117,7 @@ def _sort_artifacts(artifacts, prefixes):
       A new, sorted list containing the contents of `artifacts`.
     """
     indexed = []
-    for artifact in artifacts:
+    for artifact in artifacts.to_list():
         parts = artifact.split(":")
         indexed.append((_prefix_index_of(parts[0], prefixes), parts, artifact))
 
