@@ -14,7 +14,7 @@
 
 # BUILD rules for https://checkerframework.org/
 
-licenses(["restricted"])  # GPLv2 with "Classpath" exception
+licenses(["restricted"])
 
 package(default_visibility = ["//visibility:public"])
 
