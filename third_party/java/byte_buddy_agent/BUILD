@@ -19,13 +19,7 @@ licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
 package(default_visibility = ["//visibility:public"])
 
 java_library(
-    name = "mockito",
+    name = "byte_buddy_agent",
     testonly = 1,
-    exports = ["@org_mockito_mockito_core//jar"],
-    runtime_deps = [
-        "//third_party/java/byte_buddy",
-        "//third_party/java/byte_buddy_agent",
-        "//third_party/java/hamcrest",
-        "//third_party/java/objenesis",
-    ],
+    exports = ["@byte_buddy_agent//jar"],
 )
