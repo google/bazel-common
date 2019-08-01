@@ -175,9 +175,21 @@ def google_common_workspace_rules():
     )
 
     _maven_import(
-        artifact = "org.mockito:mockito-core:1.9.5",
+        artifact = "net.bytebuddy:byte-buddy:1.9.10",
         licenses = ["notice"],
-        sha256 = "f97483ba0944b9fa133aa29638764ddbeadb51ec3dbc02074c58fa2caecd07fa",
+        sha256 = "2936debc4d7b6c534848d361412e2d0f8bd06f7f27a6f4e728a20e97648d2bf3",
+    )
+
+    _maven_import(
+        artifact = "net.bytebuddy:byte-buddy-agent:1.9.10",
+        licenses = ["notice"],
+        sha256 = "8ed739d29132103250d307d2e8e3c95f07588ef0543ab11d2881d00768a5e182",
+    )
+
+    _maven_import(
+        artifact = "org.mockito:mockito-core:2.28.2",
+        licenses = ["notice"],
+        sha256 = "b0af36fed3a6c2147c0cd9028a1d814fd4f4e8196c539f2befddb61ca6ec9e27",
     )
 
     _maven_import(
