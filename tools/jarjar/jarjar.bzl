@@ -69,22 +69,29 @@ def _jarjar_library(ctx):
         tools = [ctx.executable._jarjar],
     )
 
+_jarjar_library_attrs = {
+    "rules": attr.string_list(),
+    "jars": attr.label_list(
+        allow_files = [".jar"],
+    ),
+}
+
+# Additional attributes only used in opensource builds
+_jarjar_library_attrs.update({
+    "_jarjar": attr.label(
+        default = Label("//tools/jarjar"),
+        executable = True,
+        cfg = "host",
+    ),
+    "_jdk": attr.label(
+        default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+        providers = [java_common.JavaRuntimeInfo],
+    ),
+})
+
+
 jarjar_library = rule(
-    attrs = {
-        "rules": attr.string_list(),
-        "jars": attr.label_list(
-            allow_files = [".jar"],
-        ),
-        "_jarjar": attr.label(
-            default = Label("//tools/jarjar"),
-            executable = True,
-            cfg = "host",
-        ),
-        "_jdk": attr.label(
-            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-            providers = [java_common.JavaRuntimeInfo],
-        ),
-    },
+    attrs = _jarjar_library_attrs,
     outputs = {
         "jar": "%{name}.jar",
         "_rules_file": "%{name}.jarjar_rules",
