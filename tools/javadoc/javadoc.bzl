@@ -28,8 +28,6 @@ def _javadoc_library(ctx):
     for dep in ctx.attr.deps:
         if JavaInfo in dep:
             transitive_deps.append(dep[JavaInfo].transitive_deps)
-        elif hasattr(dep, "java"):
-            transitive_deps.append(dep.java.transitive_deps)
 
     if ctx.attr._android_jar:
         transitive_deps.append(ctx.attr._android_jar.files)
