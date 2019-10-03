@@ -17,3 +17,7 @@ workspace(name = "google_bazel_common")
 load("//:workspace_defs.bzl", "google_common_workspace_rules")
 
 google_common_workspace_rules()
+
+load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
+
+bazel_skylib_workspace()
