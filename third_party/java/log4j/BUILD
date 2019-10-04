@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "log4j",
-    exports = ["@log4j_log4j//jar"],
+    exports = ["@maven//:log4j_log4j"],
 )

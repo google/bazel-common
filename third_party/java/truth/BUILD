@@ -22,8 +22,8 @@ java_library(
     name = "truth",
     testonly = 1,
     exports = [
-        "@com_google_truth_extensions_truth_java8_extension//jar",
-        "@com_google_truth_truth//jar",
+        "@maven//:com_google_truth_extensions_truth_java8_extension",
+        "@maven//:com_google_truth_truth",
     ],
 )
 
@@ -31,7 +31,7 @@ java_library(
     name = "truth8",
     testonly = 1,
     exports = [
-        "@com_google_truth_extensions_truth_java8_extension//jar",
-        "@com_google_truth_truth//jar",
+        "@maven//:com_google_truth_extensions_truth_java8_extension",
+        "@maven//:com_google_truth_truth",
     ],
 )

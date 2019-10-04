@@ -20,7 +20,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "common",
-    exports = ["@com_google_auto_auto_common//jar"],
+    exports = ["@maven//:com_google_auto_auto_common"],
 )
 
 java_plugin(
@@ -31,7 +31,7 @@ java_plugin(
         ":common",
         ":service",
         "//third_party/java/guava",
-        "@com_google_auto_value_auto_value//jar",
+        "@maven//:com_google_auto_value_auto_value",
     ],
 )
 
@@ -43,7 +43,7 @@ java_plugin(
         ":common",
         ":service",
         "//third_party/java/guava",
-        "@com_google_auto_value_auto_value//jar",
+        "@maven//:com_google_auto_value_auto_value",
     ],
 )
 
@@ -55,7 +55,7 @@ java_plugin(
         ":common",
         ":service",
         "//third_party/java/guava",
-        "@com_google_auto_value_auto_value//jar",
+        "@maven//:com_google_auto_value_auto_value",
     ],
 )
 
@@ -69,7 +69,7 @@ java_library(
     tags = ["maven:compile_only"],
     exports = [
         "//third_party/java/jsr250_annotations",  # TODO(ronshapiro) Can this be removed?
-        "@com_google_auto_value_auto_value_annotations//jar",
+        "@maven//:com_google_auto_value_auto_value_annotations",
     ],
 )
 
@@ -84,14 +84,14 @@ java_plugin(
         "//third_party/java/google_java_format",
         "//third_party/java/guava",
         "//third_party/java/javapoet",
-        "@com_google_auto_factory_auto_factory//jar",
+        "@maven//:com_google_auto_factory_auto_factory",
     ],
 )
 
 java_library(
     name = "factory",
     exported_plugins = [":auto_factory_processor"],
-    exports = ["@com_google_auto_factory_auto_factory//jar"],
+    exports = ["@maven//:com_google_auto_factory_auto_factory"],
 )
 
 java_plugin(
@@ -101,7 +101,7 @@ java_plugin(
     deps = [
         ":common",
         "//third_party/java/guava",
-        "@com_google_auto_service_auto_service//jar",
+        "@maven//:com_google_auto_service_auto_service",
     ],
 )
 
@@ -109,5 +109,5 @@ java_library(
     name = "service",
     exported_plugins = [":auto_service_processor"],
     tags = ["maven:compile_only"],
-    exports = ["@com_google_auto_service_auto_service//jar"],
+    exports = ["@maven//:com_google_auto_service_auto_service"],
 )

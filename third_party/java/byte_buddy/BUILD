@@ -21,5 +21,5 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "byte_buddy",
     testonly = 1,
-    exports = ["@net_bytebuddy_byte_buddy//jar"],
+    exports = ["@maven//:net_bytebuddy_byte_buddy"],
 )

@@ -23,25 +23,25 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "annotations",
     tags = ["maven:compile_only"],
-    exports = ["@com_google_errorprone_error_prone_annotations//jar"],
+    exports = ["@maven//:com_google_errorprone_error_prone_annotations"],
 )
 
 java_library(
     name = "error_prone_javac",
-    exports = ["@com_google_errorprone_javac_shaded//jar"],
+    exports = ["@maven//:com_google_errorprone_javac_shaded"],
 )
 
 java_library(
     name = "check_api",
     exports = [
-        "@com_google_errorprone_error_prone_annotation//jar",
-        "@com_google_errorprone_error_prone_check_api//jar",
+        "@maven//:com_google_errorprone_error_prone_annotation",
+        "@maven//:com_google_errorprone_error_prone_check_api",
     ],
     runtime_deps = [
         ":annotations",
         ":error_prone_javac",
         "//third_party/java/checker_framework:dataflow",
         "//third_party/java/jsr305_annotations",
-        "@com_googlecode_java_diff_utils_diffutils",
+        "@maven//:com_googlecode_java_diff_utils_diffutils",
     ],
 )

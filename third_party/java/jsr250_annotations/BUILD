@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "jsr250_annotations",
-    exports = ["@javax_annotation_jsr250_api//jar"],
+    exports = ["@maven//:javax_annotation_jsr250_api"],
 )

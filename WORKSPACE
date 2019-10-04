@@ -14,6 +14,10 @@
 
 workspace(name = "google_bazel_common")
 
+load("//:repositories.bzl", "google_common_workspace_dependencies")
+
+google_common_workspace_dependencies()
+
 load("//:workspace_defs.bzl", "google_common_workspace_rules")
 
 google_common_workspace_rules()
