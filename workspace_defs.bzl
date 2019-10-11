@@ -397,18 +397,18 @@ def google_common_workspace_rules():
         sha256 = "9f5f5799707881451a39c1b2dd22b4e43b97a80698db7daf1c9697f545e24387",
     )
 
-    LOG4J2_VERSION = "2.11.2"
+    LOG4J2_VERSION = "2.12.1"
 
     _maven_import(
         artifact = "org.apache.logging.log4j:log4j-api:" + LOG4J2_VERSION,
         licenses = ["notice"],
-        sha256 = "09b8ce1740491deefdb3c336855822b64609b457c2966d806348456c0da261d2",
+        sha256 = "a55e6d987f50a515c9260b0451b4fa217dc539cb",
     )
 
     _maven_import(
         artifact = "org.apache.logging.log4j:log4j-core:" + LOG4J2_VERSION,
         licenses = ["notice"],
-        sha256 = "d4748cd5d8d67f513de7634fa202740490d7e0ab546f4bf94e5c4d4a11e3edbc",
+        sha256 = "4382e93136c06bfb34ddfa0bb8a9fb4ea2f3df59",
     )
 
     _maven_import(
