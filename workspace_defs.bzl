@@ -417,11 +417,12 @@ def google_common_workspace_rules():
         sha256 = "c35697e7ad4bab018156cc3b75e8742f31fd8cad5bb9762f25bbf669ce01abce",
     )
 
-    skylib_version = "9430df29e4c648b95bf39a57e4336b44a0a0582a"
+    skylib_version = "0.9.0"
     http_archive(
         name = "bazel_skylib",
         strip_prefix = "bazel-skylib-{}".format(skylib_version),
-        urls = ["https://github.com/bazelbuild/bazel-skylib/archive/{}.zip".format(skylib_version)],
+        url = "https://github.com/bazelbuild/bazel-skylib/archive/{}.tar.gz".format(skylib_version),
+        sha256 = "9245b0549e88e356cd6a25bf79f97aa19332083890b7ac6481a2affb6ada9752",
     )
 
     _maven_import(
