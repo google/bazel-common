@@ -39,7 +39,7 @@ def _maven_import(artifact, sha256, licenses, **kwargs):
         **kwargs
     )
 
-def google_common_workspace_rules():
+def google_common_workspace_rules(api_level = 26, build_tools_version = "26.0.2"):
     """Defines WORKSPACE rules for Google open-source libraries.
 
     Call this once at the top of your WORKSPACE file to load all of the repositories. Note that you
@@ -49,8 +49,8 @@ def google_common_workspace_rules():
 
     native.android_sdk_repository(
         name = "androidsdk",
-        api_level = 26,
-        build_tools_version = "26.0.2",
+        api_level = api_level,
+        build_tools_version = build_tools_version,
     )
 
     _maven_import(
