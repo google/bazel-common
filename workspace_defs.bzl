@@ -299,24 +299,24 @@ def google_common_workspace_rules():
         sha256 = "7c2cd62c7e00af8346d476f478fef55122230a5251ffc9c22930f5c27e49325f",
     )
 
-    ASM_VERSION = "6.2.1"
+    ASM_VERSION = "7.2"
 
     _maven_import(
         artifact = "org.ow2.asm:asm:%s" % ASM_VERSION,
         licenses = ["notice"],
-        sha256 = "1460db6c33cc99c84e5cb30e46b017e4d1cc9a7fbc174101d6f84829bb64c085",
+        sha256 = "7e6cc9e92eb94d04e39356c6d8144ca058cda961c344a7f62166a405f3206672",
     )
 
     _maven_import(
         artifact = "org.ow2.asm:asm-tree:%s" % ASM_VERSION,
         licenses = ["notice"],
-        sha256 = "a520b54c7be4e07e533db8420ddf936fe8341ff56a5df255bab584478dd90aab",
+        sha256 = "c063f5a67fa03cdc9bd79fd1c2ea6816cc4a19473ecdfbd9e9153b408c6f2656",
     )
 
     _maven_import(
         artifact = "org.ow2.asm:asm-commons:%s" % ASM_VERSION,
         licenses = ["notice"],
-        sha256 = "3f578d31ef30f94b6d1f44812f41fe4f98a7cd42af35335f5d4866ab3b901865",
+        sha256 = "0e86b8b179c5fb223d1a880a0ff4960b6978223984b94e62e71135f2d8ea3558",
     )
 
     _maven_import(
