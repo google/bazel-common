@@ -374,9 +374,9 @@ def google_common_workspace_rules():
     )
 
     _maven_import(
-        artifact = "org.pantsbuild:jarjar:1.6.3",
+        artifact = "org.pantsbuild:jarjar:1.7.2",
         licenses = ["notice"],
-        sha256 = "dbcc085f6db9dc8fc71cb18ff0e6f87ecade1dd9ad3a9b85bdc8da3fef76c018",
+        sha256 = "0706a455e17b67718abe212e3a77688bbe8260852fc74e3e836d9f2e76d91c27",
     )
 
     _maven_import(
