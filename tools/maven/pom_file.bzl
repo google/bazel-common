@@ -239,15 +239,15 @@ def _fake_java_library(name, deps = None, exports = None):
 
 def _maven_info_test_impl(ctx):
     env = unittest.begin(ctx)
-    asserts.set_equals(
+    asserts.equals(
         env,
-        expected = depset(ctx.attr.maven_artifacts),
+        expected = ctx.attr.maven_artifacts,
         actual = ctx.attr.target[MavenInfo].maven_artifacts,
         msg = "MavenInfo.maven_artifacts",
     )
-    asserts.set_equals(
+    asserts.equals(
         env,
-        expected = depset(ctx.attr.maven_dependencies),
+        expected = ctx.attr.maven_dependencies,
         actual = ctx.attr.target[MavenInfo].maven_dependencies,
         msg = "MavenInfo.maven_dependencies",
     )
