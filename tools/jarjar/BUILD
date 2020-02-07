@@ -14,6 +14,8 @@
 
 # Skylark rules for using jarjar
 
+load(":jarjar.bzl", "jarjar_library")
+
 licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
 
 java_binary(
@@ -38,5 +40,31 @@ java_binary(
         "@org_eclipse_sisu_org_eclipse_sisu_inject//jar",
         "@org_eclipse_sisu_org_eclipse_sisu_plexus//jar",
         "@org_pantsbuild_jarjar//jar",
+    ],
+)
+
+# Test target used for validating rule.
+jarjar_library(
+    name = "test_target",
+    testonly = 1,
+    jars = [
+        ":test-library1.jar",
+        ":test-library2.jar",
+    ],
+    merge_meta_inf_files = ["utilities/libs.dep"],
+)
+
+# Test that validates jarjar with merged META-INF files.
+sh_test(
+    name = "validate_test_target",
+    srcs = [":jarjar_validator.sh"],
+    args = [
+        "$(location :test_target.jar)",
+        "utilities/libs.dep",
+        "$(location :expected_libs.dep)",
+    ],
+    data = [
+        ":expected_libs.dep",
+        ":test_target.jar",
     ],
 )

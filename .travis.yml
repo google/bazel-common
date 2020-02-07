@@ -33,7 +33,7 @@ before_install:
   - ln -s $(which g++-4.8) travis_bin/g++
   - export PATH="${PWD}/travis_bin:${PATH}"
 
-script: ./build_test.sh
+script: ./run_tests.sh
 
 env:
   global:

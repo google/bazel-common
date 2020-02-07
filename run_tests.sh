@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Tests that all libraries in bazel-common can build correctly
+# Runs all tests, and tests that all libraries build without errors.
 
 libraries=""
 for library in $(bazel query --output=label_kind //... | \
-      grep -v "//tools/maven:" | \
+      grep -v "//tools/" | \
       grep _library | \
       awk '{print $3}'); do
   if [[ -z "${libraries}" ]]; then
@@ -34,3 +34,5 @@ echo "class BuildTest {}" > "${DIR}"/BuildTest.java
 trap "rm -rf ${DIR}/" EXIT
 
 bazel build //build_test
+
+bazel test //tools/jarjar:all
