@@ -16,6 +16,8 @@
 # applies the Error Prone compiler to all java compilations - this package exports
 # dependencies for Error Prone's libraries
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
 
 package(default_visibility = ["//visibility:public"])

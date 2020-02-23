@@ -14,6 +14,8 @@
 
 # BUILD rules for https://checkerframework.org/
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 licenses(["notice"])  # MIT
 
 package(default_visibility = ["//visibility:public"])

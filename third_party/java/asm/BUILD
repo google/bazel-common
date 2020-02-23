@@ -14,6 +14,8 @@
 
 # BUILD rules for http://asm.ow2.org/
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 licenses(["notice"])  # BSD
 
 package(default_visibility = ["//visibility:public"])

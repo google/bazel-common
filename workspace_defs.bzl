@@ -30,11 +30,14 @@ def _maven_import(artifact, sha256, licenses, **kwargs):
     name = ("%s_%s" % (group_id, artifact_id)).replace(".", "_").replace("-", "_")
     url_suffix = "{0}/{1}/{2}/{1}-{2}.jar".format(group_id.replace(".", "/"), artifact_id, version)
 
+    # TODO(cpovirk): Consider jvm_maven_import_external.
     java_import_external(
         name = name,
         jar_urls = [base + url_suffix for base in _MAVEN_MIRRORS],
         jar_sha256 = sha256,
         licenses = licenses,
+        # TODO(cpovirk): Remove after https://github.com/bazelbuild/bazel/issues/10838 is fixed.
+        rule_load = """load("@rules_java//java:defs.bzl", "java_import")""",
         tags = ["maven_coordinates=" + artifact],
         **kwargs
     )
@@ -265,13 +268,11 @@ def google_common_workspace_rules():
     )
 
     for protobuf_repo in ("com_google_protobuf", "com_google_protobuf_java"):
-        # Based on 3.7.x branch. 3.7.0's tag was missing a fix to build with bazel
-        # TODO(user,ronshapiro): update to the next available tagged released when possible
         http_archive(
             name = protobuf_repo,
-            sha256 = "64bde341a59bd4abca6bee85cbc5372ee0eff7a20bf07815931096efc2b58a40",
-            strip_prefix = "protobuf-57b6597f467c2b614a458051f60ba467c5d697ae",
-            urls = ["https://github.com/protocolbuffers/protobuf/archive/57b6597f467c2b614a458051f60ba467c5d697ae.zip"],
+            sha256 = "9748c0d90e54ea09e5e75fb7fac16edce15d2028d4356f32211cfa3c0e956564",
+            strip_prefix = "protobuf-3.11.4",
+            urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.11.4.zip"],
         )
 
     CHECKER_FRAMEWORK_VERSION = "2.5.3"

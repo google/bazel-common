@@ -14,6 +14,8 @@
 
 # BUILD rules for org.slf4j:slf4j-api
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 licenses(["notice"])  # MIT
 
 package(default_visibility = ["//visibility:public"])

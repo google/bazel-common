@@ -14,6 +14,8 @@
 
 # BUILD rules for https://logging.apache.org/log4j/2.x/
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
 
 package(default_visibility = ["//visibility:public"])

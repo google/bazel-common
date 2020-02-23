@@ -13,6 +13,7 @@
 # limitations under the License.
 """Skylark macros to simplify declaring tests."""
 
+load("@rules_java//java:defs.bzl", "java_library", "java_test")
 
 def gen_java_tests(
         name,
@@ -40,8 +41,8 @@ def gen_java_tests(
     and `java_test`s that have `deps = [:a, :c]`.
     """
     _gen_java_tests(
-        native.java_library,
-        native.java_test,
+        java_library,
+        java_test,
         name,
         srcs,
         deps,
