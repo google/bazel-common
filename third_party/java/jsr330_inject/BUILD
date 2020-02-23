@@ -14,6 +14,8 @@
 
 # BUILD rules for javax.inject (https://www.jcp.org/en/jsr/detail?id=330)
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
 
 package(default_visibility = ["//visibility:public"])

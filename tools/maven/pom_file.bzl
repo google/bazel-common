@@ -14,6 +14,7 @@
 """Skylark rules to make publishing Maven artifacts simpler.
 """
 
+load("@rules_java//java:defs.bzl", "java_library")
 load("@bazel_skylib//lib:unittest.bzl", "asserts", "unittest")
 
 MavenInfo = provider(
@@ -229,7 +230,7 @@ def _fake_java_library(name, deps = None, exports = None):
         outs = src_file,
         cmd = "echo 'class %s {}' > $@" % name,
     )
-    native.java_library(
+    java_library(
         name = name,
         srcs = src_file,
         tags = ["maven_coordinates=%s:_:_" % name],
