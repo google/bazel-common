@@ -220,9 +220,9 @@ def google_common_workspace_rules():
     )
 
     _maven_import(
-        artifact = "com.squareup:javapoet:1.11.1",
+        artifact = "com.squareup:javapoet:1.12.1",
         licenses = ["notice"],
-        sha256 = "9cbf2107be499ec6e95afd36b58e3ca122a24166cdd375732e51267d64058e90",
+        sha256 = "e961908e4e3a460ad25acfd240157978b0307acd106691c190efa855cf05eafd",
     )
 
     _maven_import(
