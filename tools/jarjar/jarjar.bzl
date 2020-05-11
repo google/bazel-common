@@ -35,8 +35,18 @@ def _jarjar_library(ctx):
 
   # Concatenate similar files in META-INF that allow it.
   mergeMetaInfFiles=(services/.* {merge_meta_inf_files})
+  findCmd=(find)
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    # Mac uses BSD find, which requires extra args for regex matching.
+    findCmd+=(-E)
+    findGroup='(~[0-9]*)?'
+  else
+    # Default to GNU find, which must escape parentheses.
+    findGroup='\\(~[0-9]*\\)?'
+  fi
   for metaInfPattern in ${{mergeMetaInfFiles[@]}}; do
-    for file in $(find META-INF -regex "META-INF/$metaInfPattern\\(~[0-9]*\\)?"); do
+    regexPattern="META-INF/${{metaInfPattern}}${{findGroup}}"
+    for file in $("${{findCmd[@]}}" META-INF -regex "$regexPattern"); do
       original=$(echo $file | sed s/"~[0-9]*$"//)
       if [[ "$file" != "$original" ]]; then
         cat $file >> $original
