@@ -22,66 +22,28 @@ def _jarjar_library(ctx):
 
     jar_files = depset(transitive = [jar.files for jar in ctx.attr.jars]).to_list()
 
-    # TODO(dpb): Extract this command to a separate shell script file
     command = """
-  JAVA_HOME="$(cd "{java_home}" && pwd)" # this is used outside of the root
-
-  TMPDIR=$(mktemp -d)
-  for jar in {jars}; do
-    unzip -qq -B $jar -d $TMPDIR
-  done
-
-  pushd $TMPDIR &>/dev/null
-
-  # Concatenate similar files in META-INF that allow it.
-  mergeMetaInfFiles=(services/.* {merge_meta_inf_files})
-  findCmd=(find)
-  if [[ "$(uname -s)" == "Darwin" ]]; then
-    # Mac uses BSD find, which requires extra args for regex matching.
-    findCmd+=(-E)
-    findGroup='(~[0-9]*)?'
-  else
-    # Default to GNU find, which must escape parentheses.
-    findGroup='\\(~[0-9]*\\)?'
-  fi
-  for metaInfPattern in ${{mergeMetaInfFiles[@]}}; do
-    regexPattern="META-INF/${{metaInfPattern}}${{findGroup}}"
-    for file in $("${{findCmd[@]}}" META-INF -regex "$regexPattern"); do
-      original=$(echo $file | sed s/"~[0-9]*$"//)
-      if [[ "$file" != "$original" ]]; then
-        cat $file >> $original
-        rm $file
-      fi
-    done
-  done
-
-  rm META-INF/MANIFEST.MF*
-  rm -rf META-INF/maven/
-  duplicate_files=$(find * -type f -regex ".*~[0-9]*$")
-  if [[ -n "$duplicate_files" ]]; then
-    echo "Error: duplicate files in merged jar: $duplicate_files"
-    exit 1
-  fi
-  $JAVA_HOME/bin/jar cf combined.jar *
-
-  popd &>/dev/null
-
-  {jarjar} process {rules_file} $TMPDIR/combined.jar {outfile}
-  rm -rf $TMPDIR
-  """.format(
-        jars = " ".join([jar.path for jar in jar_files]),
+        export JAVA_HOME="{java_home}"
+        export MERGE_META_INF_FILES="{merge_meta_inf_files}"
+        export JARJAR="{jarjar}"
+        export RULES_FILE="{rules_file}"
+        export OUTFILE="{outfile}"
+        "{jarjar_runner}" {jars}
+    """.format(
         java_home = str(ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home),
+        merge_meta_inf_files = " ".join(ctx.attr.merge_meta_inf_files),
         jarjar = ctx.executable._jarjar.path,
         rules_file = ctx.outputs._rules_file.path,
         outfile = ctx.outputs.jar.path,
-        merge_meta_inf_files = " ".join(ctx.attr.merge_meta_inf_files),
+        jarjar_runner = ctx.executable._jarjar_runner.path,
+        jars = " ".join([jar.path for jar in jar_files]),
     )
 
     ctx.actions.run_shell(
         command = command,
         inputs = [ctx.outputs._rules_file] + jar_files + ctx.files._jdk,
         outputs = [ctx.outputs.jar],
-        tools = [ctx.executable._jarjar],
+        tools = [ctx.executable._jarjar, ctx.executable._jarjar_runner],
     )
 
 _jarjar_library_attrs = {
@@ -104,6 +66,11 @@ _jarjar_library_attrs = {
 _jarjar_library_attrs.update({
     "_jarjar": attr.label(
         default = Label("//tools/jarjar"),
+        executable = True,
+        cfg = "host",
+    ),
+    "_jarjar_runner": attr.label(
+        default = Label("//tools/jarjar:jarjar_runner"),
         executable = True,
         cfg = "host",
     ),
