@@ -15,46 +15,46 @@
 
 JAVA_HOME="$(cd "${JAVA_HOME}" && pwd)" # this is used outside of the root
 
-TMPDIR=$(mktemp -d)
+TMPDIR="$(mktemp -d)"
 for jar in "$@"; do
-  unzip -qq -B $jar -d $TMPDIR
+  unzip -qq -B "${jar}" -d "${TMPDIR}"
 done
 
-pushd $TMPDIR &>/dev/null
+pushd "${TMPDIR}" &>/dev/null
 
-findCmd=(find)
+find=(find)
 if [[ "$(uname -s)" == "Darwin" ]]; then
   # Mac uses BSD find, which requires extra args for regex matching.
-  findCmd+=(-E)
-  findGroup='(~[0-9]*)?'
+  find+=(-E)
+  suffix='(~[0-9]*)?'
 else
   # Default to GNU find, which must escape parentheses.
-  findGroup='\(~[0-9]*\)?'
+  suffix='\(~[0-9]*\)?'
 fi
 
 # Concatenate similar files in META-INF that allow it.
-for metaInfPattern in services/.* ${MERGE_META_INF_FILES}; do
-  regexPattern="META-INF/${metaInfPattern}${findGroup}"
-  for file in $("${findCmd[@]}" META-INF -regex "$regexPattern"); do
-    original=$(echo $file | sed s/"~[0-9]*$"//)
-    if [[ "$file" != "$original" ]]; then
-      cat $file >> $original
-      rm $file
+for meta_inf_pattern in services/.* ${MERGE_META_INF_FILES}; do
+  regex="META-INF/${meta_inf_pattern}${suffix}"
+  for file in $("${find[@]}" META-INF -regex "${regex}"); do
+    original="$(sed s/"~[0-9]*$"// <<< "${file}")"
+    if [[ "${file}" != "${original}" ]]; then
+      cat "${file}" >> "${original}"
+      rm "${file}"
     fi
   done
 done
 
 rm META-INF/MANIFEST.MF*
 rm -rf META-INF/maven/
-duplicate_files=$(find * -type f -regex ".*~[0-9]*$")
-if [[ -n "$duplicate_files" ]]; then
-  echo "Error: duplicate files in merged jar: $duplicate_files"
+duplicate_files="$(find * -type f -regex '.*~[0-9]*$')"
+if [[ -n "${duplicate_files}" ]]; then
+  echo "Error: duplicate files in merged jar: ${duplicate_files}"
   exit 1
 fi
-$JAVA_HOME/bin/jar cf combined.jar *
+"${JAVA_HOME}/bin/jar" cf combined.jar *
 
 popd &>/dev/null
 
-"${JARJAR}" process "${RULES_FILE}" $TMPDIR/combined.jar "${OUTFILE}"
+"${JARJAR}" process "${RULES_FILE}" "${TMPDIR}/combined.jar" "${OUTFILE}"
 
-rm -rf $TMPDIR
+rm -rf "${TMPDIR}"
