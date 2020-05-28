@@ -44,6 +44,12 @@ java_binary(
     ],
 )
 
+sh_binary(
+    name = "jarjar_runner",
+    srcs = ["jarjar_runner.sh"],
+    visibility = ["//visibility:public"],
+)
+
 # Test target used for validating rule.
 jarjar_library(
     name = "test_target",
