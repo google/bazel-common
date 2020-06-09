@@ -62,7 +62,6 @@ _jarjar_library_attrs = {
     ),
 }
 
-# Additional attributes only used in opensource builds
 _jarjar_library_attrs.update({
     "_jarjar": attr.label(
         default = Label("//tools/jarjar"),
@@ -79,7 +78,6 @@ _jarjar_library_attrs.update({
         providers = [java_common.JavaRuntimeInfo],
     ),
 })
-
 
 jarjar_library = rule(
     attrs = _jarjar_library_attrs,
