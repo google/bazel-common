@@ -15,6 +15,4 @@
 # Common configuration and dependencies for Google's open-source libraries that are built with
 # Bazel.
 
-licenses(["notice"])  # Apache 2.0 License
-
 exports_files(["LICENSE"])

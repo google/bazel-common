@@ -13,5 +13,3 @@
 # limitations under the License.
 
 # A collection of skylark marcors and rules for testing
-
-licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE

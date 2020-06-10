@@ -14,8 +14,6 @@
 
 # Skylark rules for generating Maven pom files
 
-licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
-
 load(":pom_file.bzl", "pom_file_tests")
 
 # TODO(ronshapiro): Set up a travis build

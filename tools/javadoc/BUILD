@@ -13,5 +13,3 @@
 # limitations under the License.
 
 # Skylark rules for generating Javadoc
-
-licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE

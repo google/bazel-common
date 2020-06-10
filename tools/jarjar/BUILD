@@ -17,8 +17,6 @@
 load("@rules_java//java:defs.bzl", "java_binary")
 load(":jarjar.bzl", "jarjar_library")
 
-licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
-
 java_binary(
     name = "jarjar",
     main_class = "org.pantsbuild.jarjar.Main",
