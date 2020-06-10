@@ -16,8 +16,6 @@
 
 load("@rules_java//java:defs.bzl", "java_library")
 
-licenses(["notice"])  # BSD
-
 package(default_visibility = ["//visibility:public"])
 
 java_library(

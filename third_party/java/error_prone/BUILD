@@ -18,8 +18,6 @@
 
 load("@rules_java//java:defs.bzl", "java_library")
 
-licenses(["notice"])  # Apache 2.0 LICENSE at //LICENSE
-
 package(default_visibility = ["//visibility:public"])
 
 java_library(
