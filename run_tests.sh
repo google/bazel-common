@@ -35,4 +35,4 @@ trap "rm -rf ${DIR}/" EXIT
 
 bazel build //build_test
 
-bazel test //tools/jarjar:all
+bazel test //tools/...
