@@ -234,6 +234,7 @@ def _fake_java_library(name, deps = None, exports = None):
         name = name,
         srcs = src_file,
         tags = ["maven_coordinates=%s:_:_" % name],
+        javacopts = ["-Xep:DefaultPackage:OFF"],
         deps = deps or [],
         exports = exports or [],
     )
@@ -242,14 +243,14 @@ def _maven_info_test_impl(ctx):
     env = unittest.begin(ctx)
     asserts.equals(
         env,
-        expected = ctx.attr.maven_artifacts,
-        actual = ctx.attr.target[MavenInfo].maven_artifacts,
+        expected = sorted(ctx.attr.maven_artifacts),
+        actual = sorted(ctx.attr.target[MavenInfo].maven_artifacts.to_list()),
         msg = "MavenInfo.maven_artifacts",
     )
     asserts.equals(
         env,
-        expected = ctx.attr.maven_dependencies,
-        actual = ctx.attr.target[MavenInfo].maven_dependencies,
+        expected = sorted(ctx.attr.maven_dependencies),
+        actual = sorted(ctx.attr.target[MavenInfo].maven_dependencies.to_list()),
         msg = "MavenInfo.maven_dependencies",
     )
     return unittest.end(env)
