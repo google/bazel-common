@@ -44,6 +44,7 @@ def _collect_maven_info_impl(_target, ctx):
     tags = getattr(ctx.rule.attr, "tags", [])
     deps = getattr(ctx.rule.attr, "deps", [])
     exports = getattr(ctx.rule.attr, "exports", [])
+    runtime_deps = getattr(ctx.rule.attr, "runtime_deps", [])
 
     maven_artifacts = []
     for tag in tags:
@@ -54,13 +55,17 @@ def _collect_maven_info_impl(_target, ctx):
 
     return [MavenInfo(
         maven_artifacts = depset(maven_artifacts, transitive = _maven_artifacts(exports)),
-        maven_dependencies = depset([], transitive = _maven_artifacts(deps + exports)),
+        maven_dependencies = depset(
+            [],
+            transitive = _maven_artifacts(deps + exports + runtime_deps),
+        ),
     )]
 
 _collect_maven_info = aspect(
     attr_aspects = [
         "deps",
         "exports",
+        "runtime_deps",
     ],
     doc = """
     Collects the Maven information for targets, their dependencies, and their transitive exports.
@@ -194,9 +199,9 @@ pom_file = rule(
     doc = """
     Creates a Maven POM file for `targets`.
 
-    This rule scans the deps of `targets` and their transitive exports, checking each for tags of
-    the form `maven_coordinates=<coords>`. These tags are used to build the list of Maven
-    dependencies for the generated POM.
+    This rule scans the deps, runtime_deps, and exports of `targets` and their transitive exports,
+    checking each for tags of the form `maven_coordinates=<coords>`. These tags are used to build
+    the list of Maven dependencies for the generated POM.
 
     Users should call this rule with a `template_file` that contains a `{generated_bzl_deps}`
     placeholder. The rule will replace this with the appropriate XML for all dependencies.
@@ -223,7 +228,7 @@ pom_file = rule(
     implementation = _pom_file,
 )
 
-def _fake_java_library(name, deps = None, exports = None):
+def _fake_java_library(name, deps = None, exports = None, runtime_deps = None):
     src_file = ["%s.java" % name]
     native.genrule(
         name = "%s_source_file" % name,
@@ -237,6 +242,7 @@ def _fake_java_library(name, deps = None, exports = None):
         javacopts = ["-Xep:DefaultPackage:OFF"],
         deps = deps or [],
         exports = exports or [],
+        runtime_deps = runtime_deps or [],
     )
 
 def _maven_info_test_impl(ctx):
@@ -284,6 +290,18 @@ def pom_file_tests():
         name = "dependencies_test",
         target = ":DepOnA",
         maven_artifacts = ["DepOnA:_:_"],
+        maven_dependencies = ["A:_:_"],
+    )
+
+    _fake_java_library(
+        name = "RuntimeDepOnA",
+        runtime_deps = [":A"],
+    )
+
+    _maven_info_test(
+        name = "runtime_dependencies_test",
+        target = ":RuntimeDepOnA",
+        maven_artifacts = ["RuntimeDepOnA:_:_"],
         maven_dependencies = ["A:_:_"],
     )
 
