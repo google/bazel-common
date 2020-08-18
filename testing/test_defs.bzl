@@ -19,6 +19,7 @@ def gen_java_tests(
         name,
         srcs,
         deps,
+        prefix_path = None,
         lib_deps = None,
         test_deps = None,
         plugins = None,
@@ -46,6 +47,7 @@ def gen_java_tests(
         name,
         srcs,
         deps,
+        prefix_path = prefix_path,
         javacopts = javacopts,
         lib_deps = lib_deps,
         lib_javacopts = lib_javacopts,
@@ -61,6 +63,7 @@ def gen_android_local_tests(
         name,
         srcs,
         deps,
+        prefix_path = None
         lib_deps = None,
         test_deps = None,
         plugins = None,
@@ -90,6 +93,7 @@ def gen_android_local_tests(
         name,
         srcs,
         deps,
+        prefix_path = prefix_path,
         javacopts = javacopts,
         lib_deps = lib_deps,
         lib_javacopts = lib_javacopts,
@@ -115,6 +119,7 @@ def _gen_java_tests(
         name,
         srcs,
         deps,
+        prefix_path = None,
         lib_deps = None,
         test_deps = None,
         plugins = None,
@@ -146,16 +151,20 @@ def _gen_java_tests(
             plugins = _concat(plugins, lib_plugins),
             deps = _concat(deps, lib_deps),
         )
-
+    
+    test_names = []
     for test_file in test_files:
         test_name = test_file.replace(".java", "")
-        prefix_path = "src/test/java/"
         package_name = native.package_name()
-        if package_name.find("javatests/") != -1:
-            prefix_path = "javatests/"
+        
+        if prefix_path:
+            test_prefix_path = prefix_path
+        elif "javatests/" in package_name:
+            test_prefix_path = "javatests/"
+        else:
+            test_prefix_path = "src/test/java/"
 
-        # TODO(ronshapiro): Consider supporting a configurable prefix_path
-        test_class = (package_name + "/" + test_name).rpartition(prefix_path)[2].replace("/", ".")
+        test_class = (package_name + "/" + test_name).rpartition(test_prefix_path)[2].replace("/", ".")
         test_rule_type(
             name = test_name,
             srcs = [test_file],
@@ -166,3 +175,9 @@ def _gen_java_tests(
             deps = test_deps,
             runtime_deps = runtime_deps,
         )
+        test_names.append(test_name)
+    
+    native.test_suite(
+        name = name,
+        tests = test_names,
+    )
