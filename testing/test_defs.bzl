@@ -63,7 +63,7 @@ def gen_android_local_tests(
         name,
         srcs,
         deps,
-        prefix_path = None
+        prefix_path = None,
         lib_deps = None,
         test_deps = None,
         plugins = None,
