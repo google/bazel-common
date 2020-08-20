@@ -19,6 +19,7 @@ def gen_java_tests(
         name,
         srcs,
         deps,
+        prefix_path = None,
         lib_deps = None,
         test_deps = None,
         plugins = None,
@@ -39,6 +40,10 @@ def gen_java_tests(
     prefixed with `test_`. For example, passing `deps = [:a], lib_deps = [:b],
     test_deps = [:c]` will result in a `java_library` that has `deps = [:a, :b]`
     and `java_test`s that have `deps = [:a, :c]`.
+
+    Args:
+      prefix_path: (string) The prefix between the current package path and the source
+          file paths, which will be eliminated when determining test class names.
     """
     _gen_java_tests(
         java_library,
@@ -46,6 +51,7 @@ def gen_java_tests(
         name,
         srcs,
         deps,
+        prefix_path = prefix_path,
         javacopts = javacopts,
         lib_deps = lib_deps,
         lib_javacopts = lib_javacopts,
@@ -61,6 +67,7 @@ def gen_android_local_tests(
         name,
         srcs,
         deps,
+        prefix_path = None,
         lib_deps = None,
         test_deps = None,
         plugins = None,
@@ -82,6 +89,10 @@ def gen_android_local_tests(
     [:a], lib_deps = [:b], test_deps = [:c]` will result in a `android_library`
     that has `deps = [:a, :b]` and `android_local_test`s that have `deps =
     [:a, :c]`.
+
+    Args:
+      prefix_path: (string) The prefix between the current package path and the source
+          file paths, which will be eliminated when determining test class names.
     """
 
     _gen_java_tests(
@@ -90,6 +101,7 @@ def gen_android_local_tests(
         name,
         srcs,
         deps,
+        prefix_path = prefix_path,
         javacopts = javacopts,
         lib_deps = lib_deps,
         lib_javacopts = lib_javacopts,
@@ -115,6 +127,7 @@ def _gen_java_tests(
         name,
         srcs,
         deps,
+        prefix_path = None,
         lib_deps = None,
         test_deps = None,
         plugins = None,
@@ -147,14 +160,20 @@ def _gen_java_tests(
             deps = _concat(deps, lib_deps),
         )
 
+    package_name = native.package_name()
+
+    if prefix_path:
+        pass
+    elif package_name.find("javatests/") != -1:
+        prefix_path = "javatests/"
+    else:
+        prefix_path = "src/test/java/"
+
+    test_names = []
     for test_file in test_files:
         test_name = test_file.replace(".java", "")
-        prefix_path = "src/test/java/"
-        package_name = native.package_name()
-        if package_name.find("javatests/") != -1:
-            prefix_path = "javatests/"
+        test_names.append(test_name)
 
-        # TODO(ronshapiro): Consider supporting a configurable prefix_path
         test_class = (package_name + "/" + test_name).rpartition(prefix_path)[2].replace("/", ".")
         test_rule_type(
             name = test_name,
@@ -166,3 +185,8 @@ def _gen_java_tests(
             deps = test_deps,
             runtime_deps = runtime_deps,
         )
+
+    native.test_suite(
+        name = name,
+        tests = test_names,
+    )
