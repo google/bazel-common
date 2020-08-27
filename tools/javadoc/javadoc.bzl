@@ -100,8 +100,10 @@ javadoc_library = rule(
     outputs = {"jar": "%{name}.jar"},
     implementation = _javadoc_library,
 )
+
 """
 Generates a Javadoc jar path/to/target/<name>.jar.
+
 Arguments:
   srcs: source files to process
   deps: targets that contain references to other types referenced in Javadoc. This can be the
