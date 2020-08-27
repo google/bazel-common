@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# A collection of skylark marcors and rules for testing
+# A collection of starlark macros and rules for testing
