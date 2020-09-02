@@ -92,14 +92,41 @@ javadoc_library = rule(
         "srcs": attr.label_list(
             allow_empty = False,
             allow_files = True,
+            doc = "Source files to generate Javadoc for.",
         ),
-        "deps": attr.label_list(),
-        "doctitle": attr.string(default = ""),
-        "root_packages": attr.string_list(),
-        "exclude_packages": attr.string_list(),
-        "android_api_level": attr.int(default = -1),
-        "bottom_text": attr.string(default = ""),
-        "external_javadoc_links": attr.string_list(),
+        "deps": attr.label_list(
+            doc = """
+Targets that contain references to other types referenced in Javadoc. These can
+be the java_library/android_library target(s) for the same sources.
+""",
+        ),
+        "doctitle": attr.string(
+            default = "",
+            doc = "Title for generated index.html. See javadoc -doctitle.",
+        ),
+        "root_packages": attr.string_list(
+            doc = """
+Java packages to include in generated Javadoc. Any subpackages not listed in
+exclude_packages will be included as well. If none are provided, each file in
+`srcs` is processed.
+""",
+        ),
+        "exclude_packages": attr.string_list(
+            doc = "Java packages to exclude from generated Javadoc.",
+        ),
+        "android_api_level": attr.int(
+            default = -1,
+            doc = """
+If Android APIs are used, the API level to compile against to generate Javadoc.
+""",
+        ),
+        "bottom_text": attr.string(
+            default = "",
+            doc = "Text passed to Javadoc's `-bottom` flag.",
+        ),
+        "external_javadoc_links": attr.string_list(
+            doc = "URLs passed to Javadoc's `-linkoffline` flag.",
+        ),
         "_android_jar": attr.label(
             default = _android_jar,
             allow_single_file = True,
@@ -110,22 +137,6 @@ javadoc_library = rule(
         ),
     },
     outputs = {"jar": "%{name}.jar"},
+    doc = "Generates a Javadoc jar path/to/target/<name>.jar.",
     implementation = _javadoc_library,
 )
-
-"""
-Generates a Javadoc jar path/to/target/<name>.jar.
-
-Arguments:
-  srcs: source files to process
-  deps: targets that contain references to other types referenced in Javadoc. This can be the
-      java_library/android_library target(s) for the same sources
-  root_packages: Java packages to include in generated Javadoc. Any subpackages not listed in
-      exclude_packages will be included as well. If none are provided, each file in `srcs` is processed.
-  exclude_packages: Java packages to exclude from generated Javadoc
-  android_api_level: If Android APIs are used, the API level to compile against to generate
-      Javadoc
-  doctitle: title for Javadoc's index.html. See javadoc -doctitle
-  bottom_text: text passed to javadoc's `-bottom` flag
-  external_javadoc_links: a list of URLs that are passed to Javadoc's `-linkoffline` flag
-"""
