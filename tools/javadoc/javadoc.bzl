@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-def _check_non_empty(value, name):
-    if not value:
-        fail("%s must be non-empty" % name)
+"""See javadoc_library."""
 
 def _android_jar(android_api_level):
     if android_api_level == -1:
@@ -22,7 +20,8 @@ def _android_jar(android_api_level):
     return Label("@androidsdk//:platforms/android-%s/android.jar" % android_api_level)
 
 def _javadoc_library(ctx):
-    _check_non_empty(ctx.attr.root_packages, "root_packages")
+    if ctx.attr.exclude_packages and not ctx.attr.root_packages:
+        fail("Must first specify root_packages.", "exclude_packages")
 
     transitive_deps = []
     for dep in ctx.attr.deps:
@@ -38,11 +37,7 @@ def _javadoc_library(ctx):
 
     javadoc_command = [
         java_home + "/bin/javadoc",
-        '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
-        " ".join(ctx.attr.root_packages),
         "-use",
-        "-subpackages",
-        ":".join(ctx.attr.root_packages),
         "-encoding UTF8",
         "-classpath",
         ":".join([jar.path for jar in classpath]),
@@ -51,6 +46,23 @@ def _javadoc_library(ctx):
         "-Xdoclint:-missing",
         "-quiet",
     ]
+
+    # Documentation for the javadoc command
+    # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
+    if ctx.attr.root_packages:
+        # TODO(b/167433657): Reevaluate the utility of root_packages
+        # 1. Find the first directory under the working directory named '*java'.
+        # 2. Assume all files to document can be found by appending a root_package name
+        #    to that directory, or a subdirectory, replacting dots with slashes.
+        javadoc_command += [
+            '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
+            " ".join(ctx.attr.root_packages),
+            "-subpackages",
+            ":".join(ctx.attr.root_packages),
+        ]
+    else:
+        # Document exactly the code in the specified source files.
+        javadoc_command += [f.path for f in ctx.files.srcs]
 
     if ctx.attr.doctitle:
         javadoc_command.append('-doctitle "%s"' % ctx.attr.doctitle)
@@ -109,7 +121,7 @@ Arguments:
   deps: targets that contain references to other types referenced in Javadoc. This can be the
       java_library/android_library target(s) for the same sources
   root_packages: Java packages to include in generated Javadoc. Any subpackages not listed in
-      exclude_packages will be included as well
+      exclude_packages will be included as well. If none are provided, each file in `srcs` is processed.
   exclude_packages: Java packages to exclude from generated Javadoc
   android_api_level: If Android APIs are used, the API level to compile against to generate
       Javadoc
