@@ -19,21 +19,8 @@ load("@rules_java//java:defs.bzl", "java_library")
 package(default_visibility = ["//visibility:public"])
 
 java_library(
-    name = "truth",
-    testonly = 1,
+    name = "diffutils",
     exports = [
-        "@com_google_truth_extensions_truth_java8_extension//jar",
-        "@com_google_truth_truth//jar",
-    ],
-    runtime_deps = [
-        "//third_party/java/diffutils",
-    ],
-)
-
-java_library(
-    name = "truth8",
-    testonly = 1,
-    exports = [
-        ":truth",
+        "@com_googlecode_java_diff_utils_diffutils//jar",
     ],
 )
