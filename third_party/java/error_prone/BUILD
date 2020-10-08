@@ -41,7 +41,7 @@ java_library(
         ":annotations",
         ":error_prone_javac",
         "//third_party/java/checker_framework:dataflow",
+        "//third_party/java/diffutils",
         "//third_party/java/jsr305_annotations",
-        "@com_googlecode_java_diff_utils_diffutils",
     ],
 )
