@@ -31,12 +31,3 @@ java_library(
         "//third_party/java/asm",
     ],
 )
-
-# TODO(cpovirk): Remove this, moving all users to :truth.
-java_library(
-    name = "truth8",
-    testonly = 1,
-    exports = [
-        ":truth",
-    ],
-)
