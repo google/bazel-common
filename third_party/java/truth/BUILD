@@ -25,11 +25,14 @@ java_library(
         "@com_google_truth_extensions_truth_java8_extension//jar",
         "@com_google_truth_truth//jar",
     ],
+    # TODO(cpovirk): This would make more sense in deps, but Bazel won't allow
+    # that unless we add dummy srcs.
     runtime_deps = [
-        "//third_party/java/diffutils",
+        "//third_party/java/asm",
     ],
 )
 
+# TODO(cpovirk): Remove this, moving all users to :truth.
 java_library(
     name = "truth8",
     testonly = 1,

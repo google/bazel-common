@@ -274,17 +274,17 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "com.google.truth",
         artifact_id = "truth",
-        version = "0.45",
+        version = "1.1",
         licenses = ["notice"],
-        sha256 = "0f7dced2a16e55a77e44fc3ff9c5be98d4bf4bb30abc18d78ffd735df950a69f",
+        sha256 = "42ae0c8871398c3077eb782cb556490e2a0ce292fd73a9be81f0cc15c013991e",
     )
 
     maven_import(
         group_id = "com.google.truth.extensions",
         artifact_id = "truth-java8-extension",
-        version = "0.45",
+        version = "1.1",
         licenses = ["notice"],
-        sha256 = "dc1fedf6c13b1b1a4c4fa3e810f11df070ea4701765f05176f8bdcb5520c7de4",
+        sha256 = "b1d160ca17b9d105f985d24cd255684ed4b59ee016f8dcbcd541dae558a57b1e",
     )
 
     maven_import(
