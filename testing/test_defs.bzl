@@ -28,6 +28,7 @@ def gen_java_tests(
         javacopts = None,
         lib_javacopts = None,
         test_javacopts = None,
+        jvm_flags = None,  # Applied to tests only
         **kwargs):
     """Generates `java_test` rules for each file in `srcs` ending in "Test.java".
 
@@ -59,6 +60,7 @@ def gen_java_tests(
         plugins = plugins,
         test_deps = test_deps,
         test_javacopts = test_javacopts,
+        jvm_flags = jvm_flags,
         test_plugins = test_plugins,
         **kwargs
     )
@@ -75,7 +77,8 @@ def gen_android_local_tests(
         test_plugins = None,
         javacopts = None,
         lib_javacopts = None,
-        test_javacopts = None,
+        test_javacopts = None,  # Applied to tests only
+        jvm_flags = None,
         **kwargs):
     """Generates `android_local_test` rules for each file in `srcs` ending in "Test.java".
 
@@ -109,6 +112,7 @@ def gen_android_local_tests(
         plugins = plugins,
         test_deps = test_deps,
         test_javacopts = test_javacopts,
+        jvm_flags = jvm_flags,
         test_plugins = test_plugins,
         **kwargs
     )
@@ -136,6 +140,7 @@ def _gen_java_tests(
         javacopts = None,
         lib_javacopts = None,
         test_javacopts = None,
+        jvm_flags = None,
         runtime_deps = None,
         tags = None):
     test_files = []
@@ -179,6 +184,7 @@ def _gen_java_tests(
             name = test_name,
             srcs = [test_file],
             javacopts = _concat(javacopts, test_javacopts),
+            jvm_flags = jvm_flags,
             plugins = _concat(plugins, test_plugins),
             tags = _concat(["gen_java_tests"], tags),
             test_class = test_class,
