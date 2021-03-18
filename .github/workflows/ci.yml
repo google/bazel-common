@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
+    env:
+      # Used by bazelisk: https://github.com/bazelbuild/bazelisk
+      USE_BAZEL_VERSION: '3.7.1'
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v2
+      - name: 'Cache Bazel dependencies'
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.cache/bazel/*/*/external
+          key: bazel-${{ hashFiles('workspace_defs.bzl') }}
+          restore-keys: |
+            bazel-
+      - name: 'Test'
+        shell: bash
+        run: ./run_tests.sh
