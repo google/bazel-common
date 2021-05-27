@@ -153,25 +153,25 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "com.google.auto",
         artifact_id = "auto-common",
-        version = "0.10",
+        version = "1.0",
         licenses = ["notice"],
-        sha256 = "b876b5fddaceeba7d359667f6c4fb8c6f8658da1ab902ffb79ec9a415deede5f",
+        sha256 = "b5164ef5c8314974f752aac82d49c102d4f64949bb9414e97bc2f8d1b97ff1f7",
     )
 
     maven_import(
         group_id = "com.google.auto.factory",
         artifact_id = "auto-factory",
-        version = "1.0-beta5",
+        version = "1.0",
         licenses = ["notice"],
-        sha256 = "e6bed6aaa879f568449d735561a6a26a5a06f7662ed96ca88d27d2200a8dc6cf",
+        sha256 = "2ae46041b49eba3909163d345ac8ad984a9d7da5fa5312cfe3ef872854e8414f",
     )
 
     maven_import(
         group_id = "com.google.auto.service",
         artifact_id = "auto-service",
-        version = "1.0-rc4",
+        version = "1.0",
         licenses = ["notice"],
-        sha256 = "e422d49c312fd2031222e7306e8108c1b4118eb9c049f1b51eca280bed87e924",
+        sha256 = "4ae44dd05b49a1109a463c0d2aaf920c24f76d1e996bb89f29481c4ff75ec526",
     )
 
     maven_import(
