@@ -102,6 +102,7 @@ java_plugin(
         ":common",
         "//third_party/java/guava",
         "@com_google_auto_service_auto_service//jar",
+        "@com_google_auto_service_auto_service_annotations//jar",
     ],
 )
 
