@@ -109,5 +109,5 @@ java_library(
     name = "service",
     exported_plugins = [":auto_service_processor"],
     tags = ["maven:compile_only"],
-    exports = ["@com_google_auto_service_auto_service//jar"],
+    exports = ["@com_google_auto_service_auto_service_annotations//jar"],
 )

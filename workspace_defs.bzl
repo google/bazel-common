@@ -175,6 +175,14 @@ def google_common_workspace_rules():
     )
 
     maven_import(
+        group_id = "com.google.auto.service",
+        artifact_id = "auto-service-annotations",
+        version = "1.0",
+        licenses = ["notice"],
+        sha256 = "44752893119fdaf01b4c5ee74e46e5dab86f2dcda18114c562f877355c6ed26e",
+    )
+
+    maven_import(
         group_id = "com.google.auto.value",
         artifact_id = "auto-value",
         version = "1.6",
