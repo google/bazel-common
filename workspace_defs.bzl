@@ -105,17 +105,17 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava",
-        version = "27.1-jre",
+        version = "30.1.1-jre",
         licenses = ["notice"],
-        sha256 = "4a5aa70cc968a4d137e599ad37553e5cfeed2265e8c193476d7119036c536fe7",
+        sha256 = "44ce229ce26d880bf3afc362bbfcec34d7e6903d195bbb1db9f3b6e0d9834f06",
     )
 
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava-testlib",
-        version = "27.1-jre",
+        version = "30.1.1-jre",
         licenses = ["notice"],
-        sha256 = "d04c99c926b9e8117685801c16a2d44f89f9e3ca6bbe6d668b65987f164c55c8",
+        sha256 = "8a7fc9adfa1e7441d1d30ca288c593ebc7c4a24c601d01169b781c398f24099b",
     )
 
     maven_import(
