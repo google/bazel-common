@@ -153,9 +153,9 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "com.google.auto",
         artifact_id = "auto-common",
-        version = "1.0",
+        version = "1.1.2",
         licenses = ["notice"],
-        sha256 = "b5164ef5c8314974f752aac82d49c102d4f64949bb9414e97bc2f8d1b97ff1f7",
+        sha256 = "bfe85e517250fc208afd2b031a2ba80f26529c92536484841b4a60661ca1e3f5",
     )
 
     maven_import(
