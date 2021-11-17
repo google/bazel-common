@@ -9,7 +9,28 @@ This is not an official Google product.
 
 [`bazel`]: https://bazel.build
 
-## Incrementing the Version of an Exported Library
+## Incrementing the version of an exported library
+
+1. Run [`update_version`], passing the group, artifact ID, and version you want
+    to update:
+
+    ```shell
+    $ update_version com.google.guava guava 31.0.1-jre
+    ```
+
+    If several artifacts share the same version via a variable, such as
+    `ERROR_PRONE_VERSION`, you can pass just the variable and the new version:
+
+    ```shell
+    $ update_version ERROR_PRONE_VERSION 2.3.2
+    ```
+
+2.  Send the change for review.
+
+3.  Once submitted, remember to update your own dep on `bazel_common` to the
+    version containing your change.
+
+### If `update_version` doesn't work
 
 1.  Open `workspace_defs.bzl`
 
@@ -25,7 +46,6 @@ This is not an official Google product.
 
     TIP: Double-check that the download is the size you expect
 
-5.  Send the change for review
+5. Return to step 2 above.
 
-6.  Once submitted, remember to update your own dep on `bazel_common` to the
-    version containing your change
+[`update_version`]: https://github.com/google/bazel-common/blob/master/update_version
