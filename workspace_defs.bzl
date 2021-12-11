@@ -530,14 +530,14 @@ def google_common_workspace_rules():
         sha256 = "9f5f5799707881451a39c1b2dd22b4e43b97a80698db7daf1c9697f545e24387",
     )
 
-    LOG4J2_VERSION = "2.11.2"
+    LOG4J2_VERSION = "2.15.0"
 
     maven_import(
         group_id = "org.apache.logging.log4j",
         artifact_id = "log4j-api",
         version = LOG4J2_VERSION,
         licenses = ["notice"],
-        sha256 = "09b8ce1740491deefdb3c336855822b64609b457c2966d806348456c0da261d2",
+        sha256 = "c8c33e7e8e05496dae69cf0caac8c3092cffd937a164526e92922d2d566d0a55",
     )
 
     maven_import(
@@ -545,7 +545,7 @@ def google_common_workspace_rules():
         artifact_id = "log4j-core",
         version = LOG4J2_VERSION,
         licenses = ["notice"],
-        sha256 = "d4748cd5d8d67f513de7634fa202740490d7e0ab546f4bf94e5c4d4a11e3edbc",
+        sha256 = "419a8512895971b7b4f4f33e620d361254e5c9552b904b0474b09ddd4a6a220b",
     )
 
     maven_import(
