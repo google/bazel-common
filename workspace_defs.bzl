@@ -362,9 +362,9 @@ def google_common_workspace_rules():
     for protobuf_repo in ("com_google_protobuf", "com_google_protobuf_java"):
         http_archive(
             name = protobuf_repo,
-            sha256 = "9748c0d90e54ea09e5e75fb7fac16edce15d2028d4356f32211cfa3c0e956564",
-            strip_prefix = "protobuf-3.11.4",
-            urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.11.4.zip"],
+            sha256 = "6b6bf5cd8d0cca442745c4c3c9f527c83ad6ef35a405f64db5215889ac779b42",
+            strip_prefix = "protobuf-3.19.3",
+            urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.19.3.zip"],
         )
 
     CHECKER_FRAMEWORK_VERSION = "2.5.3"
