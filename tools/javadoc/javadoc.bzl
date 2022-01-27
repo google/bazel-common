@@ -20,9 +20,6 @@ def _android_jar(android_api_level):
     return Label("@androidsdk//:platforms/android-%s/android.jar" % android_api_level)
 
 def _javadoc_library(ctx):
-    if ctx.attr.exclude_packages and not ctx.attr.root_packages:
-        fail("Must first specify root_packages.", "exclude_packages")
-
     transitive_deps = []
     for dep in ctx.attr.deps:
         if JavaInfo in dep:
@@ -67,6 +64,12 @@ def _javadoc_library(ctx):
     if ctx.attr.doctitle:
         javadoc_command.append('-doctitle "%s"' % ctx.attr.doctitle)
 
+    if ctx.attr.groups:
+        groups = []
+        for k, v in ctx.attr.groups.items():
+            groups.append("-group \"%s\" \"%s\"" % (k, ":".join(v)))
+        javadoc_command.append(" ".join(groups))
+
     if ctx.attr.exclude_packages:
         javadoc_command.append("-exclude %s" % ":".join(ctx.attr.exclude_packages))
 
@@ -104,6 +107,9 @@ be the java_library/android_library target(s) for the same sources.
             default = "",
             doc = "Title for generated index.html. See javadoc -doctitle.",
         ),
+       "groups": attr.string_list_dict(
+          doc = "Groups specified packages together in overview page. See javadoc -groups.",
+       ),
         "root_packages": attr.string_list(
             doc = """
 Java packages to include in generated Javadoc. Any subpackages not listed in
