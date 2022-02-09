@@ -28,6 +28,7 @@ def gen_java_tests(
         javacopts = None,
         lib_javacopts = None,
         test_javacopts = None,
+        resource_jars = None,
         jvm_flags = None,  # Applied to tests only
         **kwargs):
     """Generates `java_test` rules for each file in `srcs` ending in "Test.java".
@@ -60,6 +61,7 @@ def gen_java_tests(
         plugins = plugins,
         test_deps = test_deps,
         test_javacopts = test_javacopts,
+        resource_jars = resource_jars,
         jvm_flags = jvm_flags,
         test_plugins = test_plugins,
         **kwargs
@@ -140,6 +142,7 @@ def _gen_java_tests(
         javacopts = None,
         lib_javacopts = None,
         test_javacopts = None,
+        resource_jars = None,
         jvm_flags = None,
         runtime_deps = None,
         tags = None):
@@ -153,6 +156,7 @@ def _gen_java_tests(
             supporting_lib_files.append(src)
 
     test_deps = _concat(deps, test_deps)
+    test_resource_jars = None
     if supporting_lib_files:
         supporting_lib_files_name = name + "_lib"
         test_deps.append(":" + supporting_lib_files_name)
@@ -163,7 +167,11 @@ def _gen_java_tests(
             javacopts = _concat(javacopts, lib_javacopts),
             plugins = _concat(plugins, lib_plugins),
             deps = _concat(deps, lib_deps),
+            resource_jars = resource_jars,
         )
+    else:
+        # There is no supporting library, so promote these resources to each test
+        test_resource_jars = resource_jars
 
     package_name = native.package_name()
 
@@ -189,6 +197,7 @@ def _gen_java_tests(
             tags = _concat(["gen_java_tests"], tags),
             test_class = test_class,
             deps = test_deps,
+            resource_jars = test_resource_jars,
             runtime_deps = runtime_deps,
         )
 
