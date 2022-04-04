@@ -9,6 +9,37 @@ This is not an official Google product.
 
 [`bazel`]: https://bazel.build
 
+## Using Bazel Common
+
+1. Choose the commit hash you want to use.
+
+1. Compute the SHA-256 value by running:
+
+   ```shell
+   curl "https://github.com/google/bazel-common/archive/$COMMIT.zip" | sha256sum
+   ```
+
+1. Add the following to your `WORKSPACE` file, replacing `_COMMIT_` with the
+   commit hash and `_SHA256_` with the SHA-256 value.
+
+   ```bzl
+   load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+   http_archive(
+       name = "google_bazel_common",
+       sha256 = "_SHA256_",
+       strip_prefix = "bazel-common-_COMMIT_",
+       urls = ["https://github.com/google/bazel-common/archive/_COMMIT_.zip"],
+   )
+
+   load("@google_bazel_common//:workspace_defs.bzl", "google_common_workspace_rules")
+
+   google_common_workspace_rules()
+   ```
+
+To update the version of Bazel Common, choose a new commit and update your
+`WORKSPACE` file.
+
 ## Incrementing the version of an exported library
 
 1. Run [`update_version`], passing the group, artifact ID, and version you want
