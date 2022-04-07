@@ -32,7 +32,7 @@ def _javadoc_library(ctx):
 
     java_home = str(ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home)
 
-    tmp = ctx.actions.declare_directory("%s_javadoc" % ctx.attr.name)
+    output_dir = ctx.actions.declare_directory("%s_javadoc" % ctx.attr.name)
 
     javadoc_command = [
         java_home + "/bin/javadoc",
@@ -41,7 +41,7 @@ def _javadoc_library(ctx):
         "-classpath",
         ":".join([jar.path for jar in classpath]),
         "-notimestamp",
-        "-d %s" % tmp.path,
+        "-d %s" % output_dir.path,
         "-Xdoclint:-missing",
         "-quiet",
     ]
@@ -83,13 +83,13 @@ def _javadoc_library(ctx):
 
     # TODO(ronshapiro): Should we be using a different tool that doesn't include
     # timestamp info?
-    jar_command = "%s/bin/jar cf %s -C %s ." % (java_home, ctx.outputs.jar.path, tmp.path)
+    jar_command = "%s/bin/jar cf %s -C %s ." % (java_home, ctx.outputs.jar.path, output_dir.path)
 
     srcs = depset(transitive = [src.files for src in ctx.attr.srcs]).to_list()
     ctx.actions.run_shell(
         inputs = srcs + classpath + ctx.files._jdk,
         command = "%s && %s" % (" ".join(javadoc_command), jar_command),
-        outputs = [tmp, ctx.outputs.jar],
+        outputs = [output_dir, ctx.outputs.jar],
     )
 
 javadoc_library = rule(
