@@ -66,8 +66,8 @@ def google_common_workspace_rules():
 
     native.android_sdk_repository(
         name = "androidsdk",
-        api_level = 30,
-        build_tools_version = "30.0.2",
+        api_level = 32,
+        build_tools_version = "32.0.0",
     )
 
     maven_import(
