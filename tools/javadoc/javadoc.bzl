@@ -19,6 +19,10 @@ def _android_jar(android_api_level):
         return None
     return Label("@androidsdk//:platforms/android-%s/android.jar" % android_api_level)
 
+def _endswith_java(item):
+    if item.path.endswith(".java"):
+        return item.path
+
 def _javadoc_library(ctx):
     transitive_deps = []
     for dep in ctx.attr.deps:
@@ -46,6 +50,11 @@ def _javadoc_library(ctx):
         "-quiet",
     ]
 
+    # If not using `root_packages`, we'll roll up `srcs` using `args` so that
+    # we handle (a) tree artifacts and (b) very long argument lists.
+    args = ctx.actions.args()
+    args.use_param_file(param_file_arg = "@%s")
+
     # Documentation for the javadoc command
     # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
     if ctx.attr.root_packages:
@@ -61,7 +70,8 @@ def _javadoc_library(ctx):
         ]
     else:
         # Document exactly the code in the specified source files.
-        javadoc_command += [f.path for f in ctx.files.srcs]
+        javadoc_command.append("$@")
+        args.add_all(ctx.files.srcs, map_each = _endswith_java)
 
     if ctx.attr.doctitle:
         javadoc_command.append('-doctitle "%s"' % ctx.attr.doctitle)
@@ -90,6 +100,7 @@ def _javadoc_library(ctx):
         inputs = srcs + classpath + ctx.files._jdk,
         command = "%s && %s" % (" ".join(javadoc_command), jar_command),
         outputs = [output_dir, ctx.outputs.jar],
+        arguments = [args],
     )
 
 javadoc_library = rule(
