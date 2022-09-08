@@ -45,11 +45,7 @@ def _javadoc_library(ctx):
     args.use_param_file(param_file_arg = "@%s", use_always = True)
     args.add("-use")
     args.add("-encoding", "UTF8")
-    args.add_joined(
-        "-classpath",
-        classpath,
-        join_with = java_pathsep,
-    )
+    args.add_joined("-classpath", classpath, join_with = java_pathsep)
     args.add("-notimestamp")
     args.add("-d", output_dir.path)
     args.add("-Xdoclint:-missing")
