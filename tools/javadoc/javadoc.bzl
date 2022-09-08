@@ -23,6 +23,10 @@ def _endswith_java(item):
     if item.path.endswith(".java"):
         return item.path
 
+def _to_group(item):
+    k, v = item
+    return ["-group", k, ":".join(v)]
+
 def _javadoc_library(ctx):
     transitive_deps = []
     for dep in ctx.attr.deps:
@@ -38,22 +42,17 @@ def _javadoc_library(ctx):
 
     output_dir = ctx.actions.declare_directory("%s_javadoc" % ctx.attr.name)
 
-    javadoc_command = [
-        java_home + "/bin/javadoc",
-        "-use",
-        "-encoding UTF8",
-        "-classpath",
-        ":".join([jar.path for jar in classpath]),
-        "-notimestamp",
-        "-d %s" % output_dir.path,
-        "-Xdoclint:-missing",
-        "-quiet",
-    ]
-
-    # If not using `root_packages`, we'll roll up `srcs` using `args` so that
-    # we handle (a) tree artifacts and (b) very long argument lists.
-    args = ctx.actions.args()
-    args.use_param_file(param_file_arg = "@%s")
+    # javadoc args
+    # - Should we use `ctx.host_configuration.host_path_separator` instead of `:`?
+    jargs = ctx.actions.args()
+    jargs.use_param_file(param_file_arg = "@%s", use_always = True)
+    jargs.add("-use")
+    jargs.add("-encoding", "UTF8")
+    jargs.add_joined("-classpath", [jar.path for jar in classpath], join_with = ":")
+    jargs.add("-notimestamp")
+    jargs.add("-d", output_dir.path)
+    jargs.add("-Xdoclint:-missing")
+    jargs.add("-quiet")
 
     # Documentation for the javadoc command
     # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
@@ -62,45 +61,76 @@ def _javadoc_library(ctx):
         # 1. Find the first directory under the working directory named '*java'.
         # 2. Assume all files to document can be found by appending a root_package name
         #    to that directory, or a subdirectory, replacting dots with slashes.
-        javadoc_command += [
-            '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
-            " ".join(ctx.attr.root_packages),
-            "-subpackages",
-            ":".join(ctx.attr.root_packages),
-        ]
+        jargs.add_all(ctx.attr.root_packages)
+        jargs.add_joined("-subpackages", ctx.attr.root_packages, join_with = ":")
     else:
         # Document exactly the code in the specified source files.
-        javadoc_command.append("$@")
-        args.add_all(ctx.files.srcs, map_each = _endswith_java)
+        jargs.add_all(ctx.files.srcs, map_each = _endswith_java)
 
     if ctx.attr.doctitle:
-        javadoc_command.append('-doctitle "%s"' % ctx.attr.doctitle)
+        jargs.add("-doctitle", ctx.attr.doctitle)
 
-    if ctx.attr.groups:
-        groups = []
-        for k, v in ctx.attr.groups.items():
-            groups.append("-group \"%s\" \"%s\"" % (k, ":".join(v)))
-        javadoc_command.append(" ".join(groups))
+    # Translate `groups` mapping to `-group k ":".join(v)`.
+    jargs.add_all(
+        ctx.attr.groups.items(),
+        map_each = _to_group,
+    )
 
-    if ctx.attr.exclude_packages:
-        javadoc_command.append("-exclude %s" % ":".join(ctx.attr.exclude_packages))
+    jargs.add_joined("-exclude", ctx.attr.exclude_packages, join_with = ":")
 
     for link in ctx.attr.external_javadoc_links:
-        javadoc_command.append("-linkoffline {0} {0}".format(link))
+        jargs.add("-linkoffline {0} {0}".format(link))
 
     if ctx.attr.bottom_text:
-        javadoc_command.append("-bottom '%s'" % ctx.attr.bottom_text)
-
-    # TODO(ronshapiro): Should we be using a different tool that doesn't include
-    # timestamp info?
-    jar_command = "%s/bin/jar cf %s -C %s ." % (java_home, ctx.outputs.jar.path, output_dir.path)
+        jargs.add("-bottom", ctx.attr.bottom_text)
 
     srcs = depset(transitive = [src.files for src in ctx.attr.srcs]).to_list()
+
+    # Invoke `javadoc` to generate Javadoc.
     ctx.actions.run_shell(
         inputs = srcs + classpath + ctx.files._jdk,
-        command = "%s && %s" % (" ".join(javadoc_command), jar_command),
-        outputs = [output_dir, ctx.outputs.jar],
-        arguments = [args],
+        outputs = [output_dir],
+        arguments = [
+            output_dir.path,
+            "true" if ctx.attr.root_packages else "false",
+            jargs,
+        ],
+        command = """
+outdir=$1; shift
+root_packages=$1; shift
+jargsfile=$1; shift
+
+# See also `TODO(b/167433657)` in javadoc.bzl.
+if $root_packages; then
+    sourcepath_args=(
+        -sourcepath
+        $(find * -type d -name '*.java' -print0 | tr '\\0' :)
+    )
+fi
+
+${JAVA_HOME}/bin/javadoc $jargsfile ${sourcepath_args[@]}
+""",
+        env = {
+            "JAVA_HOME": java_home,
+        },
+    )
+
+    # Zip the outputs using Bazel's deterministic `zipper` utility.
+    ctx.actions.run_shell(
+        inputs = [output_dir],
+        outputs = [ctx.outputs.jar],
+        arguments = [ctx.executable._zipper.path, output_dir.path, ctx.outputs.jar.path],
+        tools = [ctx.executable._zipper],
+        command = """
+zipper=$1; shift
+outdir=$1; shift
+outjar=$1; shift
+
+cd $outdir
+zargsfile=$OLDPWD/${outdir}.tmp
+find . -type f | LC_ALL=C sort > $zargsfile
+$OLDPWD/$zipper Cc $OLDPWD/$outjar @$zargsfile
+""",
     )
 
 javadoc_library = rule(
@@ -153,6 +183,11 @@ If Android APIs are used, the API level to compile against to generate Javadoc.
         "_jdk": attr.label(
             default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
             providers = [java_common.JavaRuntimeInfo],
+        ),
+        "_zipper": attr.label(
+            default = Label("@bazel_tools//tools/zip:zipper"),
+            executable = True,
+            cfg = "exec",
         ),
     },
     outputs = {"jar": "%{name}.jar"},
