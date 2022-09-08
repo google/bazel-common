@@ -128,7 +128,7 @@ outjar=$1; shift
 
 cd $outdir
 zargsfile=$OLDPWD/${outdir}.tmp
-find . -type f | LC_ALL=C sort > $zargsfile
+find * -type f | LC_ALL=C sort > $zargsfile
 $OLDPWD/$zipper Cc $OLDPWD/$outjar @$zargsfile
 """,
     )
