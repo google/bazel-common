@@ -13,11 +13,58 @@
 # limitations under the License.
 
 load("@bazel_skylib//lib:unittest.bzl", "analysistest", "asserts")
+load("@rules_java//java:defs.bzl", "java_library")
 load(":javadoc.bzl", "javadoc_library")
 
 """
 Unit and analysis tests for the javadoc package.
 """
+
+# Verify handing of `attr.deps`.
+def _deps_test_impl(ctx):
+    env = analysistest.begin(ctx)
+    acts = analysistest.target_actions(env)
+    asserts.equals(env, 2, len(acts))
+    act = acts[0]  # javadoc action
+
+    pathsep = ctx.configuration.host_path_separator
+
+    idx = act.argv.index("-classpath")
+    classpath = act.argv[idx + 1]
+    asserts.equals(
+        env,
+        2,
+        len(classpath.split(pathsep)),
+    )
+
+    return analysistest.end(env)
+
+_deps_test = analysistest.make(_deps_test_impl)
+
+def _deps_test_case(name):
+    java_library(
+        name = name + "_lib",
+        srcs = ["dummy.java"],
+        tags = ["manual"],
+    )
+    java_library(
+        name = name + "_lib2",
+        srcs = ["dummy.java"],
+        tags = ["manual"],
+    )
+    javadoc_library(
+        name = name + "_javadoc",
+        srcs = ["dummy.java"],
+        deps = [
+            ":" + name + "_lib",
+            ":" + name + "_lib2",
+        ],
+        tags = ["manual"],
+    )
+    _deps_test(
+        name = name + "_test",
+        target_under_test = name + "_javadoc",
+    )
 
 # Verify handing of `attr.groups`.
 def _group_test_impl(ctx):
@@ -26,11 +73,20 @@ def _group_test_impl(ctx):
     asserts.equals(env, 2, len(acts))
     act = acts[0]  # javadoc action
 
+    pathsep = ctx.configuration.host_path_separator
+
     idx = act.argv.index("-group")
     asserts.equals(
         env,
-        ["-group", "myheading", "build.bazel.pkg1:build.bazel.pkg2"],
-        act.argv[idx:idx + 3],
+        [
+            "-group",
+            "heading1",
+            pathsep.join(["foo", "bar"]),
+            "-group",
+            "heading2",
+            pathsep.join(["bazel", "blaze"]),
+        ],
+        act.argv[idx:idx + 6],
     )
 
     return analysistest.end(env)
@@ -41,10 +97,43 @@ def _group_test_case(name):
     javadoc_library(
         name = name + "_javadoc",
         srcs = ["dummy.java"],
-        groups = {"myheading": ["build.bazel.pkg1", "build.bazel.pkg2"]},
+        groups = {
+            "heading1": ["foo", "bar"],
+            "heading2": ["bazel", "blaze"],
+        },
         tags = ["manual"],
     )
     _group_test(
+        name = name + "_test",
+        target_under_test = name + "_javadoc",
+    )
+
+# Verify handling of `attr.external_javadoc_links`.
+def _links_test_impl(ctx):
+    env = analysistest.begin(ctx)
+    acts = analysistest.target_actions(env)
+    asserts.equals(env, 2, len(acts))
+    act = acts[0]  # javadoc action
+
+    idx = act.argv.index("-linkoffline")
+    asserts.equals(
+        env,
+        ["-linkoffline", "url1", "url1", "-linkoffline", "url2", "url2"],
+        act.argv[idx:idx + 6],
+    )
+
+    return analysistest.end(env)
+
+_links_test = analysistest.make(_links_test_impl)
+
+def _links_test_case(name):
+    javadoc_library(
+        name = name + "_javadoc",
+        srcs = ["dummy.java"],
+        external_javadoc_links = ["url1", "url2"],
+        tags = ["manual"],
+    )
+    _links_test(
         name = name + "_test",
         target_under_test = name + "_javadoc",
     )
@@ -97,13 +186,17 @@ def _root_packages_test_case(name):
     )
 
 def analysis_test_suite(name):
+    _deps_test_case(name = name + "_dep")
     _group_test_case(name = name + "_group")
+    _links_test_case(name = name + "_links")
     _root_packages_test_case(name = name + "_root_packages")
 
     native.test_suite(
         name = name,
         tests = [
+            ":%s_dep_test" % name,
             ":%s_group_test" % name,
+            ":%s_links_test" % name,
             ":%s_root_packages_test" % name,
-        ]
+        ],
     )
