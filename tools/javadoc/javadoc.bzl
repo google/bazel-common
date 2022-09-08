@@ -54,10 +54,6 @@ def _javadoc_library(ctx):
     # Documentation for the javadoc command
     # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
     if ctx.attr.root_packages:
-        # TODO(b/167433657): Reevaluate the utility of root_packages
-        # 1. Find the first directory under the working directory named '*java'.
-        # 2. Assume all files to document can be found by appending a root_package name
-        #    to that directory, or a subdirectory, replacting dots with slashes.
         args.add_all(ctx.attr.root_packages)
         args.add_joined("-subpackages", ctx.attr.root_packages, join_with = java_pathsep)
     else:
@@ -88,8 +84,11 @@ def _javadoc_library(ctx):
         outputs = [output_dir],
         arguments = [args],
         command = "${JAVA_HOME}/bin/javadoc $1" + (
-            # See TODO(b/167433657) above.
-            ' -sourcepath "$(find * -type d -name \'*java\' -print0 | tr \'\\0\' :)"' if ctx.attr.root_packages else ""
+            # TODO(b/167433657): Reevaluate the utility of root_packages
+            # 1. Find the first directory under the working directory named '*java'.
+            # 2. Assume all files to document can be found by appending a root_package name
+            #    to that directory, or a subdirectory, replacting dots with slashes.
+            r""" -sourcepath "$(find * -type d -name '*java' -print0 | tr '\0' :)" """ if ctx.attr.root_packages else ""
         ),
         env = {"JAVA_HOME": java_home},
     )

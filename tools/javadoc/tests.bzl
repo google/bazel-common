@@ -62,7 +62,7 @@ def _deps_test_case(name):
         tags = ["manual"],
     )
     _deps_test(
-        name = name + "_test",
+        name = name,
         target_under_test = name + "_javadoc",
     )
 
@@ -104,7 +104,7 @@ def _group_test_case(name):
         tags = ["manual"],
     )
     _group_test(
-        name = name + "_test",
+        name = name,
         target_under_test = name + "_javadoc",
     )
 
@@ -134,7 +134,7 @@ def _links_test_case(name):
         tags = ["manual"],
     )
     _links_test(
-        name = name + "_test",
+        name = name,
         target_under_test = name + "_javadoc",
     )
 
@@ -181,22 +181,22 @@ def _root_packages_test_case(name):
         tags = ["manual"],
     )
     _root_packages_test(
-        name = name + "_test",
+        name = name,
         target_under_test = name + "_javadoc",
     )
 
-def analysis_test_suite(name):
-    _deps_test_case(name = name + "_dep")
-    _group_test_case(name = name + "_group")
-    _links_test_case(name = name + "_links")
-    _root_packages_test_case(name = name + "_root_packages")
+def analysis_test_suite(name = "unused"):
+    _deps_test_case(name = "deps_test")
+    _group_test_case(name = "group_test")
+    _links_test_case(name = "links_test")
+    _root_packages_test_case(name = "root_packages_test")
 
     native.test_suite(
         name = name,
         tests = [
-            ":%s_dep_test" % name,
-            ":%s_group_test" % name,
-            ":%s_links_test" % name,
-            ":%s_root_packages_test" % name,
+            ":deps_test",
+            ":group_test",
+            ":links_test",
+            ":root_packages_test",
         ],
     )
