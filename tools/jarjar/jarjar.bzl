@@ -66,12 +66,12 @@ _jarjar_library_attrs.update({
     "_jarjar": attr.label(
         default = Label("//tools/jarjar"),
         executable = True,
-        cfg = "host",
+        cfg = "exec",
     ),
     "_jarjar_runner": attr.label(
         default = Label("//tools/jarjar:jarjar_runner"),
         executable = True,
-        cfg = "host",
+        cfg = "exec",
     ),
     "_jdk": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
