@@ -226,9 +226,9 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "junit",
         artifact_id = "junit",
-        version = "4.12",
+        version = "4.13",
         licenses = ["notice"],
-        sha256 = "59721f0805e223d84b90677887d9ff567dc534d7c502ca903c0c2b17f05c116a",
+        sha256 = "4b8532f63bdc0e0661507f947eb324a954d1dbac631ad19c8aa9a00feed1d863",
     )
 
     maven_import(
