@@ -13,3 +13,6 @@
 # limitations under the License.
 
 # Starlark rules for generating Javadoc
+load(":tests.bzl", "analysis_test_suite")
+
+analysis_test_suite(name = "javadoc_suite")

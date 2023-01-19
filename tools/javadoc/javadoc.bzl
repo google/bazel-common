@@ -19,6 +19,10 @@ def _android_jar(android_api_level):
         return None
     return Label("@androidsdk//:platforms/android-%s/android.jar" % android_api_level)
 
+def _endswith_java(item):
+    if item.path.endswith(".java"):
+        return item.path
+
 def _javadoc_library(ctx):
     transitive_deps = []
     for dep in ctx.attr.deps:
@@ -32,64 +36,74 @@ def _javadoc_library(ctx):
 
     java_home = str(ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home)
 
+    java_pathsep = ctx.configuration.host_path_separator
+
     output_dir = ctx.actions.declare_directory("%s_javadoc" % ctx.attr.name)
 
-    javadoc_command = [
-        java_home + "/bin/javadoc",
-        "-use",
-        "-encoding UTF8",
-        "-classpath",
-        ":".join([jar.path for jar in classpath]),
-        "-notimestamp",
-        "-d %s" % output_dir.path,
-        "-Xdoclint:-missing",
-        "-quiet",
-    ]
+    # javadoc args
+    args = ctx.actions.args()
+    args.use_param_file(param_file_arg = "@%s", use_always = True)
+    args.add("-use")
+    args.add("-encoding", "UTF8")
+    args.add_joined("-classpath", classpath, join_with = java_pathsep)
+    args.add("-notimestamp")
+    args.add("-d", output_dir.path)
+    args.add("-Xdoclint:-missing")
+    args.add("-quiet")
 
     # Documentation for the javadoc command
     # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
     if ctx.attr.root_packages:
-        # TODO(b/167433657): Reevaluate the utility of root_packages
-        # 1. Find the first directory under the working directory named '*java'.
-        # 2. Assume all files to document can be found by appending a root_package name
-        #    to that directory, or a subdirectory, replacting dots with slashes.
-        javadoc_command += [
-            '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
-            " ".join(ctx.attr.root_packages),
-            "-subpackages",
-            ":".join(ctx.attr.root_packages),
-        ]
+        args.add_all(ctx.attr.root_packages)
+        args.add_joined("-subpackages", ctx.attr.root_packages, join_with = java_pathsep)
     else:
         # Document exactly the code in the specified source files.
-        javadoc_command += [f.path for f in ctx.files.srcs]
+        args.add_all(ctx.files.srcs, map_each = _endswith_java)
 
     if ctx.attr.doctitle:
-        javadoc_command.append('-doctitle "%s"' % ctx.attr.doctitle)
+        args.add("-doctitle", ctx.attr.doctitle)
 
-    if ctx.attr.groups:
-        groups = []
-        for k, v in ctx.attr.groups.items():
-            groups.append("-group \"%s\" \"%s\"" % (k, ":".join(v)))
-        javadoc_command.append(" ".join(groups))
+    # Translate `groups` mapping to `-group k ":".join(v)`.
+    for group, packages in sorted(ctx.attr.groups.items()):
+        args.add("-group", group)
+        args.add_joined(packages, join_with = java_pathsep)
 
-    if ctx.attr.exclude_packages:
-        javadoc_command.append("-exclude %s" % ":".join(ctx.attr.exclude_packages))
+    args.add_joined("-exclude", ctx.attr.exclude_packages, join_with = java_pathsep)
 
     for link in ctx.attr.external_javadoc_links:
-        javadoc_command.append("-linkoffline {0} {0}".format(link))
+        args.add_all("-linkoffline", [link, link])
 
     if ctx.attr.bottom_text:
-        javadoc_command.append("-bottom '%s'" % ctx.attr.bottom_text)
-
-    # TODO(ronshapiro): Should we be using a different tool that doesn't include
-    # timestamp info?
-    jar_command = "%s/bin/jar cf %s -C %s ." % (java_home, ctx.outputs.jar.path, output_dir.path)
+        args.add("-bottom", ctx.attr.bottom_text)
 
     srcs = depset(transitive = [src.files for src in ctx.attr.srcs]).to_list()
+
+    # Invoke `javadoc` to generate Javadoc.
     ctx.actions.run_shell(
         inputs = srcs + classpath + ctx.files._jdk,
-        command = "%s && %s" % (" ".join(javadoc_command), jar_command),
-        outputs = [output_dir, ctx.outputs.jar],
+        outputs = [output_dir],
+        arguments = [args],
+        command = "${JAVA_HOME}/bin/javadoc $1" + (
+            # TODO(b/167433657): Reevaluate the utility of root_packages
+            # 1. Find the first directory under the working directory named '*java'.
+            # 2. Assume all files to document can be found by appending a root_package name
+            #    to that directory, or a subdirectory, replacting dots with slashes.
+            r""" -sourcepath "$(find * -type d -name '*java' -print0 | tr '\0' :)" """ if ctx.attr.root_packages else ""
+        ),
+        env = {"JAVA_HOME": java_home},
+    )
+
+    # Invoke `jar` to archive the result.
+    jar_args = ctx.actions.args()
+    jar_args.add("cf", ctx.outputs.jar)
+    jar_args.add("-C", output_dir.path)
+    jar_args.add(".")
+    ctx.actions.run_shell(
+        inputs = [output_dir] + ctx.files._jdk,
+        outputs = [ctx.outputs.jar],
+        arguments = [jar_args],
+        command = '${JAVA_HOME}/bin/jar "$@"',
+        env = {"JAVA_HOME": java_home},
     )
 
 javadoc_library = rule(
