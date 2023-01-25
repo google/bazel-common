@@ -34,17 +34,19 @@ def _javadoc_library(ctx):
 
     output_dir = ctx.actions.declare_directory("%s_javadoc" % ctx.attr.name)
 
-    javadoc_command = [
-        java_home + "/bin/javadoc",
-        "-use",
-        "-encoding UTF8",
-        "-classpath",
-        ":".join([jar.path for jar in classpath]),
-        "-notimestamp",
-        "-d %s" % output_dir.path,
-        "-Xdoclint:-missing",
-        "-quiet",
-    ]
+    javadoc_arguments = ctx.actions.args()
+    javadoc_arguments.use_param_file("@%s", use_always = True)
+    javadoc_arguments.set_param_file_format("multiline")
+
+    javadoc_command = java_home + "/bin/javadoc"
+
+    javadoc_arguments.add("-use")
+    javadoc_arguments.add("-encoding", "UTF8")
+    javadoc_arguments.add_joined("-classpath", classpath, join_with = ":")
+    javadoc_arguments.add("-notimestamp")
+    javadoc_arguments.add("-d", output_dir.path)
+    javadoc_arguments.add("-Xdoclint:-missing")
+    javadoc_arguments.add("-quiet")
 
     # Documentation for the javadoc command
     # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
@@ -52,34 +54,32 @@ def _javadoc_library(ctx):
         # TODO(b/167433657): Reevaluate the utility of root_packages
         # 1. Find the first directory under the working directory named '*java'.
         # 2. Assume all files to document can be found by appending a root_package name
-        #    to that directory, or a subdirectory, replacting dots with slashes.
-        javadoc_command += [
-            '-sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :)',
-            " ".join(ctx.attr.root_packages),
-            "-subpackages",
-            ":".join(ctx.attr.root_packages),
-        ]
+        #    to that directory, or a subdirectory, replacing dots with slashes.
+        javadoc_command += ' -sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :) '
+        javadoc_arguments.add_all(ctx.attr.root_packages)
+        javadoc_arguments.add_joined("-subpackages", ctx.attr.root_packages, join_with = ":")
     else:
         # Document exactly the code in the specified source files.
-        javadoc_command += [f.path for f in ctx.files.srcs]
+        javadoc_arguments.add_all(ctx.files.srcs)
 
     if ctx.attr.doctitle:
-        javadoc_command.append('-doctitle "%s"' % ctx.attr.doctitle)
+        javadoc_arguments.add("-doctitle", ctx.attr.doctitle, format = '"%s"')
 
     if ctx.attr.groups:
         groups = []
         for k, v in ctx.attr.groups.items():
             groups.append("-group \"%s\" \"%s\"" % (k, ":".join(v)))
-        javadoc_command.append(" ".join(groups))
+        javadoc_arguments.add_all(groups)
 
-    if ctx.attr.exclude_packages:
-        javadoc_command.append("-exclude %s" % ":".join(ctx.attr.exclude_packages))
+    javadoc_arguments.add_joined("-exclude", ctx.attr.exclude_packages, join_with = ":")
 
-    for link in ctx.attr.external_javadoc_links:
-        javadoc_command.append("-linkoffline {0} {0}".format(link))
+    javadoc_arguments.add_all(
+        ctx.attr.external_javadoc_links,
+        map_each = _format_linkoffline_value,
+    )
 
     if ctx.attr.bottom_text:
-        javadoc_command.append("-bottom '%s'" % ctx.attr.bottom_text)
+        javadoc_arguments.add("-bottom", ctx.attr.bottom_text, format = '"%s"')
 
     # TODO(ronshapiro): Should we be using a different tool that doesn't include
     # timestamp info?
@@ -88,9 +88,13 @@ def _javadoc_library(ctx):
     srcs = depset(transitive = [src.files for src in ctx.attr.srcs]).to_list()
     ctx.actions.run_shell(
         inputs = srcs + classpath + ctx.files._jdk,
-        command = "%s && %s" % (" ".join(javadoc_command), jar_command),
+        command = "%s $@ && %s" % (javadoc_command, jar_command),
+        arguments = [javadoc_arguments],
         outputs = [output_dir, ctx.outputs.jar],
     )
+
+def _format_linkoffline_value(link):
+    return "-linkoffline {0} {0}".format(link)
 
 javadoc_library = rule(
     attrs = {
