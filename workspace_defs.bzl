@@ -102,20 +102,21 @@ def google_common_workspace_rules():
         sha256 = "4a8058994e3c9ef8711f8aebef1276ff46f751fdd81cebd718a327fbaa19470c",
     )
 
+    GUAVA_VERSION = "31.1-jre"
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava",
-        version = "31.0.1-jre",
+        version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "d5be94d65e87bd219fb3193ad1517baa55a3b88fc91d21cf735826ab5af087b9",
+        sha256 = "a42edc9cab792e39fe39bb94f3fca655ed157ff87a8af78e1d6ba5b07c4a00ab",
     )
 
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava-testlib",
-        version = "31.0.1-jre",
+        version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "22b08178b92c540553be9231d74d682cf7d65bce244903e64aca1e8715ec5b87",
+        sha256 = "aadc71b10d5c3ac474dd16be84cfb18d257e584d1e0a59f8cab64ef4376226ce",
     )
 
     maven_import(
@@ -226,9 +227,9 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "junit",
         artifact_id = "junit",
-        version = "4.13",
+        version = "4.13.2",
         licenses = ["notice"],
-        sha256 = "4b8532f63bdc0e0661507f947eb324a954d1dbac631ad19c8aa9a00feed1d863",
+        sha256 = "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
     )
 
     maven_import(
@@ -400,14 +401,14 @@ def google_common_workspace_rules():
         sha256 = "7c2cd62c7e00af8346d476f478fef55122230a5251ffc9c22930f5c27e49325f",
     )
 
-    ASM_VERSION = "9.2"
+    ASM_VERSION = "9.4"
 
     maven_import(
         group_id = "org.ow2.asm",
         artifact_id = "asm",
         version = ASM_VERSION,
         licenses = ["notice"],
-        sha256 = "b9d4fe4d71938df38839f0eca42aaaa64cf8b313d678da036f0cb3ca199b47f5",
+        sha256 = "39d0e2b3dc45af65a09b097945750a94a126e052e124f93468443a1d0e15f381",
     )
 
     maven_import(
@@ -415,7 +416,7 @@ def google_common_workspace_rules():
         artifact_id = "asm-tree",
         version = ASM_VERSION,
         licenses = ["notice"],
-        sha256 = "aabf9bd23091a4ebfc109c1f3ee7cf3e4b89f6ba2d3f51c5243f16b3cffae011",
+        sha256 = "c42d479cf24566a21eb20af7eeaeef4e86bdb4a886306cf72f483b65e75b2acf",
     )
 
     maven_import(
@@ -423,7 +424,7 @@ def google_common_workspace_rules():
         artifact_id = "asm-commons",
         version = ASM_VERSION,
         licenses = ["notice"],
-        sha256 = "be4ce53138a238bb522cd781cf91f3ba5ce2f6ca93ec62d46a162a127225e0a6",
+        sha256 = "0c128a9ec3f33c98959272f6d16cf14247b508f58951574bcdbd2b56d6326364",
     )
 
     maven_import(
@@ -551,9 +552,9 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "org.apache.bcel",
         artifact_id = "bcel",
-        version = "6.1",
+        version = "6.7.0",
         licenses = ["notice"],
-        sha256 = "c35697e7ad4bab018156cc3b75e8742f31fd8cad5bb9762f25bbf669ce01abce",
+        sha256 = "e4a3c54b422efa954c8549caaea993655e59911759206702885e78e6b7fe9c84",
     )
 
     skylib_version = "0.9.0"
