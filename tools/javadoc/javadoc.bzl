@@ -23,7 +23,7 @@ def _javadoc_library(ctx):
     transitive_deps = []
     for dep in ctx.attr.deps:
         if JavaInfo in dep:
-            transitive_deps.append(dep[JavaInfo].transitive_deps)
+            transitive_deps.append(dep[JavaInfo].transitive_compile_time_jars)
 
     if ctx.attr._android_jar:
         transitive_deps.append(ctx.attr._android_jar.files)
