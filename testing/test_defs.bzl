@@ -162,6 +162,7 @@ def _gen_java_tests(
             srcs = supporting_lib_files,
             javacopts = _concat(javacopts, lib_javacopts),
             plugins = _concat(plugins, lib_plugins),
+            tags = tags,
             deps = _concat(deps, lib_deps),
         )
 
