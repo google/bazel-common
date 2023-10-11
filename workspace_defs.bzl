@@ -304,58 +304,59 @@ def google_common_workspace_rules():
         sha256 = "4c7517e848a71b36d069d12bb3bf46a70fd4cda3105d822b0ed2e19c00b69291",
     )
 
+    GRPC_VERSION = "1.58.0"
     maven_import(
         group_id = "io.grpc",
         artifact_id = "grpc-core",
-        version = "1.2.0",
+        version = GRPC_VERSION,
         licenses = ["notice"],
-        sha256 = "4434ffd957dc5ca752d8a8e6e71fa6d598a05bb02b4fc08e48e53d878a004ee5",
+        sha256 = "93c8880824ee124b91c31f0f1052f86372719d6ece6e4be1c591b7d6dc639f5f",
     )
 
     maven_import(
         group_id = "io.grpc",
         artifact_id = "grpc-netty",
-        version = "1.2.0",
+        version = GRPC_VERSION,
         licenses = ["notice"],
-        sha256 = "c9379d17fdec2eae203679495a695b523e01f2541169d28f5b780de298aa17c8",
+        sha256 = "31ffea0cf52351657c34cd476050cea41f61cb2d15863d3424fe457e7d7cac0a",
     )
 
     maven_import(
         group_id = "io.grpc",
         artifact_id = "grpc-context",
-        version = "1.2.0",
+        version = GRPC_VERSION,
         licenses = ["notice"],
-        sha256 = "4f1fed2735f011ba6f8ab1faa003ef67bade9e773f5a5ec4b69eb2a124500ca6",
+        sha256 = "3a7626d13084958bcdeab59412e4ec873f07c8315ff2510d363856fac7fadc51",
     )
 
     maven_import(
         group_id = "io.grpc",
         artifact_id = "grpc-protobuf",
-        version = "1.2.0",
+        version = GRPC_VERSION,
         licenses = ["notice"],
-        sha256 = "19797fc26192dfcc4570ec26c12ba84583842b0ccbcd7d54982f922d33209383",
+        sha256 = "77f16774992d5802cfeef7a9d00b3a3f9a82d324ce1cab7f84c6f1a0df5a39c3",
     )
 
     maven_import(
         group_id = "io.grpc",
         artifact_id = "grpc-stub",
-        version = "1.2.0",
+        version = GRPC_VERSION,
         licenses = ["notice"],
-        sha256 = "bf3eae95175ed36eee086d5fb320583fc492b144bd733d6e19515c7568ee2e2b",
+        sha256 = "1af7bbc56be7b1131c1322ba183126dd050306f91128193f4b9bd5ea71ac8c88",
     )
 
     maven_import(
         group_id = "io.grpc",
         artifact_id = "grpc-all",
-        version = "1.2.0",
+        version = GRPC_VERSION,
         licenses = ["notice"],
-        sha256 = "6b697a05b203216b853394d276c429da243cdf50f519688b33f4edbbf5f126d7",
+        sha256 = "772c347a698c20d6033537b740de01d15610fc49a48878c778965b8e10d39898",
     )
 
     maven_import(
         group_id = "com.google.protobuf",
         artifact_id = "protobuf-java",
-        version = "3.7.0",
+        version = "3.24.4",
         licenses = ["notice"],
         sha256 = "dc7f93e3a3dc2c11be5ba9672af3e26410f0a3289312dbf2260d4d8a0c711a51",
     )
@@ -363,9 +364,9 @@ def google_common_workspace_rules():
     for protobuf_repo in ("com_google_protobuf", "com_google_protobuf_java"):
         http_archive(
             name = protobuf_repo,
-            sha256 = "6b6bf5cd8d0cca442745c4c3c9f527c83ad6ef35a405f64db5215889ac779b42",
-            strip_prefix = "protobuf-3.19.3",
-            urls = ["https://github.com/protocolbuffers/protobuf/archive/v3.19.3.zip"],
+            sha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            strip_prefix = "protobuf-24.4",
+            urls = ["https://github.com/protocolbuffers/protobuf/archive/v24.4.zip"],
         )
 
     CHECKER_FRAMEWORK_VERSION = "2.5.3"
