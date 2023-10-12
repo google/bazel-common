@@ -102,13 +102,13 @@ def google_common_workspace_rules():
         sha256 = "4a8058994e3c9ef8711f8aebef1276ff46f751fdd81cebd718a327fbaa19470c",
     )
 
-    GUAVA_VERSION = "32.1.1-jre"
+    GUAVA_VERSION = "32.1.3-jre"
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava",
         version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "91fbba37f1c8b251cf9ea9e7d3a369eb79eb1e6a5df1d4bbf483dd0380740281",
+        sha256 = "6d4e2b5a118aab62e6e5e29d185a0224eed82c85c40ac3d33cf04a270c3b3744",
     )
 
     maven_import(
@@ -116,7 +116,7 @@ def google_common_workspace_rules():
         artifact_id = "guava-testlib",
         version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "77e6f9700bc63f18b3da24d2701f41b9c9e1cc4a57346f21ced66cb0066da235",
+        sha256 = "58aca6a4f287ae73e5fd610212bdcdc78d677c4475695009ba1656349dad9079",
     )
 
     maven_import(
@@ -146,66 +146,68 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "com.google.googlejavaformat",
         artifact_id = "google-java-format",
-        version = "1.5",
+        version = "1.18.1",
         licenses = ["notice"],
-        sha256 = "aa19ad7850fb85178aa22f2fddb163b84d6ce4d0035872f30d4408195ca1144e",
+        sha256 = "ebbe63a3dbc0dc2efafaad1df6408f0b510239ccc5e4595bf499ba479e0ae4a9",
     )
 
     maven_import(
         group_id = "com.google.auto",
         artifact_id = "auto-common",
-        version = "1.1.2",
+        version = "1.2.2",
         licenses = ["notice"],
-        sha256 = "bfe85e517250fc208afd2b031a2ba80f26529c92536484841b4a60661ca1e3f5",
+        sha256 = "f50b1ce8a41fad31a8a819c052f8ffa362ea0a3dbe9ef8f7c7dc9a36d4738a59",
     )
 
     maven_import(
         group_id = "com.google.auto.factory",
         artifact_id = "auto-factory",
-        version = "1.0",
+        version = "1.0.1",
         licenses = ["notice"],
-        sha256 = "2ae46041b49eba3909163d345ac8ad984a9d7da5fa5312cfe3ef872854e8414f",
+        sha256 = "d59fb7ada5962a480abf0b81d4d2a14a2952f17c026732359af8b585e531c16c",
     )
 
+    AUTO_SERVICE_VERSION = "1.1.1"
     maven_import(
         group_id = "com.google.auto.service",
         artifact_id = "auto-service",
-        version = "1.0",
+        version = AUTO_SERVICE_VERSION,
         licenses = ["notice"],
-        sha256 = "4ae44dd05b49a1109a463c0d2aaf920c24f76d1e996bb89f29481c4ff75ec526",
+        sha256 = "1f48f451503e623daba7d9ed368cca0f81e1e3815653a4560113e12c0129ebd5",
     )
 
     maven_import(
         group_id = "com.google.auto.service",
         artifact_id = "auto-service-annotations",
-        version = "1.0",
+        version = AUTO_SERVICE_VERSION,
         licenses = ["notice"],
-        sha256 = "44752893119fdaf01b4c5ee74e46e5dab86f2dcda18114c562f877355c6ed26e",
+        sha256 = "16a76dd00a2650568447f5d6e3a9e2c809d9a42367d56b45215cfb89731f4d24",
     )
 
+    AUTO_VALUE_VERSION = "1.10.4"
     maven_import(
         group_id = "com.google.auto.value",
         artifact_id = "auto-value",
-        version = "1.6",
+        version = AUTO_VALUE_VERSION,
         licenses = ["notice"],
-        sha256 = "fd811b92bb59ae8a4cf7eb9dedd208300f4ea2b6275d726e4df52d8334aaae9d",
+        sha256 = "f3c438d1f82904bbcb452084d488b660f3c7488e9274c3a58f049e121632d434",
     )
 
     maven_import(
         group_id = "com.google.auto.value",
         artifact_id = "auto-value-annotations",
-        version = "1.6",
+        version = AUTO_VALUE_VERSION,
         licenses = ["notice"],
-        sha256 = "d095936c432f2afc671beaab67433e7cef50bba4a861b77b9c46561b801fae69",
+        sha256 = "e1c45e6beadaef9797cb0d9afd5a45621ad061cd8632012f85582853a3887825",
     )
 
-    ERROR_PRONE_VERSION = "2.3.2"
+    ERROR_PRONE_VERSION = "2.22.0"
     maven_import(
         group_id = "com.google.errorprone",
         artifact_id = "error_prone_annotation",
         version = ERROR_PRONE_VERSION,
         licenses = ["notice"],
-        sha256 = "af5d197f1a89be14eba9d2e5e9b777ce65b3a29d90ee78ff56e20a6dc3c64c26",
+        sha256 = "554c42449c9920ea1f6baec1d1b8aaac404a88be653f7cb441ee059316f8a1d1",
     )
 
     maven_import(
@@ -213,7 +215,7 @@ def google_common_workspace_rules():
         artifact_id = "error_prone_annotations",
         version = ERROR_PRONE_VERSION,
         licenses = ["notice"],
-        sha256 = "357cd6cfb067c969226c442451502aee13800a24e950fdfde77bcdb4565a668d",
+        sha256 = "82a027b86541f58d1f9ee020cdf6bebe82acc7a267d3c53a2ea5cd6335932bbd",
     )
 
     maven_import(
@@ -221,7 +223,7 @@ def google_common_workspace_rules():
         artifact_id = "error_prone_check_api",
         version = ERROR_PRONE_VERSION,
         licenses = ["notice"],
-        sha256 = "b63b7b79b8dd12f8a171f1b65ede614a36565fc9d954601db2f24d2d33a4db46",
+        sha256 = "1717bbf65757b8e1a83f3b0aa78c5ac25a6493008bc730091d404cf798fc0639",
     )
 
     maven_import(
@@ -235,25 +237,26 @@ def google_common_workspace_rules():
     maven_import(
         group_id = "com.google.testing.compile",
         artifact_id = "compile-testing",
-        version = "0.18",
+        version = "0.21.0",
         licenses = ["notice"],
-        sha256 = "92cfbee5ad356a403d36688ab7bae74be65db9a117478ace34ac3ab4d1f9feb9",
+        sha256 = "da42c0b350c0e5717df91a7e554ee5acbf07f4b87d4d2240589521070b4bce72",
     )
 
+    BYTE_BUDDY_VERSION = "1.14.9"
     maven_import(
         group_id = "net.bytebuddy",
         artifact_id = "byte-buddy",
-        version = "1.9.10",
+        version = BYTE_BUDDY_VERSION,
         licenses = ["notice"],
-        sha256 = "2936debc4d7b6c534848d361412e2d0f8bd06f7f27a6f4e728a20e97648d2bf3",
+        sha256 = "377352e253282bf86f731ac90ed88348e8f40a63ce033c00a85982de7e790e6f",
     )
 
     maven_import(
         group_id = "net.bytebuddy",
         artifact_id = "byte-buddy-agent",
-        version = "1.9.10",
+        version = BYTE_BUDDY_VERSION,
         licenses = ["notice"],
-        sha256 = "8ed739d29132103250d307d2e8e3c95f07588ef0543ab11d2881d00768a5e182",
+        sha256 = "11ed107d4b78e55f8c3d34250494375081a29bc125a1f5c56db582ccdd48835f",
     )
 
     maven_import(
@@ -280,20 +283,21 @@ def google_common_workspace_rules():
         sha256 = "c5694b55d92527479382f254199b3c6b1d8780f652ad61e9ca59919887f491a8",
     )
 
+    TRUTH_VERSION = "1.1.5"
     maven_import(
         group_id = "com.google.truth",
         artifact_id = "truth",
-        version = "1.1",
+        version = TRUTH_VERSION,
         licenses = ["notice"],
-        sha256 = "42ae0c8871398c3077eb782cb556490e2a0ce292fd73a9be81f0cc15c013991e",
+        sha256 = "7f6d50d6f43a102942ef2c5a05f37a84f77788bb448cf33cceebf86d34e575c0",
     )
 
     maven_import(
         group_id = "com.google.truth.extensions",
         artifact_id = "truth-java8-extension",
-        version = "1.1",
+        version = TRUTH_VERSION,
         licenses = ["notice"],
-        sha256 = "b1d160ca17b9d105f985d24cd255684ed4b59ee016f8dcbcd541dae558a57b1e",
+        sha256 = "9e3c437ef76c0028d1c87d9f81d599301459333cfb3b50e5bf815ed712745140",
     )
 
     maven_import(
@@ -403,7 +407,6 @@ def google_common_workspace_rules():
     )
 
     ASM_VERSION = "9.4"
-
     maven_import(
         group_id = "org.ow2.asm",
         artifact_id = "asm",
