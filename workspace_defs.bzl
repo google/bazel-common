@@ -368,7 +368,7 @@ def google_common_workspace_rules():
     for protobuf_repo in ("com_google_protobuf", "com_google_protobuf_java"):
         http_archive(
             name = protobuf_repo,
-            sha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            sha256 = "1b086ae1a01817482eed5bce04b631b7e3b38e43ade4ea32a8419b02b3f84f56",
             strip_prefix = "protobuf-24.4",
             urls = ["https://github.com/protocolbuffers/protobuf/archive/v24.4.zip"],
         )
