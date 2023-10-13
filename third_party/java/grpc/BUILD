@@ -24,6 +24,11 @@ java_library(
 )
 
 java_library(
+    name = "api",
+    exports = ["@io_grpc_grpc_api//jar"],
+)
+
+java_library(
     name = "core",
     exports = ["@io_grpc_grpc_core//jar"],
 )
@@ -35,7 +40,7 @@ java_library(
 
 java_library(
     name = "context",
-    exports = ["@io_grpc_grpc_context//jar"],
+    exports = [":api"],
 )
 
 java_library(

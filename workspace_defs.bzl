@@ -311,6 +311,14 @@ def google_common_workspace_rules():
     GRPC_VERSION = "1.58.0"
     maven_import(
         group_id = "io.grpc",
+        artifact_id = "grpc-api",
+        version = GRPC_VERSION,
+        licenses = ["notice"],
+        sha256 = "d688d25f4f533979df2fcd0881e1e30c2928e5b654ff09bf1440923282b0d945",
+    )
+
+    maven_import(
+        group_id = "io.grpc",
         artifact_id = "grpc-core",
         version = GRPC_VERSION,
         licenses = ["notice"],
