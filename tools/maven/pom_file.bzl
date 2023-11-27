@@ -147,6 +147,15 @@ CLASSIFIER_DEP_BLOCK = """
 </dependency>
 """.strip()
 
+DEP_PKG_BLOCK = """
+<dependency>
+  <groupId>{0}</groupId>
+  <artifactId>{1}</artifactId>
+  <packaging>{2}</packaging>
+  <version>{3}</version>
+</dependency>
+""".strip()
+
 def _pom_file(ctx):
     mvn_deps = depset(
         [],
@@ -160,6 +169,8 @@ def _pom_file(ctx):
             continue
         if len(parts) == 3:
             template = DEP_BLOCK
+        elif len(parts) == 4:
+            template = DEP_PKG_BLOCK
         elif len(parts) == 5:
             template = CLASSIFIER_DEP_BLOCK
         else:
