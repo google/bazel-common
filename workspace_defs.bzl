@@ -102,13 +102,13 @@ def google_common_workspace_rules():
         sha256 = "4a8058994e3c9ef8711f8aebef1276ff46f751fdd81cebd718a327fbaa19470c",
     )
 
-    GUAVA_VERSION = "32.1.3-jre"
+    GUAVA_VERSION = "33.0.0-jre"
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava",
         version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "6d4e2b5a118aab62e6e5e29d185a0224eed82c85c40ac3d33cf04a270c3b3744",
+        sha256 = "f4d85c3e4d411694337cb873abea09b242b664bb013320be6105327c45991537",
     )
 
     maven_import(
@@ -116,7 +116,7 @@ def google_common_workspace_rules():
         artifact_id = "guava-testlib",
         version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "58aca6a4f287ae73e5fd610212bdcdc78d677c4475695009ba1656349dad9079",
+        sha256 = "79626019fed282b70eef91f645a9febd5f6b9f7be46484b6b328313a481f05f0",
     )
 
     maven_import(
@@ -283,21 +283,22 @@ def google_common_workspace_rules():
         sha256 = "c5694b55d92527479382f254199b3c6b1d8780f652ad61e9ca59919887f491a8",
     )
 
-    TRUTH_VERSION = "1.1.5"
+    TRUTH_VERSION = "1.3.0"
     maven_import(
         group_id = "com.google.truth",
         artifact_id = "truth",
         version = TRUTH_VERSION,
         licenses = ["notice"],
-        sha256 = "7f6d50d6f43a102942ef2c5a05f37a84f77788bb448cf33cceebf86d34e575c0",
+        sha256 = "5e74b4879d1f824978703d7afb99327a37ed75b4fd33198ac00dfe8104afbec9",
     )
 
+    # TODO: b/113905249 - Remove this: All its contents have moved into `truth`.
     maven_import(
         group_id = "com.google.truth.extensions",
         artifact_id = "truth-java8-extension",
         version = TRUTH_VERSION,
         licenses = ["notice"],
-        sha256 = "9e3c437ef76c0028d1c87d9f81d599301459333cfb3b50e5bf815ed712745140",
+        sha256 = "7b25e309a9232e1230fa30a4db9758c8bbee937664ba2ba1ec106b6fcdb3d8ec",
     )
 
     maven_import(
