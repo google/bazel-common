@@ -14,6 +14,8 @@
 """Skylark rules for jarjar. See https://github.com/pantsbuild/jarjar
 """
 
+load("@rules_java//java:defs.bzl", "java_common")
+
 def _jarjar_library(ctx):
     ctx.actions.write(
         output = ctx.outputs._rules_file,

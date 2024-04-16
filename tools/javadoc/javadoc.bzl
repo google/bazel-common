@@ -14,6 +14,8 @@
 
 """See javadoc_library."""
 
+load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
+
 def _android_jar(android_api_level):
     if android_api_level == -1:
         return None
