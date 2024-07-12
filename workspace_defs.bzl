@@ -283,13 +283,13 @@ def google_common_workspace_rules():
         sha256 = "c5694b55d92527479382f254199b3c6b1d8780f652ad61e9ca59919887f491a8",
     )
 
-    TRUTH_VERSION = "1.4.3"
+    TRUTH_VERSION = "1.4.4"
     maven_import(
         group_id = "com.google.truth",
         artifact_id = "truth",
         version = TRUTH_VERSION,
         licenses = ["notice"],
-        sha256 = "403c6f2b8f87011e729368d0230358ea492ca64b265f010040e37b831acf17b1",
+        sha256 = "52c86cddadc31bc8457c1e15689fc6b75e2e97ce2a83d8b54b795d556d489f8c",
     )
 
     # TODO: b/113905249 - Remove this: All its contents have moved into `truth`.
@@ -298,7 +298,7 @@ def google_common_workspace_rules():
         artifact_id = "truth-java8-extension",
         version = TRUTH_VERSION,
         licenses = ["notice"],
-        sha256 = "e86f7e5874690c39840bc64b6825413567233a4488fa3cc32af1e20cc8cf973a",
+        sha256 = "fc06f188c2c99991b010c986010b62109dae61f96ead46234642c294a09b70ae",
     )
 
     maven_import(
