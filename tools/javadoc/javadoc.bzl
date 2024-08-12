@@ -19,6 +19,7 @@ load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
 def _android_jar(android_api_level):
     if android_api_level == -1:
         return None
+
     return Label("@androidsdk//:platforms/android-%s/android.jar" % android_api_level)
 
 def _javadoc_library(ctx):
@@ -115,9 +116,9 @@ be the java_library/android_library target(s) for the same sources.
             default = "",
             doc = "Title for generated index.html. See javadoc -doctitle.",
         ),
-       "groups": attr.string_list_dict(
-          doc = "Groups specified packages together in overview page. See javadoc -groups.",
-       ),
+        "groups": attr.string_list_dict(
+            doc = "Groups specified packages together in overview page. See javadoc -groups.",
+        ),
         "root_packages": attr.string_list(
             doc = """
 Java packages to include in generated Javadoc. Any subpackages not listed in
