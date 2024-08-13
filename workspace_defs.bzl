@@ -371,7 +371,7 @@ def google_common_workspace_rules():
         artifact_id = "protobuf-java",
         version = "3.24.4",
         licenses = ["notice"],
-        sha256 = "dc7f93e3a3dc2c11be5ba9672af3e26410f0a3289312dbf2260d4d8a0c711a51",
+        sha256 = "e5655522be1aa5cc1f2f092aa036b0445157f294928eedf1332ac938c7b69686",
     )
 
     for protobuf_repo in ("com_google_protobuf", "com_google_protobuf_java"):
@@ -413,6 +413,14 @@ def google_common_workspace_rules():
         version = CHECKER_FRAMEWORK_VERSION,
         licenses = ["notice"],
         sha256 = "7c2cd62c7e00af8346d476f478fef55122230a5251ffc9c22930f5c27e49325f",
+    )
+
+    maven_import(
+        group_id = "org.jspecify",
+        artifact_id = "jspecify",
+        version = "1.0.0",
+        licenses = ["notice"],
+        sha256 = "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab",
     )
 
     ASM_VERSION = "9.6"

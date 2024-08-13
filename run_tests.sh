@@ -2,6 +2,7 @@
 #
 # Runs all tests, and tests that all libraries build without errors.
 
+# TODO(cpovirk): Fix this, which started producing an empty list of libraries at some point!
 libraries=""
 for library in $(bazel query --output=label_kind //... | \
       grep -v "//tools/" | \
@@ -33,6 +34,6 @@ echo "class BuildTest {}" > "${DIR}"/BuildTest.java
 
 trap "rm -rf ${DIR}/" EXIT
 
-bazel build //build_test
+bazelisk build //build_test //third_party/...
 
-bazel test //tools/...
+bazelisk test //tools/...
