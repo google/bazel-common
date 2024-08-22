@@ -15,12 +15,48 @@
 """See javadoc_library."""
 
 load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
+load("@bazel_skylib//lib:collections.bzl", "collections")
 
 def _android_jar(android_api_level):
     if android_api_level == -1:
         return None
 
     return Label("@androidsdk//:platforms/android-%s/android.jar" % android_api_level)
+
+def _get_root_directories(root_packages, srcs):
+    """
+    Returns the list of root directories for the given root packages.
+
+    To accomplish this we get all the directories of the srcs and look for the root package paths in
+    those directory paths. If there's a match we add the parent directory of that match. For
+    example, if the root package is "com.google.foo" and the srcs are "java/com/google/foo/Bar.java"
+    and "java/com/google/foo/Bar.java", we would return "java/".
+
+    Args:
+        root_packages: The list of root packages to look for (ex. "com.google.foo").
+        srcs: The list of sources to look for the root packages in.
+
+    Returns:
+        The list of root directories that contain the root packages.
+    """
+
+    # Get the parent directories of all the java files and any tree artifact directories.
+    java_files = [f for f in srcs if f.extension == "java"]
+    directories = collections.uniq(
+        [f.dirname + "/" for f in java_files] + [f.path + "/" for f in srcs if f.is_directory],
+    )
+    root_package_subpaths = [package.replace(".", "/") + "/" for package in root_packages]
+
+    root_directories = []
+    for d in directories:
+        for package_subpath in root_package_subpaths:
+            # Find the right-most subpath that contains the root package subpath. We'll use its
+            # parent directory as a root.
+            idx = d.rfind(package_subpath)
+            if idx >= 0:
+                root_directories.append(d[:idx])
+
+    return collections.uniq(root_directories)
 
 def _javadoc_library(ctx):
     transitive_deps = []
@@ -54,11 +90,11 @@ def _javadoc_library(ctx):
     # Documentation for the javadoc command
     # https://docs.oracle.com/javase/9/javadoc/javadoc-command.htm
     if ctx.attr.root_packages:
-        # TODO(b/167433657): Reevaluate the utility of root_packages
-        # 1. Find the first directory under the working directory named '*java'.
-        # 2. Assume all files to document can be found by appending a root_package name
-        #    to that directory, or a subdirectory, replacing dots with slashes.
-        javadoc_command += ' -sourcepath $(find * -type d -name "*java" -print0 | tr "\\0" :) '
+        javadoc_arguments.add_joined(
+            "-sourcepath",
+            _get_root_directories(ctx.attr.root_packages, ctx.files.srcs),
+            join_with = ":",
+        )
         javadoc_arguments.add_all(ctx.attr.root_packages)
         javadoc_arguments.add_joined("-subpackages", ctx.attr.root_packages, join_with = ":")
     else:
