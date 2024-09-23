@@ -102,13 +102,13 @@ def google_common_workspace_rules():
         sha256 = "4a8058994e3c9ef8711f8aebef1276ff46f751fdd81cebd718a327fbaa19470c",
     )
 
-    GUAVA_VERSION = "33.0.0-jre"
+    GUAVA_VERSION = "33.3.1-jre"
     maven_import(
         group_id = "com.google.guava",
         artifact_id = "guava",
         version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "f4d85c3e4d411694337cb873abea09b242b664bb013320be6105327c45991537",
+        sha256 = "4bf0e2c5af8e4525c96e8fde17a4f7307f97f8478f11c4c8e35a0e3298ae4e90",
     )
 
     maven_import(
@@ -116,7 +116,7 @@ def google_common_workspace_rules():
         artifact_id = "guava-testlib",
         version = GUAVA_VERSION,
         licenses = ["notice"],
-        sha256 = "79626019fed282b70eef91f645a9febd5f6b9f7be46484b6b328313a481f05f0",
+        sha256 = "8fde37b8ac7c19b826c216df2af3d711df4945bfdb68b3f1e6a1c3f4a527835c",
     )
 
     maven_import(
