@@ -2,37 +2,25 @@
 #
 # Runs all tests, and tests that all libraries build without errors.
 
-# TODO(cpovirk): Fix this, which started producing an empty list of libraries at some point!
-libraries=""
-for library in $(bazel query --output=label_kind //... | \
-      grep -v "//tools/" | \
-      grep _library | \
-      awk '{print $3}'); do
-  if [[ -z "${libraries}" ]]; then
-    libraries="        \"${library}\","
-  else
-    printf -v libraries '%s\n        "%s",' "${libraries}" "${library}"
-  fi
-done
+readarray -t libraries < <(bazelisk query 'kind(_library, //third_party/...)')
 
 readonly DIR=build_test
 
 mkdir "${DIR}"
+trap "rm -r ${DIR}/" EXIT
 
 cat <<BUILD_TEST >> "${DIR}"/BUILD
 java_library(
     name = "build_test",
+    testonly = True,
     srcs = ["BuildTest.java"],
     deps = [
-${libraries}
+$(printf '        "%s",\n' "${libraries[@]}")
     ],
-    testonly = 1,
 )
 BUILD_TEST
 
 echo "class BuildTest {}" > "${DIR}"/BuildTest.java
-
-trap "rm -rf ${DIR}/" EXIT
 
 bazelisk build //build_test //third_party/...
 
