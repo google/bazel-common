@@ -21,7 +21,12 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "compile_testing",
     testonly = 1,
-    exports = ["@com_google_testing_compile_compile_testing//jar"],
+    add_exports = [
+        "jdk.compiler/com.sun.tools.javac.api",
+        "jdk.compiler/com.sun.tools.javac.main",
+        "jdk.compiler/com.sun.tools.javac.util",
+    ],
+    exports = ["@maven//:com_google_testing_compile_compile_testing"],
     runtime_deps = [
         "//third_party/java/auto:value",
         "//third_party/java/error_prone:annotations",
@@ -29,6 +34,5 @@ java_library(
         "//third_party/java/jsr305_annotations",
         "//third_party/java/junit",
         "//third_party/java/truth",
-        "@local_jdk//:lib/tools.jar",
     ],
 )

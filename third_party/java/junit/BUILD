@@ -21,6 +21,6 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "junit",
     testonly = 1,
-    exports = ["@junit_junit//jar"],
+    exports = ["@maven//:junit_junit"],
     runtime_deps = ["//third_party/java/hamcrest"],
 )

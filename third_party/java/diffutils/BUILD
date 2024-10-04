@@ -20,7 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "diffutils",
-    exports = [
-        "@com_googlecode_java_diff_utils_diffutils//jar",
-    ],
+    exports = ["@maven//:com_googlecode_java_diff_utils_diffutils"],
 )
