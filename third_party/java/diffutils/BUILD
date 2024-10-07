@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# BUILD rules for https://github.com/google/truth
+# BUILD rules for https://code.google.com/archive/p/java-diff-utils/
 
 load("@rules_java//java:defs.bzl", "java_library")
 

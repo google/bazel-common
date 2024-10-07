@@ -12,9 +12,6 @@ jobs:
   test:
     name: "Test"
     runs-on: ubuntu-latest
-    env:
-      # Used by bazelisk: https://github.com/bazelbuild/bazelisk
-      USE_BAZEL_VERSION: '7.3.1'
     steps:
       - name: 'Check out repository'
         uses: actions/checkout@v2
@@ -27,4 +24,4 @@ jobs:
             bazel-
       - name: 'Test'
         shell: bash
-        run: ./run_tests.sh
+        run: bazelisk test --lockfile_mode=error --test_output=errors //...

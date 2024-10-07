@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# BUILD rules for https://github.com/mockito/mockito
+# BUILD rules for https://bytebuddy.net/
 
 load("@rules_java//java:defs.bzl", "java_library")
 
@@ -20,6 +20,6 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "byte_buddy",
-    testonly = 1,
+    testonly = True,
     exports = ["@maven//:net_bytebuddy_byte_buddy"],
 )

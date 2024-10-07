@@ -20,7 +20,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "truth",
-    testonly = 1,
+    testonly = True,
     exports = [
         "@maven//:com_google_truth_extensions_truth_java8_extension",
         "@maven//:com_google_truth_truth",

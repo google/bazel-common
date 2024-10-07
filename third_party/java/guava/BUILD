@@ -29,7 +29,7 @@ java_library(
 
 java_library(
     name = "testlib",
-    testonly = 1,
+    testonly = True,
     exports = ["@maven//:com_google_guava_guava_testlib"],
     runtime_deps = [":guava"],
 )

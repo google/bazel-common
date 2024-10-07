@@ -20,7 +20,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "compile_testing",
-    testonly = 1,
+    testonly = True,
     add_exports = [
         "jdk.compiler/com.sun.tools.javac.api",
         "jdk.compiler/com.sun.tools.javac.main",

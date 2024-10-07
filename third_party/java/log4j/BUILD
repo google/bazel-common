@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# BUILD rules for https://logging.apache.org/log4j/1.2
+# BUILD rules for https://logging.apache.org/log4j/1.x/
 
 load("@rules_java//java:defs.bzl", "java_library")
 

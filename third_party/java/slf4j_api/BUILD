@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# BUILD rules for org.slf4j:slf4j-api
+# BUILD rules for https://www.slf4j.org/
 
 load("@rules_java//java:defs.bzl", "java_library")
 
