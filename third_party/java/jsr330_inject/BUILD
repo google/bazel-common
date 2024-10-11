@@ -20,10 +20,10 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "jsr330_inject",
-    exports = ["@maven//:javax_inject_javax_inject"],
+    exports = ["@google_bazel_common_maven//:javax_inject_javax_inject"],
 )
 
 java_library(
     name = "tck",
-    exports = ["@maven//:javax_inject_javax_inject_tck"],
+    exports = ["@google_bazel_common_maven//:javax_inject_javax_inject_tck"],
 )

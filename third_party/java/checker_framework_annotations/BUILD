@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "checker_framework_annotations",
-    exports = ["@maven//:org_checkerframework_checker_compat_qual"],
+    exports = ["@google_bazel_common_maven//:org_checkerframework_checker_compat_qual"],
 )

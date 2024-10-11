@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "jspecify_annotations",
-    exports = ["@maven//:org_jspecify_jspecify"],
+    exports = ["@google_bazel_common_maven//:org_jspecify_jspecify"],
 )

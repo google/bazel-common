@@ -39,7 +39,7 @@ To update the version of Bazel Common, choose a new commit and update your
 4.  Update the `maven_install.json` file by running:
 
     ```shell
-    REPIN=1 bazelisk run @maven//:pin
+    REPIN=1 bazelisk run @google_bazel_common_maven//:pin
     ```
 
 5.  Send the change for review.

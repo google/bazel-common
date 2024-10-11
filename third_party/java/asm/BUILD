@@ -20,15 +20,15 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "asm",
-    exports = ["@maven//:org_ow2_asm_asm"],
+    exports = ["@google_bazel_common_maven//:org_ow2_asm_asm"],
 )
 
 java_library(
     name = "asm-tree",
-    exports = ["@maven//:org_ow2_asm_asm_tree"],
+    exports = ["@google_bazel_common_maven//:org_ow2_asm_asm_tree"],
 )
 
 java_library(
     name = "asm-commons",
-    exports = ["@maven//:org_ow2_asm_asm_commons"],
+    exports = ["@google_bazel_common_maven//:org_ow2_asm_asm_commons"],
 )

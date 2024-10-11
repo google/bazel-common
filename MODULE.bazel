@@ -42,6 +42,7 @@ INCAP_VERSION = "0.2"
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
+    name = "google_bazel_common_maven",
     artifacts = [
         "javax.annotation:jsr250-api:1.0",
         "com.google.code.findbugs:jsr305:3.0.1",
@@ -120,4 +121,4 @@ maven.install(
     ],
     strict_visibility = True,
 )
-use_repo(maven, "maven")
+use_repo(maven, "google_bazel_common_maven")

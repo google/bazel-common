@@ -20,9 +20,9 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "dataflow",
-    exports = ["@maven//:org_checkerframework_dataflow"],
+    exports = ["@google_bazel_common_maven//:org_checkerframework_dataflow"],
     runtime_deps = [
-        "@maven//:org_checkerframework_checker_qual",
-        "@maven//:org_checkerframework_javacutil",
+        "@google_bazel_common_maven//:org_checkerframework_checker_qual",
+        "@google_bazel_common_maven//:org_checkerframework_javacutil",
     ],
 )

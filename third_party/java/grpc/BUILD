@@ -20,35 +20,35 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "grpc",
-    exports = ["@maven//:io_grpc_grpc_all"],
+    exports = ["@google_bazel_common_maven//:io_grpc_grpc_all"],
 )
 
 java_library(
     name = "api",
-    exports = ["@maven//:io_grpc_grpc_api"],
+    exports = ["@google_bazel_common_maven//:io_grpc_grpc_api"],
 )
 
 java_library(
     name = "core",
-    exports = ["@maven//:io_grpc_grpc_core"],
+    exports = ["@google_bazel_common_maven//:io_grpc_grpc_core"],
 )
 
 java_library(
     name = "netty",
-    exports = ["@maven//:io_grpc_grpc_netty"],
+    exports = ["@google_bazel_common_maven//:io_grpc_grpc_netty"],
 )
 
 java_library(
     name = "context",
-    exports = [":api"],  # why not @maven//:io_grpc_grpc_context?
+    exports = [":api"],  # why not @google_bazel_common_maven//:io_grpc_grpc_context?
 )
 
 java_library(
     name = "protobuf",
-    exports = ["@maven//:io_grpc_grpc_protobuf"],
+    exports = ["@google_bazel_common_maven//:io_grpc_grpc_protobuf"],
 )
 
 java_library(
     name = "stub",
-    exports = ["@maven//:io_grpc_grpc_stub"],
+    exports = ["@google_bazel_common_maven//:io_grpc_grpc_stub"],
 )

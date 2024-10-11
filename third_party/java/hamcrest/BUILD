@@ -21,5 +21,5 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "hamcrest",
     testonly = True,
-    exports = ["@maven//:org_hamcrest_hamcrest_core"],
+    exports = ["@google_bazel_common_maven//:org_hamcrest_hamcrest_core"],
 )
