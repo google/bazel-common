@@ -22,20 +22,20 @@ java_library(
     name = "guava",
     exported_plugins = [":beta-checker"],
     exports = [
-        "@maven//:com_google_guava_failureaccess",
-        "@maven//:com_google_guava_guava",
+        "@google_bazel_common_maven//:com_google_guava_failureaccess",
+        "@google_bazel_common_maven//:com_google_guava_guava",
     ],
 )
 
 java_library(
     name = "testlib",
     testonly = True,
-    exports = ["@maven//:com_google_guava_guava_testlib"],
+    exports = ["@google_bazel_common_maven//:com_google_guava_guava_testlib"],
     runtime_deps = [":guava"],
 )
 
 java_plugin(
     name = "beta-checker",
     visibility = ["//visibility:private"],
-    deps = ["@maven//:com_google_guava_guava_beta_checker"],
+    deps = ["@google_bazel_common_maven//:com_google_guava_guava_beta_checker"],
 )

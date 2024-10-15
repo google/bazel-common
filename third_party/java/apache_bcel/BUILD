@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "apache_bcel",
-    exports = ["@maven//:org_apache_bcel_bcel"],
+    exports = ["@google_bazel_common_maven//:org_apache_bcel_bcel"],
 )

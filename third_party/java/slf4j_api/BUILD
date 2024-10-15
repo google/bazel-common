@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "slf4j_api",
-    exports = ["@maven//:org_slf4j_slf4j_api"],
+    exports = ["@google_bazel_common_maven//:org_slf4j_slf4j_api"],
 )

@@ -23,19 +23,19 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "annotations",
     tags = ["maven:compile_only"],
-    exports = ["@maven//:com_google_errorprone_error_prone_annotations"],
+    exports = ["@google_bazel_common_maven//:com_google_errorprone_error_prone_annotations"],
 )
 
 java_library(
     name = "error_prone_javac",
-    exports = ["@maven//:com_google_errorprone_javac_shaded"],
+    exports = ["@google_bazel_common_maven//:com_google_errorprone_javac_shaded"],
 )
 
 java_library(
     name = "check_api",
     exports = [
-        "@maven//:com_google_errorprone_error_prone_annotation",
-        "@maven//:com_google_errorprone_error_prone_check_api",
+        "@google_bazel_common_maven//:com_google_errorprone_error_prone_annotation",
+        "@google_bazel_common_maven//:com_google_errorprone_error_prone_check_api",
     ],
     runtime_deps = [
         ":annotations",

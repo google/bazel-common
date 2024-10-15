@@ -21,5 +21,5 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "objenesis",
     testonly = True,
-    exports = ["@maven//:org_objenesis_objenesis"],
+    exports = ["@google_bazel_common_maven//:org_objenesis_objenesis"],
 )

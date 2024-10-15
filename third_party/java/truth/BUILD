@@ -22,8 +22,8 @@ java_library(
     name = "truth",
     testonly = True,
     exports = [
-        "@maven//:com_google_truth_extensions_truth_java8_extension",
-        "@maven//:com_google_truth_truth",
+        "@google_bazel_common_maven//:com_google_truth_extensions_truth_java8_extension",
+        "@google_bazel_common_maven//:com_google_truth_truth",
     ],
     # TODO(cpovirk): This would make more sense in deps, but Bazel won't allow
     # that unless we add dummy srcs.

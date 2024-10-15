@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "javapoet",
-    exports = ["@maven//:com_squareup_javapoet"],
+    exports = ["@google_bazel_common_maven//:com_squareup_javapoet"],
 )

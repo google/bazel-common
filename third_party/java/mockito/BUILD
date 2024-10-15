@@ -21,7 +21,7 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "mockito",
     testonly = True,
-    exports = ["@maven//:org_mockito_mockito_core"],
+    exports = ["@google_bazel_common_maven//:org_mockito_mockito_core"],
     runtime_deps = [
         "//third_party/java/byte_buddy",
         "//third_party/java/byte_buddy_agent",

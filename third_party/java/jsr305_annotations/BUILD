@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "jsr305_annotations",
-    exports = ["@maven//:com_google_code_findbugs_jsr305"],
+    exports = ["@google_bazel_common_maven//:com_google_code_findbugs_jsr305"],
 )

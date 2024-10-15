@@ -20,5 +20,5 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "protobuf",
-    exports = ["@maven//:com_google_protobuf_protobuf_java"],
+    exports = ["@google_bazel_common_maven//:com_google_protobuf_protobuf_java"],
 )

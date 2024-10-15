@@ -21,7 +21,7 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "incap",
     exported_plugins = [":processor"],
-    exports = ["@maven//:net_ltgt_gradle_incap_incap"],
+    exports = ["@google_bazel_common_maven//:net_ltgt_gradle_incap_incap"],
 )
 
 java_plugin(
@@ -29,7 +29,7 @@ java_plugin(
     processor_class = "net.ltgt.gradle.incap.processor.IncrementalAnnotationProcessorProcessor",
     visibility = ["//visibility:private"],
     deps = [
-        "@maven//:net_ltgt_gradle_incap_incap",
-        "@maven//:net_ltgt_gradle_incap_incap_processor",
+        "@google_bazel_common_maven//:net_ltgt_gradle_incap_incap",
+        "@google_bazel_common_maven//:net_ltgt_gradle_incap_incap_processor",
     ],
 )

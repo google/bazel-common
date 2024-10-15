@@ -20,7 +20,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "inject_common",
-    exports = ["@maven//:com_google_common_inject_inject_common"],
+    exports = ["@google_bazel_common_maven//:com_google_common_inject_inject_common"],
     runtime_deps = [
         "//third_party/java/jsr305_annotations",
         "//third_party/java/jsr330_inject",

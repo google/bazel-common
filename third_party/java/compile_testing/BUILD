@@ -26,7 +26,7 @@ java_library(
         "jdk.compiler/com.sun.tools.javac.main",
         "jdk.compiler/com.sun.tools.javac.util",
     ],
-    exports = ["@maven//:com_google_testing_compile_compile_testing"],
+    exports = ["@google_bazel_common_maven//:com_google_testing_compile_compile_testing"],
     runtime_deps = [
         "//third_party/java/auto:value",
         "//third_party/java/error_prone:annotations",
