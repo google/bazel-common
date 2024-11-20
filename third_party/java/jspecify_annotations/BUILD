@@ -14,11 +14,9 @@
 
 # BUILD rules for https://jspecify.dev/
 
-load("@rules_java//java:defs.bzl", "java_library")
-
 package(default_visibility = ["//visibility:public"])
 
-java_library(
+alias(
     name = "jspecify_annotations",
-    exports = ["@google_bazel_common_maven//:org_jspecify_jspecify"],
+    actual = "@google_bazel_common_maven//:org_jspecify_jspecify",
 )
