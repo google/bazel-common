@@ -1,0 +1,10 @@
+ [Root Directory]
+|-- Google source code
+|-- ....
+`-- third_party
+    `-- [external library A]
+    |   |-- `LICENSE`
+    |   `-- ...
+    `-- [external library B]
+        |-- `LICENSE`
+        `-- ...
