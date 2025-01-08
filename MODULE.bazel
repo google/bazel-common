@@ -73,6 +73,7 @@ maven.install(
         "com.google.truth:truth:" + TRUTH_VERSION,
         # TODO: b/113905249 - Remove this: All its contents have moved into `truth`.
         "com.google.truth.extensions:truth-java8-extension:" + TRUTH_VERSION,
+        "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERSION,
         "com.squareup:javapoet:1.13.0",
         "io.grpc:grpc-api:" + GRPC_VERSION,
         "io.grpc:grpc-core:" + GRPC_VERSION,
