@@ -50,7 +50,7 @@ maven.install(
         "javax.inject:javax.inject-tck:1",
         "com.google.guava:guava:" + GUAVA_VERSION,
         "com.google.guava:guava-testlib:" + GUAVA_VERSION,
-        "com.google.guava:failureaccess:1.0.1",
+        "com.google.guava:failureaccess:1.0.2",
         "com.google.guava:guava-beta-checker:1.0",
         "com.google.errorprone:javac-shaded:9-dev-r4023-3",
         "com.google.googlejavaformat:google-java-format:1.18.1",
