@@ -24,6 +24,8 @@ AUTO_SERVICE_VERSION = "1.1.1"
 
 AUTO_VALUE_VERSION = "1.10.4"
 
+DAGGER_VERSION = "2.43.2"
+
 ERROR_PRONE_VERSION = "2.22.0"
 
 BYTE_BUDDY_VERSION = "1.14.9"
@@ -60,6 +62,8 @@ maven.install(
         "com.google.auto.service:auto-service-annotations:" + AUTO_SERVICE_VERSION,
         "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
         "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+        "com.google.dagger:dagger:" + DAGGER_VERSION,
+        "com.google.dagger:dagger-compiler:" + DAGGER_VERSION,
         "com.google.errorprone:error_prone_annotation:" + ERROR_PRONE_VERSION,
         "com.google.errorprone:error_prone_annotations:" + ERROR_PRONE_VERSION,
         "com.google.errorprone:error_prone_check_api:" + ERROR_PRONE_VERSION,
