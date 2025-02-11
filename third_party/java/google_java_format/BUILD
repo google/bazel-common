@@ -20,6 +20,15 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "google_java_format",
+    add_exports = [
+        "jdk.compiler/com.sun.tools.javac.api",
+        "jdk.compiler/com.sun.tools.javac.code",
+        "jdk.compiler/com.sun.tools.javac.file",
+        "jdk.compiler/com.sun.tools.javac.main",
+        "jdk.compiler/com.sun.tools.javac.parser",
+        "jdk.compiler/com.sun.tools.javac.tree",
+        "jdk.compiler/com.sun.tools.javac.util",
+    ],
     exports = ["@google_bazel_common_maven//:com_google_googlejavaformat_google_java_format"],
     runtime_deps = [
         "//third_party/java/error_prone:error_prone_javac",
