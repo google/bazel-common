@@ -13,15 +13,13 @@ This is not an official Google product.
 
 1.  Choose the commit hash you want to use.
 
-2.  Add the following to your `MODULE.bazel` file, replacing `_COMMIT_` with the
-    commit hash.
+2.  Add the following to your `MODULE.bazel` file. The version can be found
+[here](https://registry.bazel.build/modules/google_bazel_common)
 
     ```bzl
-    bazel_dep(name = "google_bazel_common")
-    git_override(
-        module_name = "google_bazel_common",
-        commit = "_COMMIT_",
-        remote = "https://github.com/google/bazel-common",
+    bazel_dep(
+        name = "google_bazel_common",
+        version = "0.0.1",
     )
     ```
 
