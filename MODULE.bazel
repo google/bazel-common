@@ -18,7 +18,7 @@ bazel_dep(name = "bazel_skylib", version = "1.7.1")
 bazel_dep(name = "rules_java", version = "8.6.1")
 bazel_dep(name = "rules_jvm_external", version = "6.6")
 
-GUAVA_VERSION = "33.4.5-jre"
+GUAVA_VERSION = "33.4.6-jre"
 
 AUTO_SERVICE_VERSION = "1.1.1"
 
