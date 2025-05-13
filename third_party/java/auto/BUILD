@@ -59,12 +59,25 @@ java_plugin(
     ],
 )
 
+java_plugin(
+    name = "auto_builder_processor",
+    processor_class = "com.google.auto.value.processor.AutoBuilderProcessor",
+    visibility = ["//visibility:private"],
+    deps = [
+        ":common",
+        ":service",
+        "//third_party/java/guava",
+        "@google_bazel_common_maven//:com_google_auto_value_auto_value",
+    ],
+)
+
 java_library(
     name = "value",
     exported_plugins = [
         ":auto_annotation_processor",
         ":auto_oneof_processor",
         ":auto_value_processor",
+        ":auto_builder_processor",
     ],
     tags = ["maven:compile_only"],
     exports = [
