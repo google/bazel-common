@@ -15,6 +15,8 @@
 # Skylark rules for using jarjar
 
 load("@rules_java//java:defs.bzl", "java_binary")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load(":jarjar.bzl", "jarjar_library")
 
 java_binary(
