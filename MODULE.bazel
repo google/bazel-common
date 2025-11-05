@@ -14,10 +14,10 @@
 
 module(name = "google_bazel_common")
 
-bazel_dep(name = "bazel_skylib", version = "1.8.1")
-bazel_dep(name = "rules_java", version = "8.15.2")
-bazel_dep(name = "rules_jvm_external", version = "6.8")
-bazel_dep(name = "rules_shell", version = "0.6.0")
+bazel_dep(name = "bazel_skylib", version = "1.8.2")
+bazel_dep(name = "rules_java", version = "9.0.0")
+bazel_dep(name = "rules_jvm_external", version = "6.9")
+bazel_dep(name = "rules_shell", version = "0.6.1")
 
 GUAVA_VERSION = "33.5.0-jre"
 
