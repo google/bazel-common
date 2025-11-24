@@ -1,5 +1,4 @@
 version: 2
-enable-beta-ecosystems: true # for Bazel support
 updates:
   - package-ecosystem: "bazel"
     directory: "/"
