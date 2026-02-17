@@ -130,6 +130,7 @@ def _javadoc_library(ctx):
         command = "%s $@ && %s" % (javadoc_command, jar_command),
         arguments = [javadoc_arguments],
         outputs = [output_dir, ctx.outputs.jar],
+        mnemonic = "BazelCommonJavadocGen",
     )
 
 def _format_linkoffline_value(link):

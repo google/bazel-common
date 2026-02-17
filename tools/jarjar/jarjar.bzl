@@ -45,6 +45,7 @@ def _jarjar_library(ctx):
         command = command,
         inputs = [ctx.outputs._rules_file] + jar_files + ctx.files._jdk,
         outputs = [ctx.outputs.jar],
+        mnemonic = "JarJar",
         tools = [ctx.executable._jarjar, ctx.executable._jarjar_runner],
     )
 
