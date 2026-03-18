@@ -16,5 +16,7 @@
 
 load(":pom_file.bzl", "pom_file_tests")
 
+package(default_applicable_licenses = ["//:license"])
+
 # TODO(ronshapiro): Set up a travis build
 pom_file_tests()
