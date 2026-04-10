@@ -65,9 +65,9 @@
     "org.jspecify:jspecify": -382205121,
     "org.mockito:mockito-core": 2076415653,
     "org.objenesis:objenesis": -1312804663,
-    "org.ow2.asm:asm": 905490297,
-    "org.ow2.asm:asm-commons": -1641575852,
-    "org.ow2.asm:asm-tree": 884936356,
+    "org.ow2.asm:asm": 1206815935,
+    "org.ow2.asm:asm-commons": 1607605466,
+    "org.ow2.asm:asm-tree": -1365652182,
     "org.pantsbuild:jarjar": -58806822,
     "org.slf4j:slf4j-api": -1956142110,
     "repositories": -1949687017
@@ -113,11 +113,11 @@
     "com.google.protobuf:protobuf-java": 1555861032,
     "com.google.protobuf:protobuf-java-util": -1255055826,
     "com.google.re2j:re2j": -1010940688,
-    "com.google.testing.compile:compile-testing": -44352687,
-    "com.google.truth.extensions:truth-java8-extension": 464955647,
-    "com.google.truth.extensions:truth-liteproto-extension": 954573279,
-    "com.google.truth.extensions:truth-proto-extension": 519338327,
-    "com.google.truth:truth": -308863820,
+    "com.google.testing.compile:compile-testing": -2089542,
+    "com.google.truth.extensions:truth-java8-extension": 1297830944,
+    "com.google.truth.extensions:truth-liteproto-extension": 1469942034,
+    "com.google.truth.extensions:truth-proto-extension": -352203791,
+    "com.google.truth:truth": 445397051,
     "com.googlecode.java-diff-utils:diffutils": -799723261,
     "com.squareup.okio:okio": 1728906956,
     "com.squareup.okio:okio-jvm": 370644491,
@@ -223,10 +223,10 @@
     "org.jspecify:jspecify": 117231129,
     "org.mockito:mockito-core": 1615348648,
     "org.objenesis:objenesis": 1798216877,
-    "org.ow2.asm:asm": 611381606,
-    "org.ow2.asm:asm-commons": 1943465506,
-    "org.ow2.asm:asm-tree": 1200270382,
-    "org.pantsbuild:jarjar": 738208165,
+    "org.ow2.asm:asm": 1614653533,
+    "org.ow2.asm:asm-commons": 33716409,
+    "org.ow2.asm:asm-tree": -1173653421,
+    "org.pantsbuild:jarjar": 1945622742,
     "org.slf4j:slf4j-api": 206671574
   },
   "conflict_resolution": {
@@ -245,8 +245,7 @@
     "org.codehaus.plexus:plexus-utils:3.0.20": "org.codehaus.plexus:plexus-utils:3.0.22",
     "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.0": "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.2",
     "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.0": "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.2",
-    "org.objenesis:objenesis:1.0": "org.objenesis:objenesis:3.3",
-    "org.ow2.asm:asm:9.6": "org.ow2.asm:asm:9.8"
+    "org.objenesis:objenesis:1.0": "org.objenesis:objenesis:3.3"
   },
   "artifacts": {
     "aopalliance:aopalliance": {
@@ -1151,21 +1150,21 @@
     },
     "org.ow2.asm:asm": {
       "shasums": {
-        "jar": "876eab6a83daecad5ca67eb9fcabb063c97b5aeb8cf1fca7a989ecde17522051"
+        "jar": "6f3828a215c920059a5efa2fb55c233d6c54ec5cadca99ce1b1bdd10077c7ddd"
       },
-      "version": "9.8"
+      "version": "9.9.1"
     },
     "org.ow2.asm:asm-commons": {
       "shasums": {
-        "jar": "7aefd0d5c0901701c69f7513feda765fb6be33af2ce7aa17c5781fc87657c511"
+        "jar": "c2319e014ce7199f2b7f7d56d6bb991863168c3f4b6cd6c9f542a4937ef7ef88"
       },
-      "version": "9.6"
+      "version": "9.9.1"
     },
     "org.ow2.asm:asm-tree": {
       "shasums": {
-        "jar": "c43ecf17b539c777e15da7b5b86553b377e2d39a683de6285567d5283888e7ef"
+        "jar": "0f3555096b720b820bbacab0b515589bee0200bee099bda14c561738ae837ba1"
       },
-      "version": "9.6"
+      "version": "9.9.1"
     },
     "org.pantsbuild:jarjar": {
       "shasums": {
