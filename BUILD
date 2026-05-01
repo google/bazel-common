@@ -15,4 +15,8 @@
 # Common configuration and dependencies for Google's open-source libraries that are built with
 # Bazel.
 
+load("//tools/build_defs/license:license.bzl", "license")  # copybara:strip
+
+license(name = "license")  # copybara:strip
+
 exports_files(["LICENSE"])
