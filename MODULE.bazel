@@ -56,7 +56,7 @@ maven.install(
         "com.google.guava:failureaccess:1.0.3",
         "com.google.guava:guava-beta-checker:1.0",
         "com.google.errorprone:javac-shaded:9-dev-r4023-3",
-        "com.google.googlejavaformat:google-java-format:1.18.1",
+        "com.google.googlejavaformat:google-java-format:1.35.0",
         "com.google.auto:auto-common:1.2.2",
         "com.google.auto.factory:auto-factory:1.0.1",
         "com.google.auto.service:auto-service:" + AUTO_SERVICE_VERSION,

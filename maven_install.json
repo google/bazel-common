@@ -15,7 +15,7 @@
     "com.google.errorprone:error_prone_annotations": 1225639964,
     "com.google.errorprone:error_prone_check_api": 1205486013,
     "com.google.errorprone:javac-shaded": 1471858198,
-    "com.google.googlejavaformat:google-java-format": -623381859,
+    "com.google.googlejavaformat:google-java-format": -1756842473,
     "com.google.guava:failureaccess": -2032498474,
     "com.google.guava:guava": -249069712,
     "com.google.guava:guava-beta-checker": 1484209666,
@@ -92,7 +92,7 @@
     "com.google.code.gson:gson": 561790397,
     "com.google.common.inject:inject-common": -830422047,
     "com.google.dagger:dagger": -1865829880,
-    "com.google.dagger:dagger-compiler": -578489467,
+    "com.google.dagger:dagger-compiler": 916527164,
     "com.google.dagger:dagger-producers": -2035292349,
     "com.google.dagger:dagger-spi": 1226138267,
     "com.google.devtools.ksp:symbol-processing-api": -1673273391,
@@ -100,7 +100,7 @@
     "com.google.errorprone:error_prone_annotations": 213918278,
     "com.google.errorprone:error_prone_check_api": 2064136726,
     "com.google.errorprone:javac-shaded": 1621944613,
-    "com.google.googlejavaformat:google-java-format": -1893604207,
+    "com.google.googlejavaformat:google-java-format": -163644441,
     "com.google.guava:failureaccess": 1715931538,
     "com.google.guava:guava": -362957007,
     "com.google.guava:guava-beta-checker": 1460700076,
@@ -412,9 +412,9 @@
     },
     "com.google.googlejavaformat:google-java-format": {
       "shasums": {
-        "jar": "ebbe63a3dbc0dc2efafaad1df6408f0b510239ccc5e4595bf499ba479e0ae4a9"
+        "jar": "b2a52e363d51dd86b3b38d1a8dd51538541b42ff1048769684681c676550f043"
       },
-      "version": "1.18.1"
+      "version": "1.35.0"
     },
     "com.google.guava:failureaccess": {
       "shasums": {
@@ -2047,7 +2047,6 @@
       "com.google.googlejavaformat",
       "com.google.googlejavaformat.java",
       "com.google.googlejavaformat.java.filer",
-      "com.google.googlejavaformat.java.java17",
       "com.google.googlejavaformat.java.javadoc"
     ],
     "com.google.guava:failureaccess": [
@@ -3482,6 +3481,9 @@
     "com.google.googlejavaformat:google-java-format": {
       "java.util.spi.ToolProvider": [
         "com.google.googlejavaformat.java.GoogleJavaFormatToolProvider"
+      ],
+      "javax.tools.Tool": [
+        "com.google.googlejavaformat.java.GoogleJavaFormatTool"
       ]
     },
     "com.google.guava:guava-beta-checker": {
