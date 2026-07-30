@@ -92,7 +92,7 @@ maven.install(
         "org.checkerframework:checker-qual:" + CHECKER_FRAMEWORK_VERSION,
         "org.checkerframework:javacutil:" + CHECKER_FRAMEWORK_VERSION,
         "org.checkerframework:dataflow:" + CHECKER_FRAMEWORK_VERSION,
-        "org.jspecify:jspecify:1.0.0",
+        "org.jspecify:jspecify:1.0.1",
         "org.ow2.asm:asm:" + ASM_VERSION,
         "org.ow2.asm:asm-tree:" + ASM_VERSION,
         "org.ow2.asm:asm-commons:" + ASM_VERSION,
