@@ -19,7 +19,7 @@ bazel_dep(name = "rules_java", version = "9.7.0")
 bazel_dep(name = "rules_jvm_external", version = "7.1")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 
-GUAVA_VERSION = "33.6.0-jre"
+GUAVA_VERSION = "33.7.0-jre"
 
 AUTO_SERVICE_VERSION = "1.1.1"
 
