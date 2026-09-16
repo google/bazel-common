@@ -143,6 +143,7 @@ def _gen_java_tests(
         jvm_flags = None,
         runtime_deps = None,
         tags = None):
+
     test_files = []
     supporting_lib_files = []
 
