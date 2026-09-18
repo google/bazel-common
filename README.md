@@ -14,7 +14,7 @@ This is not an official Google product.
 1.  Choose the commit hash you want to use.
 
 2.  Add the following to your `MODULE.bazel` file. The version can be found
-[here](https://registry.bazel.build/modules/google_bazel_common)
+    [here](https://registry.bazel.build/modules/google_bazel_common)
 
     ```bzl
     bazel_dep(
