@@ -65,9 +65,9 @@
     "org.jspecify:jspecify": 2105307712,
     "org.mockito:mockito-core": 2076415653,
     "org.objenesis:objenesis": -1312804663,
-    "org.ow2.asm:asm": 1206815935,
-    "org.ow2.asm:asm-commons": 1607605466,
-    "org.ow2.asm:asm-tree": -1365652182,
+    "org.ow2.asm:asm": -1173710175,
+    "org.ow2.asm:asm-commons": 1471617830,
+    "org.ow2.asm:asm-tree": -1810882346,
     "org.pantsbuild:jarjar": -58806822,
     "org.slf4j:slf4j-api": -1956142110,
     "repositories": -1949687017
@@ -113,11 +113,11 @@
     "com.google.protobuf:protobuf-java": 1555861032,
     "com.google.protobuf:protobuf-java-util": -1122253056,
     "com.google.re2j:re2j": -1010940688,
-    "com.google.testing.compile:compile-testing": -439847020,
-    "com.google.truth.extensions:truth-java8-extension": 1181467761,
-    "com.google.truth.extensions:truth-liteproto-extension": 1767593702,
-    "com.google.truth.extensions:truth-proto-extension": 43522778,
-    "com.google.truth:truth": 1778788672,
+    "com.google.testing.compile:compile-testing": 978878780,
+    "com.google.truth.extensions:truth-java8-extension": -938644461,
+    "com.google.truth.extensions:truth-liteproto-extension": -406907090,
+    "com.google.truth.extensions:truth-proto-extension": -625396291,
+    "com.google.truth:truth": -1730839584,
     "com.googlecode.java-diff-utils:diffutils": -799723261,
     "com.squareup.okio:okio": 1728906956,
     "com.squareup.okio:okio-jvm": 370644491,
@@ -223,10 +223,10 @@
     "org.jspecify:jspecify": -109882726,
     "org.mockito:mockito-core": 1615348648,
     "org.objenesis:objenesis": 1798216877,
-    "org.ow2.asm:asm": 1614653533,
-    "org.ow2.asm:asm-commons": 33716409,
-    "org.ow2.asm:asm-tree": -1173653421,
-    "org.pantsbuild:jarjar": 1945622742,
+    "org.ow2.asm:asm": -873652610,
+    "org.ow2.asm:asm-commons": -836543625,
+    "org.ow2.asm:asm-tree": -1580575629,
+    "org.pantsbuild:jarjar": -1593706296,
     "org.slf4j:slf4j-api": 206671574
   },
   "conflict_resolution": {
@@ -1150,21 +1150,21 @@
     },
     "org.ow2.asm:asm": {
       "shasums": {
-        "jar": "6f3828a215c920059a5efa2fb55c233d6c54ec5cadca99ce1b1bdd10077c7ddd"
+        "jar": "5fe3b469b8646e5bc53a897840952d63b712d4923d2a7a26aebc585f1fec7676"
       },
-      "version": "9.9.1"
+      "version": "9.11"
     },
     "org.ow2.asm:asm-commons": {
       "shasums": {
-        "jar": "c2319e014ce7199f2b7f7d56d6bb991863168c3f4b6cd6c9f542a4937ef7ef88"
+        "jar": "fcff37e6a0227a9f5ee81a7c07f51249307fa15889b56a359ae6f773c164c22b"
       },
-      "version": "9.9.1"
+      "version": "9.11"
     },
     "org.ow2.asm:asm-tree": {
       "shasums": {
-        "jar": "0f3555096b720b820bbacab0b515589bee0200bee099bda14c561738ae837ba1"
+        "jar": "da8ad24d0bf7efb0674a906f59a7d441692b641718371f3bce6762b191a169fd"
       },
-      "version": "9.9.1"
+      "version": "9.11"
     },
     "org.pantsbuild:jarjar": {
       "shasums": {
