@@ -16,3 +16,8 @@
 # Bazel.
 
 exports_files(["LICENSE"])
+
+license(
+    name = "license",
+    package_name = "bazel_common",
+)
