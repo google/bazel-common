@@ -186,6 +186,7 @@ If Android APIs are used, the API level to compile against to generate Javadoc.
         "_jdk": attr.label(
             default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
             providers = [java_common.JavaRuntimeInfo],
+            cfg = "exec",
         ),
     },
     outputs = {"jar": "%{name}.jar"},

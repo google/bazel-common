@@ -79,6 +79,7 @@ _jarjar_library_attrs.update({
     "_jdk": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
         providers = [java_common.JavaRuntimeInfo],
+        cfg = "exec",
     ),
 })
 
